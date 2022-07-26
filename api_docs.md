@@ -60,7 +60,6 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- function : create an inactive user instance, saves to database and sends an activation key to user's mail
 	- allowed methods : [POST]
 	- required data : {
-		- username
 		- first_name,
 		- last_name,
 		- email,
@@ -79,7 +78,7 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- function : logs in and authenticate users 
 	- accepted methods : [POST]
 	- required data : {
-		- username,
+		- email,
 		- password
 	}
 	- response : {
