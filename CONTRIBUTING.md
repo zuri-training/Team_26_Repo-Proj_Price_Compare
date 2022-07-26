@@ -66,6 +66,49 @@ If you are creating or working with models please ensure that the name of your m
 
 # FRONTEND DEVELOPERS GUIDE
 
+## Frontend Tools
+
+This project uses the following tools:
+- HTML
+- SASS
+- ReactJs Library
+
+## Setup
+
+To setup on your local  machine:
+**first method**
+*	Remote repository [Here](https://github.com/zuri-training/PriceBeta-Proj_Price_Compare-Team_26.git)	
+*	create your project directory on your local machine
+*	change directory to your project folder
+*	`git init` to initialize
+*	`git pull https://github.com/zuri-training/PriceBeta-Proj_Price_Compare-Team_26.git` to pull the remote repository.
+*	`git add` to add files
+*	`git commit -m "Your message here"` to commit or stage your changes
+*	`git remote add origin https://github.com/zuri-training/PriceBeta-Proj_Price_Compare-Team_26.git`
+*	`git push -u origin master` `main branch` is for development 
+	
+**Second method**
+*	Fork the remote repository [Here](https://github.com/zuri-training/PriceBeta-Proj_Price_Compare-Team_26.git)	
+*	Make a clone of your forked repository. 
+	- click on the code button of the forked repo and copy the link `https://github.com/github_username/PriceBeta-Proj_Price_Compare-Team_26.git`
+	- create a project directory for the repository
+	- change directory to the project directory created.
+	- Type `git clone https://github.com/github_username/PriceBeta-Proj_Price_Compare-Team_26.git`
+
+*	pull changes from upstream
+	- `git pull upstream master` `main branch` is for development 
+
+*	open the project with your code editor
+*	make changes
+*	`git add` to add files
+*	`git commit -m "Your message here"` to commit or stage your changes
+*	`git push -u upstream master`
+
+**create a pull request**
+*	click the `compare and pull request` button in the GitHub Page of your repo
+*	type your message
+*	click `create pull request` 
+
 
 # CONTRIBUTORS.md
 In the root folder of this project, there is a `CONTRIBUTORS.md` file. This is used as a list of everyone who has contributed to this project. Before making a pull request, update the CONTRIBUTORS.md file to reflect your name. The list is expected to be ordered alphabetically with your surname coming first. Use the format:
