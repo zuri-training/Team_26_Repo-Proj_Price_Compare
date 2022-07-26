@@ -1,3 +1,15 @@
+# GENERAL GUIDE
+
+There are two major folders:
+	
+	- frontend
+	- backend
+
+Frontend folder is reserved for the frontend developers while the backend folder for the backend developers.
+
+Contributing to this project should be done by pull request. The title of your pull request should be contain the `issue` id in the title which your pull request solves. If your pull request is not related to an issue, then the title of your pull request should be well descriptive for easy review.
+  
+There are two major branches to this repo, the `main` and the `dev` branch.  The `main` branch would be used for production, therefore all pull request should be from the `dev` branch.
 
 # BACKEND DEVELOPERS GUIDE
 
