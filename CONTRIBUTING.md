@@ -1,4 +1,6 @@
-## CONTRIBUTOR's GUIDE
+
+# BACKEND DEVELOPERS GUIDE
+
 
 # Dependencies
 
@@ -8,7 +10,6 @@ This project uses the following tools:
 - [postgres]() : As database manager
 - [venv]() : As virtual environment manager
 
-# FOR BACKEND DEVELOPERS
 
 ## Setup
 
@@ -20,7 +21,7 @@ Then run
 
 This would install all the required dependencies.
 
-If you wish to install a package remember to add the package to the requirements.txt file using the command `pip freeze > requirements.txt`  
+If you wish to install a package remember to add the package to the requirements.txt file using the command `pip freeze > requirements.txt`.  
 
 ## Code formatting
 
@@ -34,17 +35,29 @@ Once you are done editing. This would format your code structure.
 
 In the root folder of this project, there is a `changelog.md` file. We will use this to keep track of changes made, added functionalities and issues solved. Use the format
 
-##[version] - [date]
+	## [version] - [date]
 
-### [added/fixed]
-- precise detail of what was fixed or added
+	### [added/fixed]
+	- precise detail of what was fixed or added
 
 Refer to the following guide:
 - [Keeping a changelog](https://keepachangelog.com/en/1.0.0/)
 - [semantic versioning]((https://semver.org/spec/v2.0.0.html))
+
+
+
 ## Models
 
 If you are creating or working with models please ensure that the name of your models is in line with the database schema
 
 
-# FOR FRONTEND DEVELOPERS
+
+# FRONTEND DEVELOPERS GUIDE
+
+
+# CONTRIBUTORS.md
+In the root folder of this project, there is a `CONTRIBUTORS.md` file. This is used as a list of everyone who has contributed to this project. Before making a pull request, update the CONTRIBUTORS.md file to reflect your name. The list is expected to be ordered alphabetically with your surname coming first. Use the format:
+
+	- [<surname> <name>](github profile link) 
+
+**replace surname and name with your full name (without the <>) and insert your github profile link in the parenthesis.**
