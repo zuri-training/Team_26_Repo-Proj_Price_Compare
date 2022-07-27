@@ -76,18 +76,6 @@ This project uses the following tools:
 ## Setup
 
 To setup on your local  machine:
-**first method**
-*	Remote repository [Here](https://github.com/zuri-training/PriceBeta-Proj_Price_Compare-Team_26.git)	
-*	create your project directory on your local machine
-*	change directory to your project folder
-*	`git init` to initialize
-*	`git pull https://github.com/zuri-training/PriceBeta-Proj_Price_Compare-Team_26.git` to pull the remote repository.
-*	`git add` to add files
-*	`git commit -m "Your message here"` to commit or stage your changes
-*	`git remote add origin https://github.com/zuri-training/PriceBeta-Proj_Price_Compare-Team_26.git`
-*	`git push -u origin master` `main branch` is for development 
-	
-**Second method**
 *	Fork the remote repository [Here](https://github.com/zuri-training/PriceBeta-Proj_Price_Compare-Team_26.git)	
 *	Make a clone of your forked repository. 
 	- click on the code button of the forked repo and copy the link `https://github.com/github_username/PriceBeta-Proj_Price_Compare-Team_26.git`
