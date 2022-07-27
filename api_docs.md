@@ -180,10 +180,7 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- author 
 	- body
 	- product_id
-	- parent_id
 
-In a standard setting, some posts are reviews of a single product while some are replies to a particular review of a product, which we call the parent.
-Every post that is a reply to a parent post would have the id of the parent post in it's `parent_id` field. The `product_id` is used to identify reviews and replies that refers to a product.
 
 ## Search api
 	- Full path : /api/search/
@@ -191,7 +188,9 @@ Every post that is a reply to a parent post would have the id of the parent post
 	- accepted methods : [GET]
 	- require data : {
 		- query_string (optional)
-		- category (optional) 
+		- category (optional)
+		- brand
+		- name
 	}
 	- request meta data : {
 		items_per_page
