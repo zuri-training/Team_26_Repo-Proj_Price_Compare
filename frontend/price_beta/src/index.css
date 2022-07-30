@@ -1,0 +1,62 @@
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+
+/* Google Inter Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* 
+Variables
+*/
+
+:root {
+    --clr-black: #000000;
+
+    --clr-grey3: #BCBBBA;
+    --clr-grey5: #717070;
+    --clr-grey6: #4B4B4A;
+
+    --clr-background: #FFF7F0;
+
+    --clr-secondaryOrange: #F6C598;
+    --clr-primaryOrange: #F88007;
+
+    /* fonts */
+    --bodyFont: 'Inter', sans-serif;
+
+}
+
+body {
+    background: var(--clr-background);
+    font-family: var(--bodyFont);
+    font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.svlogo {
+    width: 180px;
+}
+
+.nav_border {
+    border: 1px solid var(--clr-grey5);
+    padding: 24px 64px;
+    margin-top: 8px;
+}

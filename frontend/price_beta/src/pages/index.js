@@ -6,6 +6,8 @@ import Privacy from './PrivacyPolicyPage'
 import Rules from './RulesPage'
 import Error from './ErrorPage'
 import SignUp from './SignUpPage'
+import ComparePrice from './ComparePricePage'
+
 
 export {
     About,
@@ -15,5 +17,6 @@ export {
     Home,
     Privacy,
     Rules,
-    SignUp
+    SignUp,
+    ComparePrice
 }
