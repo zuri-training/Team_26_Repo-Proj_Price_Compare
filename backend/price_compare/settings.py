@@ -10,13 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from dotenv import load_env
 from pathlib import Path
+
 import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load environment variables
+load_dotenv(BASE_DIR.parent/ '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -141,9 +145,10 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 
-EMAIL_PORT = 465
+EMAIL_PORT = os.environ["EMAIL_PORT"] #465 
 EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.zoho.com'
-EMAIL_HOST_USER = 'gentlesoul@zohomail.com'
-EMAIL_HOST_PASSWORD = 'Oyeladunkola7.'
+EMAIL_HOST_USER = os.environ["EMAIL_USER"]#'gentlesoul@zohomail.com'
+EMAIL_HOST_PASSWORD = os.environ["EMAIL_PASSWORD"]#'Oyeladunkola7.'
+
