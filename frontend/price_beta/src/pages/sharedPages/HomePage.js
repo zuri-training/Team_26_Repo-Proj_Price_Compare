@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FeaturedCategories, Hero } from '../components'
+import { FeaturedCategories, Hero } from '../../components'
 
 const HomePage = () => {
   return (

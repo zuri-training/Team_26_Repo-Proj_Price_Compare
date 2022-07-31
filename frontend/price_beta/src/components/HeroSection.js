@@ -73,8 +73,8 @@ const HeroContainer = styled.section`
     }
 
     .circle{
-      position: relative;
-      left: 800px;
+      // position: relative;
+      // left: 800px;
       margin: 30px 0;
       filter: drop-shadow(0 0 2rem var(--clr-secondaryOrange) );
     }

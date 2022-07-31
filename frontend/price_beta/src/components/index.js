@@ -4,7 +4,8 @@ import Navbar from './Navbar'
 import FeaturedCategories from './FeaturedCategories'
 import Hero from './HeroSection'
 import CategoryCard from './CategoryCard'
-
+import BigSidebar from './BigSidebar'
+import SmallSidebar from './SmallSidebar'
 
 export {
     Contact,
@@ -12,5 +13,7 @@ export {
     Footer,
     Navbar,
     Hero,
-    CategoryCard
+    CategoryCard,
+    BigSidebar,
+    SmallSidebar
 }

@@ -16,8 +16,8 @@ const links = [
     }, 
     {
         id: 4,
-        text: 'Hot Deals',
-        path: 'hot-deals',
+        text: 'Discount Deals',
+        path: 'discount-deals',
     },
     {
         id: 5,

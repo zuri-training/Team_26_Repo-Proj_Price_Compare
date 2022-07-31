@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { MdMenu } from 'react-icons/md';
 import circle from '../assets/images/plain header.png'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toggleSidebar } from '../features/user/userSlice';
 
 const Navbar = () => {
-  // const { user } = useSelector((store) => store.user)
   const dispatch = useDispatch()
 
   const toggle = () => {
@@ -45,12 +44,22 @@ const NavContainer = styled.nav`
     margin-top: 22px;
 
     .toggle_btn {
+      background: transparent;
+      border-color: transparent;
+      cursor: pointer;
+      color: var(--clr-primaryOrange5);
+      display: flex;
+      align-items: center;      
       font-size: 44px;
       margin-right: 28px;
-      color: var(--clr-primaryOrange);
     }
     
   }
+
+  // @media (min-width: 992px) {
+  //   position: sticky;
+  //   top: 0;
+  // }
   
 `
 

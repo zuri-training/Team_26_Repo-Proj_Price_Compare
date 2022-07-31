@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { FiArrowUp } from 'react-icons/fi';
 import Newsletter from '../assets/images/newsletter.png'
+import SVLogo from '../assets/images/SVLogo.png'
 
 const Footer = () => {
   const footerYear = new Date().getFullYear()
@@ -25,7 +26,6 @@ const Footer = () => {
               <li><Link to='rules-guidelines'>Rules and Guidelines</Link></li>
               <li><Link to='privacy-policy'>Privacy Policy</Link></li>
               <li><Link to='cookie-policy'>Cookie Policy</Link></li>
-              <li><Link to='/'>FAQ</Link></li>
             </ul>
           </div>
           <div className='catalogue'>
@@ -54,21 +54,27 @@ const Footer = () => {
 
       </div>
       <hr />
-      <div className='footer_copy'>
-        <span>&copy; {footerYear} Nigeria</span>      
-      </div>
+      <div className='footer'>
+        <div className='footer_content'>
+          <Link to='/'>
+            <img src={SVLogo} alt='scout vendor' className='footer_logo' />
+          </Link>
+          <span>&copy; {footerYear} Nigeria</span> 
+        </div>
+      
+        <Link to='/' className='back_to_top'>Back to Top <FiArrowUp/></Link>
 
-    
-      <Link to='/' className='back_to_top'>Back to Top <FiArrowUp/></Link>
-    
+      </div>    
     </FooterContainer>
   )
 }
 
 const FooterContainer = styled.footer`
+  height: 600px;
+  display: flex;
   background: var(--clr-grey6);
   color: var(--clr-background);
-  padding: 24px 72px 35px 72px;
+  padding: 24px 64px 35px 72px;
 
   a {
     color: var(--clr-bcgWhite);
@@ -85,6 +91,7 @@ const FooterContainer = styled.footer`
     .footer_info {
       display: flex;
       align-items: center;
+      align-self: baseline;
       height: 340px;
 
       h2 {
@@ -105,7 +112,8 @@ const FooterContainer = styled.footer`
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
+      flex-direction: column;
+      margin-left: 130px;
 
       p {
         font-size: 24px;
@@ -131,16 +139,28 @@ const FooterContainer = styled.footer`
     margin: 70px 0;
   }
 
-  .footer_copy {
+  .footer {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     color: var(--clr-grey3);
+
+    .footer_content {
+      display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .footer_logo {
+      width: 100px;
+      margin-right: 30px;
+    }
+    }
   }
 
+
   .back_to_top {
-    position: absolute;
-    right: 30px;
+    // position: a;
+    // right: 30px;
     // position: fixed;
     // right: 1.875rem;
     // font-size: 24px;
@@ -148,6 +168,9 @@ const FooterContainer = styled.footer`
     color: var(--clr-grey3);
   }
 
+  @media (min-width: 776px) {
+    flex-direction: column;
+  }
   
 `
 
