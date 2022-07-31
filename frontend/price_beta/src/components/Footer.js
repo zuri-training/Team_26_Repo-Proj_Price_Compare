@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { FiArrowUp } from 'react-icons/fi';
+import Newsletter from '../assets/images/newsletter.png'
 
 const Footer = () => {
   const footerYear = new Date().getFullYear()
@@ -43,12 +44,12 @@ const Footer = () => {
         </div>        
 
         <div className='newsletter'>
-          <img src="" alt="newsletter-logo" />
+          <img src={Newsletter} alt="newsletter-logo" />
           <p>
             Get updates on prices and shopping tips with PriceBeta Newsletter
           </p>
           <input type="email" placeholder='Your email address' />
-          <button type='click'>Subscribe</button>
+          <button type='click' className='btn'>Subscribe</button>
         </div>
 
       </div>
@@ -100,9 +101,12 @@ const FooterContainer = styled.footer`
     .newsletter {
       background: var(--clr-secondaryOrange);
       width: 340px;
-      display: block;
       color: var(--clr-black);
       padding: 18px 32px 16px;
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 
       p {
         font-size: 24px;
@@ -111,14 +115,11 @@ const FooterContainer = styled.footer`
       }
 
       input, button {
-        display: block;
         height: 60px;
-        border-radius: 8px;
         width: -webkit-fill-available;
       }
 
       button {
-        background: var(--clr-primaryOrange);
         font-size: 20px;
         color: var(--clr-bcgWhite);
         margin-top: 16px;

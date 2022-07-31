@@ -14,6 +14,9 @@ Variables
 :root {
     --clr-black: #000000;
 
+    --clr-text-black: #131211;
+    --clr-text-headline: #140A00;
+
     --clr-grey3: #BCBBBA;
     --clr-grey5: #717070;
     --clr-grey6: #4B4B4A;
@@ -22,9 +25,23 @@ Variables
 
     --clr-secondaryOrange: #F6C598;
     --clr-primaryOrange: #F88007;
+    --clr-primaryOrange4: #C66606;
 
     /* fonts */
     --bodyFont: 'Inter', sans-serif;
+    --headlineLarge: 52px;
+    --headlineMedium: 48px;
+    --headlineSmall: 32px;
+    --titleLarge: 28px;
+    --titleMedium: 24px;
+    --titleSmall: 20px;
+    --bodyLarge: 18px;
+    --bodyMedium: 16px;
+    --bodySmall: 14px;
+
+    /* Others */
+    --common-border: 1px solid var(--clr-primaryOrange4);
+    --borderRadius: 8px;
 
 }
 
@@ -40,6 +57,10 @@ h3,
 h4,
 h5 {
     margin: 0;
+}
+
+h1 {
+    font-size: var(--headlineLarge);
 }
 
 a {
@@ -59,4 +80,13 @@ ul {
     border: 1px solid var(--clr-grey5);
     padding: 24px 64px;
     margin-top: 8px;
+}
+
+.btn {
+    background: var(--clr-primaryOrange);
+    border-radius: var(--borderRadius);
+    border-style: none;
+    color: var(--clr-background);
+    text-align: center;
+    font-size: var(--titleSmall);
 }
