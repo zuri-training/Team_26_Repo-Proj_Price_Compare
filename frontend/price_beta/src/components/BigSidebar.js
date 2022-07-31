@@ -34,6 +34,7 @@ const BigSidebarContainer = styled.aside`
       width: 300px;
       margin-left: -300px;
       padding-top: 170px;
+      padding-bottom: 150px;
       font-size: var(--titleLarge);
       transition: var(--transition);
     }
@@ -43,12 +44,6 @@ const BigSidebarContainer = styled.aside`
     }
     .show-sidebar {
       margin-left: 0;
-    }
-    header {
-      height: 6rem;
-      display: flex;
-      align-items: center;
-      padding-left: 2.5rem;
     }
     .nav-links {
       padding-top: 2rem;
