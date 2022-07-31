@@ -26,7 +26,7 @@ class RegisterView(APIView):
         current_site = get_current_site(request).domain
         relative_url = reverse('accounts:email-activate')
         absolute_url = 'https://'+current_site+relative_url+'?token='+str(token)
-        email_body = 'hi ' + user.first_name+'verify your email with this link \n'+absolute_url
+        email_body = 'hi ' + user.first_name+' verify your email with this link \n'+absolute_url
 
         data={'email_body':email_body, 'email_subject': 'Verify your email', 'to_email':user.email}
         Util.send_mail(data)

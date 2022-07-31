@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 from dotenv import load_dotenv
 from pathlib import Path
+
 import os
 
 load_dotenv()
@@ -18,12 +19,14 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load environment variables
+load_dotenv(BASE_DIR.parent/ '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(SECRET_KEY)
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -142,9 +145,10 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 
-EMAIL_PORT = os.environ.get(EMAIL_PORT)
+EMAIL_PORT = os.environ["EMAIL_PORT"]
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.zoho.com'
-EMAIL_HOST_USER = os.environ.get(EMAIL_HOST_USER)
-EMAIL_HOST_PASSWORD = os.environ.get(EMAIL_HOST_PASSWORD)
+EMAIL_HOST_USER = os.environ["EMAIL_USER"]
+EMAIL_HOST_PASSWORD = os.environ["EMAIL_PASSWORD"]
+
