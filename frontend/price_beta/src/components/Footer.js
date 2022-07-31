@@ -58,10 +58,9 @@ const Footer = () => {
         <span>&copy; {footerYear} Nigeria</span>      
       </div>
 
-      <div className='back_to_top'>
-      <Link to='/'>Back to Top <FiArrowUp/></Link>
-      </div>
-
+    
+      <Link to='/' className='back_to_top'>Back to Top <FiArrowUp/></Link>
+    
     </FooterContainer>
   )
 }
@@ -104,9 +103,9 @@ const FooterContainer = styled.footer`
       color: var(--clr-black);
       padding: 18px 32px 16px;
       display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
 
       p {
         font-size: 24px;
@@ -121,7 +120,6 @@ const FooterContainer = styled.footer`
 
       button {
         font-size: 20px;
-        color: var(--clr-bcgWhite);
         margin-top: 16px;
       }
 
@@ -141,14 +139,13 @@ const FooterContainer = styled.footer`
   }
 
   .back_to_top {
-    position: fixed;
-    right: 1.875rem;
-
-    a {
-      font-size: 24px;
-      font-weight: 600px;
-      color: var(--clr-grey3);
-    }
+    position: absolute;
+    right: 30px;
+    // position: fixed;
+    // right: 1.875rem;
+    // font-size: 24px;
+    // font-weight: 600;
+    color: var(--clr-grey3);
   }
 
   

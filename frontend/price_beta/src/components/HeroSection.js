@@ -60,7 +60,7 @@ const HeroContainer = styled.section`
       }
 
       .check_circle {
-        color: var(--clr-primaryOrange);
+        color: var(--clr-primaryOrange5);
         margin-right: 17px;
       }
     }

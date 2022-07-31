@@ -4,20 +4,23 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { MdMenu } from 'react-icons/md';
 import circle from '../assets/images/plain header.png'
-
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleSidebar } from '../features/user/userSlice';
 
 const Navbar = () => {
+  // const { user } = useSelector((store) => store.user)
+  const dispatch = useDispatch()
 
   const toggle = () => {
-
+    dispatch(toggleSidebar())
   }
   return (
     <NavContainer className='nav_border'>
 
       <div className='menu_logo'>
-        {/* <button type='button' className='toggle_btn' onClick={toggle}> */}
-            <MdMenu className='toggle_btn' onClick={toggle} />
-        {/* </button> */}
+        <button type='button' className='toggle_btn' onClick={toggle}>
+            <MdMenu/>
+        </button>
         
         <Link to='/'>
           <img src={SVLogo} alt='scout vendor' className='svlogo' />

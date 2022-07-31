@@ -83,7 +83,7 @@ ul {
 }
 
 .btn {
-    background: var(--clr-primaryOrange);
+    background: var(--clr-primaryOrange5);
     border-radius: var(--borderRadius);
     border-style: none;
     color: var(--clr-background);
