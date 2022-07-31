@@ -33,9 +33,10 @@ In certain API calls an optional `meta` key can be supplied as part of the respo
 
 
 ### Authentication
-
 `ScoutVendor` uses Tokens as authentication. This token would be given on a per session basis. This means that a single user can have more than one token. If a user makes a login request using a mobile device, a token for that session would be assigned to the user, if the same user makes a login request using a different device, a token for that session would also be assigned to the user. Whenever the user logs out of a session, the token would be destroyed.
 
+`ScoutVendor` also makes use of 2-step verification when registering new users, a link to verify the user's account will be sent to the email provided by the when registering.
+ 
 For Authentication, `tokens` are passed using the `Authorization` header of the request i.e
 
 	Authorization: Bearer <token>
@@ -51,6 +52,7 @@ Every API call that requires authentication should are specified with `Authentic
 All endpoints that deals with authentication would be handled by the auth enpoints. Auth endpoints can be identified as endpoints that are relative url to **/api/auth/**. The auth endpoint has the following functionalities"
 
 	- Registering new users
+	- Verifying users email
 	- authenticating and logging in users
 	- logging users out of all sessions
 
@@ -64,10 +66,9 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- last_name,
 		- email,
 		- password
-		- password2
 	}
 	- response : {
-		- message : success (if successful)
+		user's data(excluding the password)
 	}
 
 	- Authentication : None
@@ -95,14 +96,18 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- function : logs a user out of session
 	- accepted methods : [GET]
 	- Authentication : required
-	- response : None
+	- response : {
+		message: Successful(if successful)
+	}
 
 - ### Logout-all Endpoint
 	- Full path : /api/auth/logoutall/
 	- function : logs a user and all devices of user out of session
 	- accepted methods : [GET]
 	- Authenticaiton : required
-	- response : None
+	- response : {
+		message: Successful
+	}
 
 **For logging users out, tokens are used to identify the user making the call**
 
@@ -217,7 +222,6 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 			"last_name" : "Doe",
 			"email" : "johndoe@email.com",
 			"password" : "somepassword",
-			"password2" : "somepassword"
 		}
 
 		url = "https://www.scoutvendor.com/api/auth/register/"
