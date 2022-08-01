@@ -121,7 +121,15 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- page_number : 1 (default value)
 	}
 	- reponse : {
-		- products : list of 'n' number of  product instance [defaults to 10 for unathenticated request]
+		- products : [{
+			- name
+			- brand
+			- category
+			- price
+			- image_url
+			- slug
+			- url_on_store
+		}] list of 'n' number of  product instance [defaults to 10 for unathenticated request]
 	}
 	- response meta data : {
 		- items_count 
@@ -137,7 +145,11 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- accepted method : [GET]
 	- required data : None
 	- reponse : {
-		- categories : list of categories
+		- categories : [{
+			- name
+			- url
+			- date_modified
+		}]
 	}
 	- Authentication : None
 
@@ -152,14 +164,18 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- response : {
 		- product_id
 		- name 
-		- price 
-		- description
-		- weight (if any)
-		- images_urls : array
-		- store_name
-		- store_url
+		- brand
 		- category
-		- date_modified
+		- sale : {
+			- price 
+			- description
+			- weight (if any)
+			- images_urls : array
+			- store_name
+			- store_url
+			- day_modified
+			- reviews
+		}
 	}
 	Authentication : required
 
