@@ -2,12 +2,12 @@ import React from 'react'
 
 const PrivacyPolicyPage = () => {
   return (
-    <div>
+    <div className='text_container'>
       <h1>Privacy Policy</h1>
       <ol>
         <li>Information</li>
         
-        <p>Sc outVendor priortises your privacy. To protect your privacy we provide this notice explaning our online information practices and the choices you can make with regard to the way your information is collected and used.</p>
+        <p>ScoutVendor priortises your privacy. To protect your privacy we provide this notice explaning our online information practices and the choices you can make with regard to the way your information is collected and used.</p>
         <p>The terms ScoutVendor, the website, us and we refer to the owner of the website whose registration office is ScoutVendorNet SRL. The term “you” refers to the viewer of our site.</p>
         <p>By  accessing the website ScoutVendor, you accept and agree to be bound by the Privacy Policy. If you do not accept the terms contained in this Privacy Policy statement, you must immediately cease using the website and/or services.</p>
         <p>ScoutVendor may change this policy from time to time by updating this page. You should check this page periodically to ensure you are aware of all the changes.</p>

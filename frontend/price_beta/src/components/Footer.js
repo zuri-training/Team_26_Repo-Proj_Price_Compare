@@ -85,7 +85,7 @@ const FooterContainer = styled.footer`
     align-items: center;
 
     ul {
-      line-height: 24px;
+      line-height: 35px;
     }
 
     .footer_info {

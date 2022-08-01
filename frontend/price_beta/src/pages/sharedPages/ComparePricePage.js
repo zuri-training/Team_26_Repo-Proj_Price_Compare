@@ -2,7 +2,7 @@ import React from 'react'
 
 const ComparePricePage = () => {
   return (
-    <div>
+    <div className='text_container'>
       <h1>How we compare prices</h1>
       <p>We hope is to be a complete and unbiased price and product comparison service. We list all the shops and prices that we know of for any single product. We list both the shops that pay us for the traffic we send them (featured shops) as well as the shops that do not. We do not exclude any offers.</p>
       <ol>

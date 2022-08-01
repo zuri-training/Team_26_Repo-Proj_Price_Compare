@@ -2,7 +2,7 @@ import React from 'react'
 
 const CookiePolicyPage = () => {
   return (
-    <div>
+    <div className='text_container'>
       <h1>Cookie Policy</h1>
       <p>In order to give you the world’s best price and product comparison service, we need to store small amounts of data on your device. In our cookie policy, we explain which technologies we use, and what we use them for</p>
       <ol>
@@ -22,7 +22,7 @@ const CookiePolicyPage = () => {
               <li>to target ads and to create target groups for marketing purposes.</li>
           </ul>
           <p>A more detailed explanation of the purposes follows below:</p>
-          <ol>
+          <ol className='nested_ol'>
               <li>Provision of the basic functions of the Services.</li>
               <p>In order for us to be able to offer the basic functions of the Services, we need to use local storage of data. Such functions include, among other things, saving of what choices our users have made, adapting the Services according to the user's technical conditions, and storing which searches a user previously has made.</p>
               <li>Analysing and improving the Services.</li>
@@ -35,7 +35,7 @@ const CookiePolicyPage = () => {
           </ol>
           <li>Who else uses local storage of data on our websites?</li>
           <p>We allow carefully selected partners to use local storage of data on the Services. In cases where third parties also take part of personal data for which we are personal data controllers, we enter into special agreements with them so that this takes place in accordance with applicable legislation. You can read more about our and our partners' processing of personal data in our privacy policy.</p>
-          <li>5. How can I manage locally stored data?</li>
+          <li>How can I manage locally stored data?</li>
           <p>You can either adjust the settings in your web browser or use special programs that have been developed to manage cookies. The settings in your web browser normally show a list of all the cookies that have been stored to provide you with an overview and, if you wish, to delete unwanted cookies. Normally you can indicate that you accept storage of cookies from websites you visit or from third parties affiliated to those websites. You can also choose to be notified every time a new cookie is stored. Guidance on how to do this in different web browsers is provided below. Your web browser normally stores cookies in a specific folder on your hard disk, so you can also examine the contents in more detail</p>
           <p>We have also prepared a list of the main forms of local storage of data that are present on our website and more details about their purpose. The list is available below. However, the cookies that are present on the website change frequently, and not all cookies are equally important. We will therefore update the list of which cookies are available regularly.</p>
       </ol>

@@ -2,7 +2,7 @@ import React from 'react'
 
 const RulesPage = () => {
   return (
-    <div>
+    <div className='text_container'>
     <h1>Rules and Guides</h1>
     <p>As a user of PriceBets website and services, you agree to follow this user rules.</p>
     <ol>

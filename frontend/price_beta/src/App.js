@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { Navbar, Footer } from './components'
-import { About, Categories, ComparePrice, CookiePolicy,  Error, HotDeals, Privacy, Rules } from './pages'
+import { Footer } from './components'
 import {
+  About,
   DiscountDeals,
   EmailPreference,
   Home,
@@ -10,7 +10,8 @@ import {
   Profile,
   Login,
   Logout,
-  SharedLayout
+  SharedLayout,
+  Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules
 } from './pages/sharedPages'
 
 function App() {
@@ -25,18 +26,14 @@ function App() {
           <Route path='login-security' element={<Login/>} />
           <Route path='logout' element={<Logout/>} />
           <Route path='email-preferences' element={<EmailPreference/>} />
-        </Route>
-        <Route path='privacy-policy' element={<Privacy/>} />
-        <Route path='about-us' element={<About/>} />
-        <Route path='cookie-policy' element={<CookiePolicy/>} />
-        <Route path='rules-guidelines' element={<Rules/>} />
-        <Route path='compare-price' element={ <ComparePrice/>} />
-        <Route path='product-categories' element={<Categories/>} />
-        
-        <Route path='hot-deals' element={<HotDeals/>} />
-
-        <Route path='*' element={<Error />} />
-
+          <Route path='about-us' element={<About/>} />
+          <Route path='privacy-policy' element={<Privacy/>} />
+          <Route path='cookie-policy' element={<CookiePolicy/>} />
+          <Route path='rules-guidelines' element={<Rules/>} />
+          <Route path='compare-price' element={ <ComparePrice/>} />
+          <Route path='product-categories' element={<Categories/>} />        
+          <Route path='*' element={<Error />} />
+        </Route> 
       </Routes>
       <Footer />
     </Router>
