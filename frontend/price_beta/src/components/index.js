@@ -6,14 +6,16 @@ import Hero from './HeroSection'
 import CategoryCard from './CategoryCard'
 import BigSidebar from './BigSidebar'
 import SmallSidebar from './SmallSidebar'
+import CategoryTile from './CategoryTile'
 
 export {
     Contact,
+    CategoryTile,
     FeaturedCategories,
     Footer,
     Navbar,
     Hero,
     CategoryCard,
     BigSidebar,
-    SmallSidebar
+    SmallSidebar,
 }

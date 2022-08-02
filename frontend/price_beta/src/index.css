@@ -13,6 +13,7 @@ Variables
 
 :root {
     --clr-black: #000000;
+    --clr-white: #FFFFFF;
 
     --clr-text-black: #131211;
     --clr-text-headline: #140A00;
@@ -89,7 +90,7 @@ li {
 }
 
 .svlogo {
-    width: 180px;
+    width: 230px;
 }
 
 .nav_border {
@@ -114,6 +115,27 @@ li {
     width: var(--fluid-width);
     max-width: var(--max-width);
     margin: 0 auto;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    margin-bottom: 48px;
+    gap: 40px;
+}
+
+.category_tile {
+    background: var(--clr-primaryOrange5);
+    border-radius: var(--borderRadius);
+    width: -webkit-fill-available;
+    display: flex;
+    align-items: center;
+    min-height: 64px;
+    padding: 12px 4px;
+    font-size: var(--titleSmall);
+    color: var(--clr-background);
+    
 }
 
 .full_page {

@@ -3,17 +3,17 @@
     "all_categories": [
         {
             "id": 1,
-            "categoryImg": "./categoryImages/Electronics.png",
+            "categoryImg": "./images/categoryImages/Electronics.png",
             "categoryName": "Electronics"
         },
         {
             "id": 2,
-            "categoryImg": "./categoryImages/Food.png",
+            "categoryImg": "./images/categoryImages/Food.png",
             "categoryName": "Food"
         },
         {
             "id": 3,
-            "categoryImg": "./categoryImages/HomeOffice.png",
+            "categoryImg": "./images/categoryImages/HomeOffice.png",
             "categoryName": "Home Office"
         }
 
