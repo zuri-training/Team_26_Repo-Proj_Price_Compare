@@ -12,7 +12,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ("product", "comment", "date_time", "rating", "loved", "reviewer")
+    list_display = ("product", "comment", "date_time", "rating", "reviewer")
 
 
 @admin.register(Category)

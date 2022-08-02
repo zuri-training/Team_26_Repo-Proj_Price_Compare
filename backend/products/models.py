@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.db import models
 
-from validators import max_rating_validator, min_price_validator
+from products.validators import max_rating_validator, min_price_validator
 
 # Create your models here.
 
@@ -131,7 +131,7 @@ class Review(models.Model):
     rating = models.DecimalField(
         max_digits=3, decimal_places=2, validators=[max_rating_validator]
     )
-    loved = models.PositiveIntergerField(default=0)
+    loved = models.ManyToManyField(User, related_name="liked_products")
     # store reference
     store = models.ForeignKey(
         SalesDetail, on_delete=models.CASCADE, related_name="reviews", blank=True
@@ -144,7 +144,7 @@ class Review(models.Model):
         return f"review by {self.reviewer} on {self.product}"
 
     def total_love(self):
-        return self.loved
+        return self.loved.count()
 
     def get_store(self):
         return self.store.get_store_name()
