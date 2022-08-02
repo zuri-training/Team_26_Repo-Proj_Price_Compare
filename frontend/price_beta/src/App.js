@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { Footer } from './components'
+import { Footer, } from './components'
 import {
   About,
   DiscountDeals,
@@ -14,9 +14,10 @@ import {
   Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules
 } from './pages/sharedPages'
 
+
 function App() {
   return (
-    <Router>
+    <Router>      
       <Routes>
         <Route path='/' element={<SharedLayout/>} >
           <Route index element={<Home/>} />
