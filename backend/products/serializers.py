@@ -1,33 +1,57 @@
 from rest_framework import serializers
-from requests import Response
 from rest_framework.views import APIView
-from .models import Category, Product, Review
+
+from requests import Response
+
+from .models import Category, Product, Review, SalesDetail
 
 
-class ProductSerializers(serializers.ModelSerializer):
+class SalesDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SalesDetail
+        fields = "__all__"
+        # read_only_fields = ["modified"]
+
+
+class ProductListSerializer(serializers.ModelSerializer):
     # serializing class for product model
     class Meta:
         model = Product
         fields = "__all__"
-        read_only_fields = ["created_on", "modified"]
+        read_only_fields = ["slug", "created_on", "modified"]
 
 
-class CategorySerializers(serializers.ModelSerializer):
+class ProductDetailSerializer(serializers.ModelSerializer):
+    sales = SalesDetailSerializer()
+
+    class Meta:
+        model = Product
+        exclude = ["description"]
+
+
+class CategorySerializer(serializers.ModelSerializer):
     # serializing class for categories
 
     class Meta:
         model = Category
-        fields = "__all__"
-        read_only_fields = ["created_on", "modified"]
+        fields = ["name", "image_url", "url"]
+        # read_only_fields = ["created_on", "modified"]
 
-    def create(self, validated_data):
-        name = validated_data.get("name")
-        validated_data = name.title()
-        parent = validated_data.get("parent", None)
+    # def create(self, validated_data):
+    #     name = validated_data.get("name")
+    #     validated_data = name.title()
+    #     return super(CategorySerializers, self).save(validated_data)
+
+
+# class SubCategorySerializer(serializers.ModelSerializer):
+#     class Meta:
+#         Model = SubCategory
+#         fields = ["name", "image_url", "slug", "parent"]
+#         read_only_fields = ["created_on", "modified"]
 
 
 # Below is the Review, rating and loved serializer
-class ReviewSerializers(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ["product", "comment", "rating", "loved", "date_time", "reviewer"]

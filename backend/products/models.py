@@ -1,4 +1,7 @@
 from django.contrib.auth import get_user_model
+from django.contrib.sites.models import Site
+from django.conf import settings
+from django.urls import reverse_lazy, resolve
 from django.utils.text import slugify
 from django.db import models
 
@@ -8,27 +11,81 @@ from products.validators import max_rating_validator, min_price_validator
 
 Q = models.Q
 User = get_user_model()  # refers to the user's table
+#DOMAIN = Site.objects.get_current().domain
+HOST = "http" if settings.DEBUG else "https"  # configure this in settings
+
+
+class SubCategoryManager(models.Manager):
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(is_sub_category=True)
+
+
+class MainCategoryManager(models.Manager):
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(is_sub_category=False)
 
 
 class Category(models.Model):
-    parent = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     image_url = models.URLField()
     slug = models.SlugField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+    parent = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        related_name="sub_categories",
+        blank=True,
+        null=True,
+    )
+    url = models.URLField(blank=True, null=True, editable=False)
     is_sub_category = models.BooleanField(default=True)
+    
+    Objects = models.Manager()
+    subCategories = SubCategoryManager()
+    parentCategories = MainCategoryManager()
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super(Category, self).save(*args, **kwargs)
-
-    def get_categories(self):
-        return [self.parent, self]
+    def get_subcategory(self):
+        if not self.is_sub_category:
+            return Category.objects.filter(parent=self)
+        return []
 
     def get_parent_category(self):
-        return self.parent
+        if self.is_sub_category:
+            return self.parent
+        return []
+
+    def _set_url(self):
+        DOMAIN = Site.objects.get_current().domain
+        if self.is_sub_category:
+            # use subcategory url
+            path = reverse_lazy(
+                "products:subcategory_product_list", kwargs={"slug": self.slug}
+            )
+        else:
+            # use maincategory url
+            path = reverse_lazy(
+                "products:category_subcategory_list",
+                kwargs={"slug": self.slug},
+            )
+        self.url = f"{HOST}://{DOMAIN}{path}"
+
+    def get_absolute_url(self):
+        return self.url
+
+    def save(self, *args, **kwargs):
+        self.name = self.name.title()
+        if not self.slug:
+            self.slug = slugify(self.name)
+        if self.is_sub_category:
+            assert self.parent is not None  # raise validation error
+        else:
+            assert self.parent is None  # raise validation error
+        if not self.url:
+            self._set_url()
+        super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -44,7 +101,10 @@ class Product(models.Model):
     description = models.TextField()
     # CASCADE or DO_NOTHING?
     category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, related_name="products"
+        Category,
+        on_delete=models.CASCADE,
+        related_name="products",
+        limit_choices_to={"is_sub_category": True},
     )
     slug = models.SlugField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -55,25 +115,21 @@ class Product(models.Model):
             self.slug = slugify(f"{self.name} {self.brand}")
         super(Product, self).save(self, *args, *kwargs)
 
-    def __str__(self):
-        return f"{self.name} by {self.brand}"
-
     def get_absolute_url(self):
         pass
 
     def get_sales(self):
         # return sales instance of product
-        return self.self.sales_details.all()
+        return self.sales_details.all()
 
-    def get_categories(self):
-        # return category and sub category of product (if any)
-        return self.categories.get_both()
-
-    def get_subcategory(self):
-        return self.categories
+    def get_category(self):
+        return self.category
 
     def get_parent_category(self):
-        return self.categories.get_parent_category()
+        return self.category.parent
+
+    def __str__(self):
+        return f"{self.name} by {self.brand}"
 
     class Meta:
         # combination of product name and brand should be unique except where they are both empty
@@ -89,6 +145,7 @@ class Product(models.Model):
 class Store(models.Model):
     name = models.CharField(max_length=50)
     url = models.URLField()
+    favicon = models.URLField()
 
     def __str__(self):
         return self.name
@@ -108,7 +165,7 @@ class SalesDetail(models.Model):
     url = models.URLField()
     available = models.BooleanField(default=True)
     description = models.TextField()
-
+    # modified = models.DataTimeField(auto_now_add=True)
     def get_store_name(self):
         return self.store.name
 

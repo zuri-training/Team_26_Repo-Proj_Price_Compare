@@ -1,18 +1,85 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import render
+
 from rest_framework import generics, permissions
 from rest_framework import viewsets
-from .models import *
-from .serializers import ProductSerializers, ReviewSerializers
+from rest_framework.permissions import AllowAny
+
+from .serializers import (
+    ProductListSerializer,
+    ProductDetailSerializer,
+    CategorySerializer,
+    ReviewSerializer,
+)
+from .models import Category, Product, Review
 
 
+class FilterListAPIGenericView(generics.ListAPIView):
+    def get_queryset(self):
+        """
+        Get the list of items for this view.
+        This must be an iterable, and may be a queryset.
+        Defaults to using `self.queryset`.
 
-class ProductAPIView(generics.ListAPIView):
+        This method should always be used rather than accessing `self.queryset`
+        directly, as `self.queryset` gets evaluated only once, and those results
+        are cached for all subsequent requests.
+
+        You may want to override this if you need to provide different
+        querysets depending on the incoming request.
+
+        (Eg. return a list of items that is specific to the user)
+        """
+        assert self.queryset is not None, (
+            "'%s' should either include a `queryset` attribute, "
+            "or override the `get_queryset()` method." % self.__class__.__name__
+        )
+        # return only subcategories whose parent slug
+        # matches the slug in the url
+        value = self.kwargs[self.filter_param]
+        filter = {self.filter_by_expr: value}
+        queryset = self.queryset.filter(**filter)
+        if isinstance(queryset, QuerySet):
+            # Ensure queryset is re-evaluated on each request.
+            queryset = queryset.all()
+        return queryset
+
+
+class CategoryListAPIView(generics.ListAPIView):
+    # gets a list of all categories
+    queryset = Category.parentCategories.all()
+    serializer_class = CategorySerializer
+    permission_classes = [AllowAny]
+
+
+class SubCategoryListAPIView(FilterListAPIGenericView):
+    # gets a list of all sub categories under a category
+    queryset = Category.subCategories.all()
+    serializer_class = CategorySerializer
+    permission_classes = [AllowAny]
+    filter_param = "slug"
+    filter_by_expr = "parent__slug"
+
+
+class ProductListAPIView(FilterListAPIGenericView):
+    # gets a list of product under a subcategory
+    queryset = Product.objects.all()
+    serializer_class = ProductListSerializer
+    filter_param = "slug"
+    filter_by_expr = "category__slug"
+    #
+    # def get_queryset(self):
+    #     category_slug = self.kwargs["slug"]
+    #     queryset = self.queryset.filter(category__slug=category_slug)
+
+
+class ProductDetailApiView(generics.GenericAPIView):
+    # gets a product and all related sales details
     pass
 
 
-
-#Views to List and Create review 
+# Views to List and Create review
 class ReviewAPIView(generics.ListCreateAPIView):
     queryset = Review.objects.all()
-    serializer_class = ReviewSerializers
+    serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
