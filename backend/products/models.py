@@ -118,6 +118,11 @@ class Product(models.Model):
         # return sales instance of product
         return self.sales_details.all()
 
+    def get_reviews(self):
+        # get all reviews across stores and in app reviews
+        # return self.reviews.all()
+        return self.reviews.all()
+
     def get_category(self):
         return self.category
 
@@ -175,9 +180,9 @@ class SalesDetail(models.Model):
 
 # This is the model for the reviews, rating and likes
 class Review(models.Model):
-    reviewer = models.ForeignKey(User, related_name="review", on_delete=models.CASCADE)
+    reviewer = models.ForeignKey(User, related_name="reviews", on_delete=models.CASCADE)
     product = models.ForeignKey(
-        Product, related_name="review", on_delete=models.CASCADE, null=True
+        Product, related_name="reviews", on_delete=models.CASCADE, null=True
     )
     date_time = models.DateTimeField(auto_now_add=True)
     comment = models.TextField(max_length=250, blank=True, null=True)
@@ -187,7 +192,11 @@ class Review(models.Model):
     loved = models.ManyToManyField(User, related_name="liked_products")
     # store reference
     store = models.ForeignKey(
-        SalesDetail, on_delete=models.CASCADE, related_name="reviews", blank=True
+        SalesDetail,
+        on_delete=models.CASCADE,
+        related_name="reviews",
+        blank=True,
+        null=True,
     )
 
     class Meta:

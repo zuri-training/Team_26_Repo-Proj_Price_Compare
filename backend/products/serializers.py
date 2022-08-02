@@ -6,7 +6,28 @@ from requests import Response
 from .models import Category, Product, Review, SalesDetail
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    # product = serializers.StringRelatedField()
+    # store = serializers.StringRelatedField()
+    love_count = serializers.SerializerMethodField()
+    loved_by_user = serializers.SerializerMethodField
+
+    class Meta:
+        model = Review
+        fields = ["reviewer", "comment", "rating", "loved", "love_count", "date_time"]
+        # fields = "__all__"
+
+    def get_love_count(self, obj):
+        return obj.loved.count()
+
+    def get_loved_by_user(self, obj):
+        return True
+        # return request.user in obj.loved.all() use django contains field
+
+
 class SalesDetailSerializer(serializers.ModelSerializer):
+    store = serializers.StringRelatedField()
+
     class Meta:
         model = SalesDetail
         fields = "__all__"
@@ -29,10 +50,14 @@ class ProductListSerializer(serializers.ModelSerializer):
 
 class ProductDetailSerializer(serializers.ModelSerializer):
     sales = SalesDetailSerializer(source="sales_details", many=True)
+    reviews = ReviewSerializer(many=True)
 
     class Meta:
         model = Product
-        fields = ["name", "brand", "sales"]
+        fields = ["name", "brand", "sales", "reviews"]
+
+    def get_reviews(self, obj):
+        return obj.get_reviews()
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -47,21 +72,5 @@ class CategorySerializer(serializers.ModelSerializer):
     def get_url(self, obj):
         return obj.get_absolute_url()
 
-    # def create(self, validated_data):
-    #     name = validated_data.get("name")
-    #     validated_data = name.title()
-    #     return super(CategorySerializers, self).save(validated_data)
-
-
-# class SubCategorySerializer(serializers.ModelSerializer):
-#     class Meta:
-#         Model = SubCategory
-#         fields = ["name", "image_url", "slug", "parent"]
-#         read_only_fields = ["created_on", "modified"]
-
 
 # Below is the Review, rating and loved serializer
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = ["product", "comment", "rating", "loved", "date_time", "reviewer"]
