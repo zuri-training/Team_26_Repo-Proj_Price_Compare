@@ -11,7 +11,7 @@ from products.validators import max_rating_validator, min_price_validator
 
 Q = models.Q
 User = get_user_model()  # refers to the user's table
-#DOMAIN = Site.objects.get_current().domain
+# DOMAIN = Site.objects.get_current().domain
 HOST = "http" if settings.DEBUG else "https"  # configure this in settings
 
 
@@ -40,9 +40,8 @@ class Category(models.Model):
         blank=True,
         null=True,
     )
-    url = models.URLField(blank=True, null=True, editable=False)
     is_sub_category = models.BooleanField(default=True)
-    
+
     Objects = models.Manager()
     subCategories = SubCategoryManager()
     parentCategories = MainCategoryManager()
@@ -57,7 +56,7 @@ class Category(models.Model):
             return self.parent
         return []
 
-    def _set_url(self):
+    def get_absolute_url(self):
         DOMAIN = Site.objects.get_current().domain
         if self.is_sub_category:
             # use subcategory url
@@ -70,10 +69,7 @@ class Category(models.Model):
                 "products:category_subcategory_list",
                 kwargs={"slug": self.slug},
             )
-        self.url = f"{HOST}://{DOMAIN}{path}"
-
-    def get_absolute_url(self):
-        return self.url
+        return f"{HOST}://{DOMAIN}{path}"
 
     def save(self, *args, **kwargs):
         self.name = self.name.title()
@@ -83,8 +79,6 @@ class Category(models.Model):
             assert self.parent is not None  # raise validation error
         else:
             assert self.parent is None  # raise validation error
-        if not self.url:
-            self._set_url()
         super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -113,10 +107,12 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(f"{self.name} {self.brand}")
-        super(Product, self).save(self, *args, *kwargs)
+        super(Product, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        pass
+        DOMAIN = Site.objects.get_current().domain
+        path = reverse_lazy("products:product_salesdetail_list", kwargs={"pk": self.pk})
+        return f"{HOST}://{DOMAIN}{path}"
 
     def get_sales(self):
         # return sales instance of product

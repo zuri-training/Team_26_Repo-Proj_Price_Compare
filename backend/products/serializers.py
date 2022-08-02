@@ -15,27 +15,37 @@ class SalesDetailSerializer(serializers.ModelSerializer):
 
 class ProductListSerializer(serializers.ModelSerializer):
     # serializing class for product model
+    url = serializers.SerializerMethodField()
+    category = serializers.StringRelatedField()
+
     class Meta:
         model = Product
         fields = "__all__"
         read_only_fields = ["slug", "created_on", "modified"]
 
+    def get_url(self, obj):
+        return obj.get_absolute_url()
+
 
 class ProductDetailSerializer(serializers.ModelSerializer):
-    sales = SalesDetailSerializer()
+    sales = SalesDetailSerializer(source="sales_details", many=True)
 
     class Meta:
         model = Product
-        exclude = ["description"]
+        fields = ["name", "brand", "sales"]
 
 
 class CategorySerializer(serializers.ModelSerializer):
     # serializing class for categories
+    url = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
         fields = ["name", "image_url", "url"]
         # read_only_fields = ["created_on", "modified"]
+
+    def get_url(self, obj):
+        return obj.get_absolute_url()
 
     # def create(self, validated_data):
     #     name = validated_data.get("name")

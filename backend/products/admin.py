@@ -7,7 +7,7 @@ from .models import *
 # Review, rating and loved admin board
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "description")
+    list_display = ("name", "description", "get_absolute_url")
 
 
 @admin.register(Review)
@@ -17,7 +17,7 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "is_sub_category", "url")
+    list_display = ("name", "is_sub_category", "get_absolute_url")
 
 
 # @admin.register(SubCategory)

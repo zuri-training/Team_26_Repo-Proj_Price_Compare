@@ -67,15 +67,12 @@ class ProductListAPIView(FilterListAPIGenericView):
     serializer_class = ProductListSerializer
     filter_param = "slug"
     filter_by_expr = "category__slug"
-    #
-    # def get_queryset(self):
-    #     category_slug = self.kwargs["slug"]
-    #     queryset = self.queryset.filter(category__slug=category_slug)
 
 
-class ProductDetailApiView(generics.GenericAPIView):
+class ProductDetailApiView(generics.RetrieveAPIView):
     # gets a product and all related sales details
-    pass
+    queryset = Product.objects.all()
+    serializer_class = ProductDetailSerializer
 
 
 # Views to List and Create review

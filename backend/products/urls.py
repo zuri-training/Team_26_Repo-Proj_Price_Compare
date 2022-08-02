@@ -20,9 +20,11 @@ urlpatterns = [
         ProductListAPIView.as_view(),
         name="subcategory_product_list",
     ),  # all products under a sub category
-    # path(
-    #     "detail/<int:product_id>/", ProductAPIView.as_view()
-    # ),  # create and get a product detail including all sales details
+    path(
+        "detail/<int:pk>/",
+        ProductDetailApiView.as_view(),
+        name="product_salesdetail_list",
+    ),  # create and get a product detail including all sales details
     path(
         "review/<int:product_id>/", ReviewAPIView.as_view()
     ),  # create and list review for a product
