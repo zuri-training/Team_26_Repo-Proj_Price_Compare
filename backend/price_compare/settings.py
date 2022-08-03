@@ -75,8 +75,11 @@ WSGI_APPLICATION = 'price_compare.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'scoutvendor',
+        'USER': 'scoutvendoradmin',
+        'PASSWORD': 'scoutvendoradmin',
+        'HOST': 'localhost'
     }
 }
 
@@ -98,9 +101,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-## CUSTOM USER MODEL
-AUTH_USER_MODEL = 'accounts.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
