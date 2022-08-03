@@ -18,23 +18,26 @@ class JumiaCategory(scrapy.Item):
     is_sub_category = scrapy.Field()
 
 
-class JumiaProduct(scrapy.Item):
+class Product(scrapy.Item):
     name = scrapy.Field()
     brand = scrapy.Field()
-    sku = scrapy.Field()
+    sku = scrapy.Field() # use to check for duplicates
     category = scrapy.Field()
-    seller = scrapy.Field()
-    description = scrapy.Field()
+    description = scrapy.Field() 
     price = scrapy.Field()
     image_urls = scrapy.Field()
+    search_url = scrapy.Field() # would be filled by our JumiaProductLoader
+    # might not be needed
+    product_url = scrapy.Field() # link to the cheapest product
 
 
 class JumiaProductReview(scrapy.Item):
     sku = scrapy.Field()
     author = scrapy.Field()
     rating = scrapy.Field()
+    store = scrapy.Field()
 
-
+# leave this for now
 class JumiaLiveDetail(JumiaProductReview):
     new_price = scrapy.Item()
     old_price = scrapy.Item()
