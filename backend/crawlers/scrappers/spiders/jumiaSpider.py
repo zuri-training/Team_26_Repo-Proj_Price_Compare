@@ -45,14 +45,13 @@ class JumiaCategorySpider(scrapy.Spider):
 # scrape from catalog
 # use this to get all products available for scraping : about 2000
 class JumiaProductSpider(scrapy.Spider):
-    # DEFAULT_REQUEST_HEADER = {"Accept" : "application/json"}
-    # result is returned in json format 
+    # response is returned in json format 
     # product list is found in response.json()["viewData"]['products']
     name = "JumiaProductSpider"
     start_urls = ["https://www.jumia.com.ng/catalog/"]
     current_page = 1 
     last_page = 50 # last page on catalog serach is 50
-
+    custom_settings = {"DEFAULT_REQUEST_HEADER" : {"Accept" : "application/json"}}
     def parse_product(self, response):
         products = response.json()['viewData']['products']
         for product in products:

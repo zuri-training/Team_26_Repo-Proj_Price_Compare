@@ -12,7 +12,7 @@ All scrapped product should be made to conform to the `ProductItem` container de
 
 # Scrapping Jumia
 
-Jumia website returns a json response behind the scence. This json formatted response can be used by setting the DEFAULT_REQUEST_HEADER to 
+Jumia website returns a json response behind the scence(to see what that look like run see the json file which has been cut to the products field because of lots of data`). This json formatted response can be used by setting the DEFAULT_REQUEST_HEADER to 
 	
 	{
 		'Accept' : 'application/json', 

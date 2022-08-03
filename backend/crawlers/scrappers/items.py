@@ -11,6 +11,7 @@ class ScrappersItem(scrapy.Item):
     # name = scrapy.Field()
     pass
 
+
 class JumiaCategory(scrapy.Item):
     name = scrapy.Field()
     url = scrapy.Field()
@@ -21,14 +22,14 @@ class JumiaCategory(scrapy.Item):
 class Product(scrapy.Item):
     name = scrapy.Field()
     brand = scrapy.Field()
-    sku = scrapy.Field() # use to check for duplicates
+    sku = scrapy.Field()  # use to check for duplicates
     category = scrapy.Field()
-    description = scrapy.Field() 
+    description = scrapy.Field()
     price = scrapy.Field()
     image_urls = scrapy.Field()
-    search_url = scrapy.Field() # would be filled by our JumiaProductLoader
+    search_url = scrapy.Field()  # would be filled by our JumiaProductLoader
     # might not be needed
-    product_url = scrapy.Field() # link to the cheapest product
+    product_url = scrapy.Field()  # link to the cheapest product
 
 
 class JumiaProductReview(scrapy.Item):
@@ -36,6 +37,7 @@ class JumiaProductReview(scrapy.Item):
     author = scrapy.Field()
     rating = scrapy.Field()
     store = scrapy.Field()
+
 
 # leave this for now
 class JumiaLiveDetail(JumiaProductReview):
