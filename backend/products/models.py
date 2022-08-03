@@ -158,15 +158,17 @@ class SalesDetail(models.Model):
     )
     store = models.ForeignKey(Store, related_name="products", on_delete=models.CASCADE)
     # sku = models.CharField(max_length=50)
-    seller = models.CharField(max_length=50)
+    # seller = models.CharField(max_length=50)
     price = models.DecimalField(
         max_digits=15, decimal_places=2, default=1.00, validators=[min_price_validator]
     )
+    # uncomment for postgres database
     # price_changes = ArrayField(DecimalField(decimal_places=2), size=5)
     url = models.URLField()
     available = models.BooleanField(default=True)
     description = models.TextField()
-    # modified = models.DataTimeField(auto_now_add=True)
+    modified = models.DataTimeField(auto_now_add=True)
+    
     def get_store_name(self):
         return self.store.name
 
@@ -180,7 +182,11 @@ class SalesDetail(models.Model):
 
 # This is the model for the reviews, rating and likes
 class Review(models.Model):
-    reviewer = models.ForeignKey(User, related_name="reviews", on_delete=models.CASCADE)
+    # not all reviews are users from our website
+    # some are from scrapped data
+
+    # name of the reviewer
+    author = models.CharField(max_length=50)
     product = models.ForeignKey(
         Product, related_name="reviews", on_delete=models.CASCADE, null=True
     )
@@ -198,6 +204,10 @@ class Review(models.Model):
         blank=True,
         null=True,
     )
+    # if the author is a user of our website
+    # the we use user as a reference
+    is_user = models.BooleanField(default=False)
+    user = models.ForeignKey(User, related_name="reviews", on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         ordering = ("-date_time",)
