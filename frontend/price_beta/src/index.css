@@ -24,7 +24,7 @@ Variables
 
     --clr-background: #FFF7F0;
 
-    --clr-secondaryOrange: #F6C598;
+    --clr-secondaryOrange: #FADFC7;
     --clr-primaryOrange5: #F88007;
     --clr-primaryOrange4: #C66606;
 
@@ -193,4 +193,138 @@ li {
 
 .text_container ol ol li{
     font-size: var(--bodyLarge);
+}
+p{
+    font-family: var(--ff-sans-cond);
+    font-size: var(--fs-400);
+    padding-left: 1rem;
+}
+
+
+.flex {
+    display: flex;
+    gap: var(--gap, 1rem);
+}
+
+.flex-pro {
+    display: flex;
+}
+
+.left {
+    font-size: 1rem;
+    padding: 1rem;
+}
+
+.head{
+    margin-left: 2rem;
+}
+
+.ff-sans-cond {
+    font-family: var(--ff-sans-cond);
+}
+
+.text-white {
+    color: 0 0% 100%;
+}
+
+.letter-spacing-2 {
+    letter-spacing: 2.7px;
+}
+a {
+    text-decoration: none;
+}
+
+.profile-img {
+    width: 50px;
+    height: 50px;
+    background: var(--clr-orange);
+    border-radius: 50%;
+}
+.section {
+    margin-left: 4.125rem;
+    margin-right: 7.875rem;
+    margin-top: 1rem;
+}
+.section h3 {
+    font-size: 28px;
+}
+
+.section h4 {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    font-size: 28px;
+}
+.pic {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+.prof {
+    display: flex;
+    align-self: flex-end;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+}
+
+.btn1 {
+    margin-right: 36px;
+    width: 233px;
+    height: 60px;
+    cursor: pointer;
+    color: var(--clr-primaryOrange5);
+    background: var(--clr-secondaryOrange);
+    border: 1px solid #D1D5DB;
+    justify-content: center;
+    align-items: center;
+    border-radius: .3rem;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+}
+  
+.btn2 {
+    width: 233px;
+    height: 60px;
+    cursor: pointer;
+    color: #FFF7F0;
+    background: var(--clr-primaryOrange5);
+    border: 1px solid var(--clr-secondaryOrange);
+    border-radius: .3rem;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    text-decoration-color: #fff;
+}
+
+.btn3 {
+    padding: 18px 48px;
+    cursor: pointer;
+    color: #FFF7F0;
+    background: var(--clr-primaryOrange5);
+    border-radius: .3rem;
+    border: 1px solid var(--clr-secondaryOrange);
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.photo-img {
+    width: 176px;
+    height: 176px;
+    border: 1px solid #000000;
+    border-radius: 100px;
+    background: #717070;
+}
+
+.button{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.social {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    width: 45%;
+}
+.social_icon {
+    display: flex;
+    align-items: center;
 }
