@@ -12,56 +12,6 @@ Variables
 */
 
 :root {
-  --clr-black: #000000;
-  --clr-white: #ffffff;
-
-  --clr-text-black: #131211;
-  --clr-text-headline: #140a00;
-
-  --clr-grey2: #e1e0df;
-  --clr-grey3: #bcbbba;
-  --clr-grey5: #717070;
-  --clr-grey6: #4b4b4a;
-
-  --clr-background: #fff7f0;
-
-  --clr-secondaryOrange: #f6c598;
-  --clr-primaryOrange5: #f88007;
-  --clr-primaryOrange4: #c66606;
-
-  --clr-red: #e50909;
-
-  /* fonts */
-  --bodyFont: "Inter", sans-serif;
-  --headlineLarge: 52px;
-  --headlineMedium: 48px;
-  --headlineSmall: 32px;
-  --titleLarge: 28px;
-  --titleMedium: 24px;
-  --titleSmall: 20px;
-  --bodyLarge: 18px;
-  --bodyMedium: 16px;
-  --bodySmall: 14px;
-
-  /* Others */
-  --common-border: 1px solid var(--clr-primaryOrange4);
-  --borderRadius: 8px;
-  --transition: 0.3s ease-in-out all;
-  --fluid-width: 90vw;
-  --max-width: 1120px;
-  --letterSpacing: 1px;
-  --lineHeight: 24px;
-
-  /* Error page additional variables */
-  /* CSS Layout */
-  --displayFlex: flex;
-  --flexDirectionColumn: column;
-  --justifyContentCenter: center;
-  --alignItemsCenter: center;
-
-  /* others */
-  --lineheight52: 52px;
-  --lineHeight64: 64px;
 }
 
 body {
@@ -226,12 +176,6 @@ Error Page Styles
   padding: 0 77px;
 }
 
-.error_img_div {
-  flex: 50%;
-  display: var(--displayFlex);
-  justify-content: flex-end;
-  align-items: var(--alignItemsCenter);
-}
 
 .error_img {
   width: 400px;
