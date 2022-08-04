@@ -73,7 +73,7 @@ const Footer = () => {
 }
 
 const FooterContainer = styled.footer`
-  height: 600px;
+  height: 620px;
   display: flex;
   background: var(--clr-grey6);
   color: var(--clr-background);
