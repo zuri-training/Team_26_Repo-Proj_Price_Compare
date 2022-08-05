@@ -85,10 +85,14 @@ WSGI_APPLICATION = 'price_compare.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(BASE_DIR / 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'scoutvendor',
+        'USER': 'scoutvendoradmin',
+        'PASSWORD': 'scoutvendoradmin',
+        'HOST': 'localhost'
     }
 }
+
 REST_FRAMEWORK = {
     
     'DEFAULT_AUTHENTICATION_CLASSES': (
