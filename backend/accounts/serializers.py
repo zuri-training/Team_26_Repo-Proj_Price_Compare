@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from .models import User
-from.utils import Util
+from .utils import Util
 
 
 class UserSerializer(serializers.ModelSerializer):

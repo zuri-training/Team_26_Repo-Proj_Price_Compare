@@ -11,7 +11,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer, RegisterSerializer,PasswordResetSerializer, SetNewPasswordSerializer
+from .serializers import UserSerializer,PasswordResetSerializer, SetNewPasswordSerializer
 from .models import User
 from .utils import Util
 import jwt, datetime
