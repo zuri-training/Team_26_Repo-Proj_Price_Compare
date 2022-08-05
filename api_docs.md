@@ -161,16 +161,16 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	
 	
 - ### Password Reset Endpoint
-	- Full path : /api/auth/request-password-reset/
-	- function :  sends a password reset link containing token and user's id to  the user's mail
+	- Full path : /api/auth/change-password/
+	- function :  change the user's password
 	- allowed methods : [PATCH]
 	- required data : {
-		- password
+		- password(new password)
 		- uidb64
 		- token
 	}
 	- response : {
-		- 'success':'A link have been sent to your mail to reset your password'
+		- 'success': 'Password Reset Successful'
 	}
 
 	- Authentication : None
