@@ -50,9 +50,16 @@ INSTALLED_APPS = [
     'corsheaders',
     #local
     'accounts',
-    'listings.apps.ListingsConfig',
+    'products.apps.ProductsConfig',
+    'favourites.apps.FavouritesConfig',
     'watchlist.apps.WatchlistConfig',
 ]
+REST_FRAMEWORK = {
+"DEFAULT_PERMISSION_CLASSES": [
+"rest_framework.permissions.AllowAny",
+],
+}
+
 
 AUTH_USER_MODEL = 'accounts.User'
 
