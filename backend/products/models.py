@@ -92,8 +92,8 @@ class Product(models.Model):
     # Use this for product table
     name = models.CharField(max_length=50)
     brand = models.CharField(max_length=50)
-    description = models.TextField()
-    # CASCADE or DO_NOTHING?
+    # IF A CATEGORY IS DELETED, THE WHOLE PRODUCT UNDER THAT
+    # CATEGORY WOULD BE DELETED
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -117,6 +117,10 @@ class Product(models.Model):
     def get_sales(self):
         # return sales instance of product
         return self.sales_details.all()
+
+    def get_description(self):
+        # return the first scrapped store description about product
+        return self.sales_details.all().order_by("-review__rating")[0].description
 
     def get_reviews(self):
         # get all reviews across stores and in app reviews
@@ -160,15 +164,18 @@ class SalesDetail(models.Model):
     # sku = models.CharField(max_length=50)
     # seller = models.CharField(max_length=50)
     price = models.DecimalField(
-        max_digits=15, decimal_places=2, default=1.00, validators=[min_price_validator]
+        max_digits=20, decimal_places=2, default=1.00, validators=[min_price_validator]
     )
     # uncomment for postgres database
     # price_changes = ArrayField(DecimalField(decimal_places=2), size=5)
-    url = models.URLField()
+    # url to search on product on a particular store
+    search_url = models.URLField(default="https://www.testing.com/")
+    # url to get actual product on store
+    product_url = models.URLField(default="https://www.testing.com/")
     available = models.BooleanField(default=True)
     description = models.TextField()
     modified = models.DataTimeField(auto_now_add=True)
-    
+
     def get_store_name(self):
         return self.store.name
 
@@ -193,9 +200,9 @@ class Review(models.Model):
     date_time = models.DateTimeField(auto_now_add=True)
     comment = models.TextField(max_length=250, blank=True, null=True)
     rating = models.DecimalField(
-        max_digits=3, decimal_places=2, validators=[max_rating_validator]
+        max_digits=3, decimal_places=2, validators=[max_rating_validator], default=0.00
     )
-    loved = models.ManyToManyField(User, related_name="liked_products")
+    # loved = models.ManyToManyField(User, related_name="liked_products")
     # store reference
     store = models.ForeignKey(
         SalesDetail,
@@ -207,7 +214,9 @@ class Review(models.Model):
     # if the author is a user of our website
     # the we use user as a reference
     is_user = models.BooleanField(default=False)
-    user = models.ForeignKey(User, related_name="reviews", on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(
+        User, related_name="reviews", on_delete=models.CASCADE, blank=True, null=True
+    )
 
     class Meta:
         ordering = ("-date_time",)

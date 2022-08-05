@@ -12,6 +12,7 @@ from .serializers import (
     ReviewSerializer,
 )
 from .models import Category, Product, Review
+from .permissions import AllowScrapper
 
 
 class FilterListAPIGenericView(generics.ListAPIView):
@@ -80,3 +81,36 @@ class ReviewAPIView(generics.ListCreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class CreateProductAPIView(generics.CreateView):
+    """
+    Creation is done in a particular order.
+        - Store is created or fetched
+        - Category is created or fetched first
+        - Subcategory is created or fetched second and Category is passed as parent
+        - Product is created or fetched with Subcategory as category
+        - SalesDetail is created with Product as product and store as Store
+        - Review is created with Product as product and store as Store
+
+    For duplicate SalesDetails, if the duplicate is cheaper it will be used to update the current
+    SalesDetail
+    """
+
+    permission_classes = [AllowScrapper]
+
+    def create(self, request, *args, **kwargs):
+        store = create_or_fetch(model=Store, data=request.data, keyword="store")
+        category = create_or_fetch(
+            model=Category, data=request.data, keyword="category"
+        )
+        subcategory = create_or_fetch(
+            model=SubCategory, data=request.data, keyword="subcategory", fk=category
+        )
+        product = create_or_fetch(
+            model=Product, data=request.data, keyword="product", fk=subcategory
+        )
+        sale = create_or_fetch(model=SalesDetail, data=request.data)
+
+    def create_or_fetch(**kwargs):
+        pass

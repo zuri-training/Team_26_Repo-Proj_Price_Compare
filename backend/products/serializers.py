@@ -9,20 +9,23 @@ from .models import Category, Product, Review, SalesDetail
 class ReviewSerializer(serializers.ModelSerializer):
     # product = serializers.StringRelatedField()
     # store = serializers.StringRelatedField()
-    love_count = serializers.SerializerMethodField()
-    loved_by_user = serializers.SerializerMethodField
+    # love_count = serializers.SerializerMethodField()
+    # loved_by_user = serializers.SerializerMethodField
 
     class Meta:
         model = Review
-        fields = ["reviewer", "comment", "rating", "loved", "love_count", "date_time"]
-        # fields = "__all__"
-
-    def get_love_count(self, obj):
-        return obj.loved.count()
-
-    def get_loved_by_user(self, obj):
-        return True
-        # return request.user in obj.loved.all() use django contains field
+        fields = [
+            "author",
+            "comment",
+            "rating",
+            "store",
+            "product",
+            "user",
+        ]
+        extra_kwargs = {
+            "product": {"write_only": True},
+            "user": {"write_only": True},
+        }
 
 
 class SalesDetailSerializer(serializers.ModelSerializer):
@@ -31,7 +34,11 @@ class SalesDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = SalesDetail
         fields = "__all__"
-        # read_only_fields = ["modified"]
+        read_only_fields = ["modified"]  # "price_changes"]
+        extra_kwargs = {
+            "product": {"write_only": True},
+            "description": {"write_only": True},
+        }
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -42,7 +49,13 @@ class ProductListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
-        read_only_fields = ["slug", "created_on", "modified"]
+        read_only_fields = [
+            "category",
+            "slug",
+            "created_on",
+            "modified",
+        ]
+        # extra_kwargs = {"category" : {"write_only" : True}}
 
     def get_url(self, obj):
         return obj.get_absolute_url()
@@ -54,7 +67,15 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ["name", "brand", "sales", "reviews"]
+        fields = [
+            "name",
+            "brand",
+            "category",
+            "sales",
+            "reviews",
+        ]
+        read_only_fields = ["sales", "reviews"]
+        extra_kwargs = {"category": {"write_only": True}}
 
     def get_reviews(self, obj):
         return obj.get_reviews()
@@ -66,11 +87,12 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ["name", "image_url", "url"]
-        # read_only_fields = ["created_on", "modified"]
+        fields = ["name", "image_url", "url", "parent"]
+        read_only_fields = ["image_url"]
+        extra_kwargs = {"parent": {"write_only": True}}
 
     def get_url(self, obj):
         return obj.get_absolute_url()
 
 
-# Below is the Review, rating and loved serializer
+# SERAILIZERS FOR DATA COLLECTION
