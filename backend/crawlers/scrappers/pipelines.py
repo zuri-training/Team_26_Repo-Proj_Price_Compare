@@ -1,13 +1,15 @@
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+from scrapy.itemadapter import ItemAdapter
+from scrapy.execeptions import DropItem
 
 
-# useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
+class DuplicatesPipeline:
+    def __init__(self):
+        self.seen_sku = set()
 
-
-class ScrappersPipeline:
     def process_item(self, item, spider):
-        return item
+        adapter = ItemAdapter(item)
+        if adapter["sku"] in self.seen_sku:
+            raise DropItem(f"Duplicate item found : {item!r}")
+        else:
+            self.seen_sku.add(adapter["sku"])
+            return item
