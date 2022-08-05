@@ -10,25 +10,6 @@ from .models import User
 from.utils import Util
 
 
-
-class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(max_length=68, min_length=8, write_only=True)
-    class Meta:
-        model = User
-        field = ['first_name', 'last_name', 'email', 'password']
-
-
-    def validate(self, attrs):
-        first_name = attrs.get('first_name')
-        last_name = attrs.get('last_name')
-        email = attrs.get('email')
-
-        return attrs
-    
-
-    def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -60,8 +41,13 @@ class SetNewPasswordSerializer(serializers.Serializer):
         fields = ['password', 'token', 'uidb64']
 
     def create(self, validated_data):
-        instance = validated_data.get('password')
-        return User.objects.create(instance)
+        password = validated_data.pop('password', None)
+        id = force_str(urlsafe_base64_decode(validated_data.get('uidb64')))
+        instance = User.objects.get(id = id)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
 
 
 

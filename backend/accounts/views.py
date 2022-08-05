@@ -158,7 +158,6 @@ class SetNewPasswordView(generics.UpdateAPIView):
     def patch(self,request):
         serializer = SetNewPasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception= True)
-        serializer.save()
 
         data =request.data
         id = force_str(urlsafe_base64_decode(data['uidb64']))

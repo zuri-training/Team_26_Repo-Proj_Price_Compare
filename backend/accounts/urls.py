@@ -10,7 +10,7 @@ urlpatterns =[
     path('user', UserView.as_view(), name = 'user'),
     path('request-password-reset', RequestPasswordResetEmail.as_view(), name = 'request-password-reset'),
     path('reset-password/<uidb64>/<token>', PasswordResetTokenCheckView.as_view(), name = 'reset-password'),
-    path('reset-password-completed', SetNewPasswordView.as_view(), name = 'reset-password-completed'),
+    path('change-password', SetNewPasswordView.as_view(), name = 'change-password'),
     path('logout', LogoutView.as_view(), name = 'logout')
 ]
 
