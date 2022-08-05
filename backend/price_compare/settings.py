@@ -54,14 +54,6 @@ INSTALLED_APPS = [
     'favourites.apps.FavouritesConfig',
     'watchlist.apps.WatchlistConfig',
 ]
-REST_FRAMEWORK = {
-"DEFAULT_PERMISSION_CLASSES": [
-"rest_framework.permissions.AllowAny",
-],
-}
-
-
-AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -114,9 +106,6 @@ DATABASES = {
 }
 
 
-AUTHENTICATION_BACKENDS = [
-    'accounts.backends.EmailPhoneUsernameAuthenticationBackend'
-]
 
 
 # Password validation
