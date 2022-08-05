@@ -28,6 +28,8 @@ load_dotenv(BASE_DIR.parent/ '.env')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-rygg*&=ne_gicvijf6(eubn@9)bfgicrm1td2hyt2ei^6bz$zi'
 
+#SITE ID
+SITE_ID = 1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -130,6 +132,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+## CUSTOM USER MODEL
+AUTH_USER_MODEL = 'accounts.User'
 
 
 # Internationalization
