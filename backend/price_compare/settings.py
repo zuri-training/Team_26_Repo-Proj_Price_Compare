@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -22,7 +21,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables
 load_dotenv(BASE_DIR.parent/ '.env')
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -49,8 +47,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     #local
-    # 'accounts',
-    # 'products.apps.ProductsConfig',
+    'accounts',
+    'products.apps.ProductsConfig',
     'favourites.apps.FavouritesConfig',
     'watchlist.apps.WatchlistConfig',
 ]
@@ -105,6 +103,13 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+    
+}
 
 
 
@@ -148,3 +153,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+
+EMAIL_PORT = 1025
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+
