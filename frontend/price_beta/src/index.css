@@ -477,3 +477,136 @@ input:checked + .slider:after {
     font-size: 70%;
   }
 }
+
+/* 
+Contact Form Styles
+*/
+.contact-wrapper {
+  background-color: var(--clr-primaryOrange5);
+}
+
+.contact-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 90%;
+  margin: auto;
+  color: var(--clr-background);
+  padding: 2em;
+}
+
+.contact-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 2em;
+}
+
+.contact-text h2 {
+  font-weight: 700;
+  font-size: var(--headlineLarge);
+  margin-bottom: 52px;
+}
+
+.contact-text p {
+  font-weight: 600;
+  font-size: var(--titleMedium);
+  line-height: 32px;
+  margin-bottom: 22px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  justify-self: flex-end;
+  background: var(--clr-background);
+  border-radius: var(--borderRadius);
+  color: var(--clr-grey5);
+  padding: 24px;
+  width: 90%;
+}
+
+.contact-form h3 {
+  font-size: var(--headlineSmall);
+  color: var(--clr-text-black);
+  text-align: center;
+}
+
+.contact-form label {
+  font-size: var(--bodySmall);
+}
+
+.form-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-wrapper > * {
+  width: 50%;
+}
+
+.contact-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+  padding: 14px 16px;
+}
+
+.form-control {
+  padding: 14px 16px;
+  border: 1.2px solid var(--clr-grey3);
+  border-radius: var(--borderRadius);
+  background: var(--clr-background);
+}
+
+.contact-form-group button {
+  width: 50%;
+  padding: 14px 16px;
+  background: var(--clr-primaryOrange5);
+  border-radius: var(--borderRadius);
+  border: none;
+  color: var(--clr-background);
+  font-size: var(--titleSmall);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .contact-container {
+    width: 95%;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-container {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-text {
+    margin: 36px;
+  }
+
+  .contact-text h2 {
+    text-align: center;
+  }
+
+  .contact-form {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-form {
+    padding: 0;
+  }
+  .contact-form h3 {
+    padding: 10px;
+  }
+
+  .form-wrapper > * {
+    width: 100%;
+  }
+
+  .contact-form-group button {
+    width: 60%;
+  }
+}
