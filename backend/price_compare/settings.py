@@ -49,8 +49,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     #local
-    'accounts',
-    'products.apps.ProductsConfig',
+    # 'accounts',
+    # 'products.apps.ProductsConfig',
     'favourites.apps.FavouritesConfig',
     'watchlist.apps.WatchlistConfig',
 ]
