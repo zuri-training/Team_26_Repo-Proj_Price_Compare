@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.conf import settings
+# from django.contrib.sites.models import Site
 from django.urls import reverse_lazy, resolve
 from django.utils.text import slugify
 from django.db import models
@@ -29,7 +30,7 @@ class MainCategoryManager(models.Manager):
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     image_url = models.URLField()
-    slug = models.SlugField(blank=True)
+    slug = models.SlugField(unique=True)
     created_on = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     parent = models.ForeignKey(
@@ -99,7 +100,7 @@ class Product(models.Model):
         related_name="products",
         limit_choices_to={"is_sub_category": True},
     )
-    slug = models.SlugField(blank=True)
+    slug = models.SlugField(unique=True)
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
 

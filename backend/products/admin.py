@@ -11,7 +11,9 @@ class ProductAdmin(admin.ModelAdmin):
         "name",
         # "description",
         "get_absolute_url"
-     )
+    )
+    prepopulated_fields = {'slug': ('name',)}
+
 
 
 @admin.register(Review)
@@ -22,6 +24,7 @@ class ReviewAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "is_sub_category", "get_absolute_url")
+    prepopulated_fields = {'slug': ('name',)}
 
 
 # @admin.register(SubCategory)
