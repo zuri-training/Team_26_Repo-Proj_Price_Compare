@@ -1,0 +1,193 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: #131211 ;
+    }
+    main{
+        margin:2%;
+        text-align: justify;
+    }
+    .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 18px;
+    text-align: justify;
+    /* background-color: aqua; */
+  
+    border-bottom: 1px solid  #4A4A4A;;
+}
+    .flex-item-left {
+    padding: 10px;
+    flex: 25%;
+}
+
+    .flex-item-right {
+    padding: 10px;
+    flex: 75%;
+    }
+    .flex-btn{
+    width: 161px;
+    height: 40px;
+    background-color: #F88007;
+    text-align: center;
+    color: #FFFFFF;
+    padding:  10px;
+    
+    border: 1px solid #F88007;
+    border-radius: 8px;
+    cursor: pointer;
+    }
+    button{
+    margin: 5px;
+    padding: 18px 48px;
+    width: 161px;
+    height: 40px;
+    background: #F88007;
+    
+        }
+    @media (max-width: 800px) {
+    .flex-item-right, .flex-item-left {
+    flex: 100%;
+    }
+    }
+
+
+
+
+
+
+
+
+    /* footer */
+
+    footer {
+   
+        color: white;
+        text-align: justify;
+        width: 100%;
+        background-color:#4B4B4A;
+        margin: 0;
+        padding: 2%;
+        
+     }
+    .footer-container{
+        padding: 10px;
+        margin: 2%;
+        gap: 2rem;
+        background-color:#4B4B4A;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        /* margin:1%; */
+        
+    }
+    .footer-heading{
+        display: flex;
+        flex-direction: column;
+        margin-right: 4rem;
+        text-decoration: none;
+        color: #FFFFFF;
+        left: 0;
+        bottom: 0;
+    }
+    .footer-heading h2 {
+    margin-bottom: 2rem;
+    }
+    .footer-heading , a{
+        color: white;
+        text-decoration: none;
+        margin-bottom: 0.5rem;
+    }
+    #footer-form{
+        width: 384px;
+        height: 384px;
+        border: 5px;
+        background-color: #F6C598;
+        padding: 2%;
+        justify-items: center;
+        text-align: center;
+        
+    }
+    .footer-subscribe{
+        width: 320px;
+        padding: 32px;
+        display: inline-block;
+        box-sizing: border-box;
+    }
+    .footer-subscribe > h2{
+        color: #000;
+    }
+    input[type=email] {
+    width: 320px;
+    height: 52px;
+    padding: 32px;
+    display: inline-block;
+    border: 2px solid #F6C598;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    }
+    
+    .form-btn{
+        width: 320px;
+        height: 52px;
+        background-color: #F88007;
+        text-align: center;
+        color: #FFFFFF;
+        padding: 32px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        cursor: pointer;
+        }
+    .copyright{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        border-top: 1px solid #ddd;
+        padding: 25px;
+        padding-bottom:0 ;
+        margin-bottom: 0;
+    }
+    @media (max-width: 790px){
+        #footer-form{
+            width:300px;
+            height: 354px;
+            border: 5px;
+            background-color: #F6C598;
+            padding: 1%;
+            justify-items: center;
+            text-align: center;
+            
+        }
+        .footer-subscribe{
+            width: 220px;
+            padding: 32px;
+            display: inline-block;
+            box-sizing: border-box;
+        }
+        .footer-subscribe > h2{
+            color: #000;
+        }
+        input[type=email] {
+        width: 220px;
+        height: 52px;
+        padding: 30px;
+        display: inline-block;
+        border: 2px solid #F6C598;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        }
+        .form-btn{
+            width: 220px;
+            height: 52px;
+            background-color: #F88007;
+            text-align: center;
+            color: #FFFFFF;
+            padding: 32px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            }
+    }
