@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-7-product-app
+    
+    #7-product-app
     'django.contrib.sites',
     
     #Third Party apps
@@ -58,7 +59,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'accounts',
- master
+    #master
 ]
 
 MIDDLEWARE = [
