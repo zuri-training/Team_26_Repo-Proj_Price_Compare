@@ -1,4 +1,3 @@
-# ScoutVendor
 
 ![ScoutVendor](https://i.im.ge/2022/08/06/Fg6TxS.SVLogo-BlackOrange.png)
 
