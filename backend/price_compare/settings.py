@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 import os
+import dj_database_url
 
 load_dotenv()
 
@@ -31,9 +32,9 @@ SECRET_KEY = 'django-insecure-rygg*&=ne_gicvijf6(eubn@9)bfgicrm1td2hyt2ei^6bz$zi
 #SITE ID
 SITE_ID = 1
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'scoutvendorapi.herokuapp.com']
 
 
 # Application definition
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     #third party
     'rest_framework',
     'corsheaders',
+    'whitenoise.runserver_nostatic',
     #local
     'accounts',
     'products.apps.ProductsConfig',
@@ -64,7 +66,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CORS_ALLOWED_ORIGINS = (
     "http://localhost:3000",
@@ -95,7 +99,10 @@ WSGI_APPLICATION = 'price_compare.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+
 DATABASES = {
+    
+
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'scoutvendor',
@@ -104,6 +111,10 @@ DATABASES = {
         'HOST': 'localhost'
     }
 }
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
 
 REST_FRAMEWORK = {
     
@@ -156,7 +167,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = "static/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
