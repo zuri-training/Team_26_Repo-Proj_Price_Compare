@@ -1,7 +1,7 @@
 
 ![ScoutVendor](https://i.im.ge/2022/08/06/Fg6TxS.SVLogo-BlackOrange.png)
 
-# Description
+#£# Description
 
 > **ScoutVendor** is a website that aims to be the leading service providers to buyers all over the world. The platform was developed to provide users with all the information they would need to make smart shopping decisions.
 
