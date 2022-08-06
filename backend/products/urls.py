@@ -28,4 +28,5 @@ urlpatterns = [
     path(
         "review/<int:product_id>/", ReviewAPIView.as_view()
     ),  # create and list review for a product
+    path("ps/", CreateProductAPIView.as_view(), name="create_product"),
 ]

@@ -1,17 +1,23 @@
+from django.contrib.auth import get_user_model
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 
 from rest_framework import generics, permissions
-from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import viewsets
+from rest_framework import status
 
 from .serializers import (
-    ProductListSerializer,
+    CreateProductSerializer,
     ProductDetailSerializer,
+    SalesDetailSerializer,
+    ProductListSerializer,
     CategorySerializer,
     ReviewSerializer,
+    StoreSerializer,
 )
-from .models import Category, Product, Review
+from .models import Category, Product, Review, Store, SalesDetail
 from .permissions import AllowScrapper
 
 
@@ -83,7 +89,7 @@ class ReviewAPIView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
-class CreateProductAPIView(generics.CreateView):
+class CreateProductAPIView(generics.CreateAPIView):
     """
     Creation is done in a particular order.
         - Store is created or fetched
@@ -97,20 +103,91 @@ class CreateProductAPIView(generics.CreateView):
     SalesDetail
     """
 
+    serializer_class = CreateProductSerializer
+    response_data = {}
     permission_classes = [AllowScrapper]
 
     def create(self, request, *args, **kwargs):
-        store = create_or_fetch(model=Store, data=request.data, keyword="store")
-        category = create_or_fetch(
-            model=Category, data=request.data, keyword="category"
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid()
+        print(serializer.errors)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
-        subcategory = create_or_fetch(
-            model=SubCategory, data=request.data, keyword="subcategory", fk=category
-        )
-        product = create_or_fetch(
-            model=Product, data=request.data, keyword="product", fk=subcategory
-        )
-        sale = create_or_fetch(model=SalesDetail, data=request.data)
 
-    def create_or_fetch(**kwargs):
-        pass
+    def perform_create(self, serializer):
+        user = get_user_model().objects.get(pk=1)
+        serializer.save(user=user)
+
+    #     print(request.data)
+    #     print(type(request.data))
+    #     serializer = self.get_serializer()
+    #     store = self.create_or_fetch(
+    #         model=Store, serializer=StoreSerializer, data=request.data, keyword="store"
+    #     )
+    #     category = self.create_or_fetch(
+    #         model=Category,
+    #         serializer=CategorySerializer,
+    #         data=request.data,
+    #         keyword="category",
+    #     )
+    #     subcategory = self.create_or_fetch(
+    #         model=Category,
+    #         serializer=CategorySerializer,
+    #         data=request.data,
+    #         keyword="subcategory",
+    #         fk={"parent": category},
+    #     )
+    #     product = request.data.get("product")
+    #     product_identity = {"name": product.get("name"), "brand": product.get("brand")}
+    #     product = self.create_or_fetch(
+    #         model=Product,
+    #         serializer=ProductDetailSerializer,
+    #         data=product_identity,
+    #         fk={"category": subcategory},
+    #     )
+    #     sales_details = request.data.get("product")
+    #     self.create_or_fetch(
+    #         model=SalesDetail,
+    #         serializer=SalesDetailSerializer,
+    #         data=sales_details,
+    #         fk={"product": product, "store": store},
+    #     )
+    #     # self.create_or_fetch(
+    #     #     model=Review,
+    #     #     serializer=ReviewSerializer,
+    #     #     data=request.data,
+    #     #     keyword="reviews",
+    #     #     fk={"product": product, "store": store},
+    #     # )
+    #
+    #     headers = self.get_success_headers(self.response_data)
+    #     return Response(
+    #         serializer.data, status=status.HTTP_201_CREATED, headers=headers
+    #     )
+    #
+    # def create_or_fetch(self, model, serializer, data, keyword=None, fk=None):
+    #     # print(f"getting {keyword} .....")
+    #     # needed = data if not needed else data.get(keyword)
+    #     if keyword:
+    #         print(keyword)
+    #         needed = data.get(keyword)
+    #     else:
+    #         needed = data
+    #     print(f"saving {needed} .....")
+    #     instance = serializer(data=needed)
+    #     if instance.is_valid():  # raise_exception=True):
+    #         if isinstance(serializer, self.serializer_class):
+    #             self.response_data = serializer.data
+    #             self.serializer = serializer.data
+    #         if fk is None:
+    #             instance = instance.save()
+    #         else:
+    #             instance = instance.save(**fk)
+    #
+    #         print(f"instance : {instance}")
+    #         return instance
+    #     else:
+    #         print(instance.errors)

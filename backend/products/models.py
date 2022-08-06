@@ -42,7 +42,7 @@ class Category(models.Model):
     )
     is_sub_category = models.BooleanField(default=True)
 
-    Objects = models.Manager()
+    object = models.Manager()
     subCategories = SubCategoryManager()
     parentCategories = MainCategoryManager()
 
@@ -90,8 +90,8 @@ class Category(models.Model):
 
 class Product(models.Model):
     # Use this for product table
-    name = models.CharField(max_length=50)
-    brand = models.CharField(max_length=50)
+    name = models.CharField(max_length=150)
+    brand = models.CharField(max_length=100)
     # IF A CATEGORY IS DELETED, THE WHOLE PRODUCT UNDER THAT
     # CATEGORY WOULD BE DELETED
     category = models.ForeignKey(
@@ -100,6 +100,7 @@ class Product(models.Model):
         related_name="products",
         limit_choices_to={"is_sub_category": True},
     )
+    loved = models.ManyToManyField(User, related_name="favourites", null=True)
     slug = models.SlugField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
@@ -120,7 +121,9 @@ class Product(models.Model):
 
     def get_description(self):
         # return the first scrapped store description about product
-        return self.sales_details.all().order_by("-review__rating")[0].description
+        if self.sales_details.all():
+            return self.sales_details.all()[0].description
+        return None
 
     def get_reviews(self):
         # get all reviews across stores and in app reviews
@@ -157,12 +160,11 @@ class Store(models.Model):
 
 
 class SalesDetail(models.Model):
+    # combination of store and product must be unique
     product = models.ForeignKey(
         Product, related_name="sales_details", on_delete=models.CASCADE
     )
     store = models.ForeignKey(Store, related_name="products", on_delete=models.CASCADE)
-    # sku = models.CharField(max_length=50)
-    # seller = models.CharField(max_length=50)
     price = models.DecimalField(
         max_digits=20, decimal_places=2, default=1.00, validators=[min_price_validator]
     )
@@ -174,7 +176,14 @@ class SalesDetail(models.Model):
     product_url = models.URLField(default="https://www.testing.com/")
     available = models.BooleanField(default=True)
     description = models.TextField()
-    modified = models.DataTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                name="unique_product_and_store", fields=["store", "product"]
+            )
+        ]
 
     def get_store_name(self):
         return self.store.name
@@ -183,8 +192,13 @@ class SalesDetail(models.Model):
         pass
         # return self.price_changes
 
+    def save(self, *args, **kwargs):
+        # if self.price not in self.price_changes:
+        #     self.price_changes.add(self.price)
+        return super(SalesDetail, self).save(*args, **kwargs)
+
     def __str__(self):
-        return f"{self.product.name} sold by {self.seller}"
+        return f"{self.product.name}@{self.store}"
 
 
 # This is the model for the reviews, rating and likes
@@ -193,7 +207,6 @@ class Review(models.Model):
     # some are from scrapped data
 
     # name of the reviewer
-    author = models.CharField(max_length=50)
     product = models.ForeignKey(
         Product, related_name="reviews", on_delete=models.CASCADE, null=True
     )
@@ -202,10 +215,9 @@ class Review(models.Model):
     rating = models.DecimalField(
         max_digits=3, decimal_places=2, validators=[max_rating_validator], default=0.00
     )
-    # loved = models.ManyToManyField(User, related_name="liked_products")
     # store reference
     store = models.ForeignKey(
-        SalesDetail,
+        Store,
         on_delete=models.CASCADE,
         related_name="reviews",
         blank=True,
@@ -213,7 +225,8 @@ class Review(models.Model):
     )
     # if the author is a user of our website
     # the we use user as a reference
-    is_user = models.BooleanField(default=False)
+    # else the user is our scrapper
+    is_scrapper = models.BooleanField(default=False)
     user = models.ForeignKey(
         User, related_name="reviews", on_delete=models.CASCADE, blank=True, null=True
     )
@@ -221,11 +234,16 @@ class Review(models.Model):
     class Meta:
         ordering = ("-date_time",)
 
-    def __str__(self):
-        return f"review by {self.reviewer} on {self.product}"
+    def get_author(self):
+        # if self.user.email != "scrapper@gmail.com":
+        #    return f"{self.user.first_name} {self.user.last_name}"
+        return ""  # f"user@{self.get_store()}"
 
-    def total_love(self):
-        return self.loved.count()
+    def __str__(self):
+        return f"review by {self.get_author()} on {self.product}"
+
+    # def total_love(self):
+    #     return self.loved.count()
 
     def get_store(self):
-        return self.store.get_store_name()
+        return self.store.name

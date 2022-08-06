@@ -16,8 +16,8 @@ class JumiaProductItemLoader(ItemLoader):
     """
 
     default_output_processor = TakeFirst()
-    category_in = Compose(get_sub_and_main_category)
-    category_out = Identity()
+    name_in = Compose(lambda v: v[0], str.title)
+    brand_in = Compose(TakeFirst(), str.title)
 
     def load_item(self):
         """
@@ -39,9 +39,12 @@ class JumiaProductItemLoader(ItemLoader):
 
         return adapter.item
 
+    def url_format(x):
+        return x.strip().lower().replace(" ", "+")
+
 
 class ScrapperItemLoader(ItemLoader):
-    pass
+    default_output_processor = TakeFirst()
     # def load_item(self):
     #
     #     adapter = ItemAdapter(self.item)

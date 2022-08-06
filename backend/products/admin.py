@@ -7,22 +7,17 @@ from .models import *
 # Review, rating and loved admin board
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "description", "get_absolute_url")
+    list_display = ("name", "get_description", "get_absolute_url")
 
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ("product", "comment", "date_time", "rating", "reviewer")
+    list_display = ("product", "comment", "date_time", "rating", "get_author")
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "is_sub_category", "get_absolute_url")
-
-
-# @admin.register(SubCategory)
-# class SubCategoryAdmin(admin.ModelAdmin):
-#     pass
 
 
 @admin.register(SalesDetail)

@@ -9,31 +9,26 @@ import scrapy
 class ScrapperItem(scrapy.Item):
     # defines the format of product details to be sent
     # each name maps to an Item Class
+    store = scrapy.Field()  # name of store
     category = scrapy.Field()  # maps to CategoryItem
     subcategory = scrapy.Field()  # maps to CategoryItem
     product = scrapy.Field()  # maps to ProductItem
     # review = scrapy.Field()  # maps to ReviewItem
-    # store = scrapy.Field()  # name of store
     # price = scrapy.Field()  # highest rating to price or just cheapest price
 
 
 class CategoryItem(scrapy.Item):
     name = scrapy.Field()
-    url = scrapy.Field()
-    parent_category = scrapy.Field()  # is a sub-category not to be scrapped from
-    scrap_from = scrapy.Field()  # is a sub-sub-category
 
 
 class ProductItem(scrapy.Item):
     name = scrapy.Field()
     brand = scrapy.Field()
-    sku = scrapy.Field()  # use to check for duplicates
-    category = scrapy.Field()
-    price = scrapy.Field()
     image_url = scrapy.Field()
-    # description = scrapy.Field()
     search_url = scrapy.Field()  # would be filled by our JumiaProductLoader
     product_url = scrapy.Field()
+    price = scrapy.Field()
+    description = scrapy.Field()
     available = scrapy.Field()
 
     def __repr__(self):
