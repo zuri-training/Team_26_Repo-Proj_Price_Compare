@@ -28,6 +28,8 @@ load_dotenv(BASE_DIR.parent/ '.env')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ["SECRET_KEY"]
 
+#SITE ID
+SITE_ID = 1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -43,9 +45,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+7-product-app
+    'django.contrib.sites',
+    
+    #Third Party apps
+    'rest_framework',
+
+    #local apps
+    'accounts',
+    'products',
+
     'rest_framework',
     'corsheaders',
     'accounts',
+ master
 ]
 
 MIDDLEWARE = [
