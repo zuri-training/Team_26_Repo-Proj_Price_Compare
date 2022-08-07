@@ -53,7 +53,7 @@ To follow a Django recommendation regarding PostgreSQL configuration modify thes
 
 Finally, grant the scoutvendor admin user unrestricted access to administer the database:
 
-	postgres=# GRANT ALL PRIVILEGES ON DATABASE finesauces TO finesaucesadmin;
+	postgres=# GRANT ALL PRIVILEGES ON DATABASE scoutvendor TO scoutvendoradmin;
         
 ## Code formatting
 
