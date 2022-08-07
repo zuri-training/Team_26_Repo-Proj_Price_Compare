@@ -28,6 +28,7 @@ cryptography = "==37.0.4"
 cssselect = "==1.1.0"
 distlib = "==0.3.4"
 treq = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
