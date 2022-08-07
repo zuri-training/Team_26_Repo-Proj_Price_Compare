@@ -50,6 +50,7 @@ To follow a Django recommendation regarding PostgreSQL configuration modify thes
            postgres=# ALTER ROLE scoutvendoradmin SET timezone TO 'UTC';
 
 Finally, grant the scoutvendor admin user unrestricted access to administer the database:
+
            postgres=# GRANT ALL PRIVILEGES ON DATABASE finesauces TO finesaucesadmin;
         
 ## Code formatting
