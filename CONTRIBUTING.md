@@ -39,19 +39,21 @@ If you wish to install a package remember to add the package to the requirements
 ## Postgres Database Setup
 Use these commands to setup the database on the postgres terminal:
 
-           postgres=# CREATE DATABASE scoutvendor;
-	   postgres=# CREATE USER scoutvendoradmin WITH PASSWORD 'scoutvendoradmin';
-
+	postgres=# CREATE DATABASE scoutvendor;
+	
+	postgres=# CREATE USER scoutvendoradmin WITH PASSWORD 'scoutvendoradmin';
 
 To follow a Django recommendation regarding PostgreSQL configuration modify these parameters on the postgres terminal:
-          
-	   postgres=# ALTER ROLE scoutvendoradmin SET client_encoding TO 'utf8';
-           postgres=# ALTER ROLE scoutvendoradmin SET default_transaction_isolation TO 'read committed';
-           postgres=# ALTER ROLE scoutvendoradmin SET timezone TO 'UTC';
+
+	postgres=# ALTER ROLE scoutvendoradmin SET client_encoding TO 'utf8';
+	
+	postgres=# ALTER ROLE scoutvendoradmin SET default_transaction_isolation TO 'read committed';
+	
+	postgres=# ALTER ROLE scoutvendoradmin SET timezone TO 'UTC';
 
 Finally, grant the scoutvendor admin user unrestricted access to administer the database:
 
-           postgres=# GRANT ALL PRIVILEGES ON DATABASE finesauces TO finesaucesadmin;
+	postgres=# GRANT ALL PRIVILEGES ON DATABASE finesauces TO finesaucesadmin;
         
 ## Code formatting
 
