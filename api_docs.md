@@ -54,6 +54,7 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- Registering new users
 	- Verifying users email
 	- Authenticating and logging in users
+	- Refresh Token 
 	- Getting User(profile)
 	- Logging users out of all sessions
 	- Request for password reset
@@ -101,7 +102,23 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- password
 	}
 	- response : {
-		- token : token key used to validate
+		tokens: {
+			- refresh : token key used to to refresh access token if it expire or is tampered with
+			- access : token key used to validate
+		}
+	}
+	- Authentication : None
+
+
+- ### Token Refresh Endpoint
+	- Full path : /api/auth/token/refresh
+	- function : refresh expired or invalid access tokens
+	- accepted methods : [POST]
+	- required data : {
+		- refresh token
+	}
+	- response : {
+		- access : new access token generated
 	}
 	- Authentication : None
 
