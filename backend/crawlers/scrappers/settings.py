@@ -1,3 +1,5 @@
+import os
+
 # Scrapy settings for scrappers project
 #
 # For simplicity, this file contains only settings considered important or
@@ -67,9 +69,16 @@ DEPTH_LIMIT = 0
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'scrappers.pipelines.DuplicateItemsPipeline': 300,
-# }
+ITEM_PIPELINES = {
+    # 'scrappers.pipelines.DuplicateItemsPipeline': 300,
+    "scrappers.pipelines.PostItemPipeline": 300,
+}
+
+PRODUCT_ENDPOINT = "http://127.0.0.1:8000/api/product/ps/"
+AUTH_ENDPOINT = "http://127.0.0.1:8000/api/auth/login/"
+USERNAME = "admin@mail.com"
+USERNAMEFIELD = "email"
+PASSWORD = "admin"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

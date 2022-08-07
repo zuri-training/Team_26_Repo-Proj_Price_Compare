@@ -110,7 +110,6 @@ class CreateProductAPIView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid()
-        print(serializer.errors)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(
