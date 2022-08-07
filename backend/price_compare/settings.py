@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     'accounts',
 ]
@@ -144,9 +145,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 
-EMAIL_PORT = os.environ["EMAIL_PORT"]
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_USE_SSL = True
+EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLs = True
 EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_HOST_USER = os.environ["EMAIL_USER"]
 EMAIL_HOST_PASSWORD = os.environ["EMAIL_PASSWORD"]

@@ -11,7 +11,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer, RegisterSerializer,PasswordResetSerializer, SetNewPasswordSerializer
+from .serializers import UserSerializer,PasswordResetSerializer, SetNewPasswordSerializer
 from .models import User
 from .utils import Util
 import jwt, datetime
@@ -32,7 +32,7 @@ class RegisterView(APIView):
         absolute_url = 'http://'+current_site+relative_url+'?token='+smart_str(token)
         email_body = 'hi ' + user.first_name+' verify your email with this link \n'+absolute_url
 
-        data={'email_body':email_body, 'email_subject': 'Verify your email', 'to_email':user.email}
+        data={'email_body':email_body, 'email_subject': 'Verify your email','from_email': 'gentlesoul@zohomail.com', 'to_email':user.email}
         Util.send_mail(data)
 
         
@@ -76,7 +76,7 @@ class LoginView(APIView):
 
         payload = {
             'id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24),
             'iat': datetime.datetime.utcnow()
         }
 
@@ -86,7 +86,7 @@ class LoginView(APIView):
 
         response.set_cookie(key='jwt', value=token, httponly=True)
         response.data = {
-            'jwt': token
+            'tokens':user.tokens()
         }
         return response
 
