@@ -13,7 +13,7 @@ BOT_NAME = "scrappers"
 
 SPIDER_MODULES = ["scrappers.spiders"]
 NEWSPIDER_MODULE = "scrappers.spiders"
-
+CLOSESPIDER_ITEMCOUNT = 150
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'scrappers (+http://www.yourdomain.com)'
@@ -22,7 +22,7 @@ NEWSPIDER_MODULE = "scrappers.spiders"
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 16
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -36,36 +36,9 @@ DOWNLOAD_DELAY = 3
 # Disable cookies (enabled by default)
 # COOKIES_ENABLED = False
 
-# Disable Telnet Console (enabled by default)
-# TELNETCONSOLE_ENABLED = False
-
 # Maximum depth per spider
 DEPTH_LIMIT = 0
 
-# Override the default request headers:
-# DEFAULT_REQUEST_HEADERS = {
-#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-#    'Accept' : "application/json", # Uncomment this to see a json response on jumia
-#    'Accept-Language': 'en',
-# }
-
-# Enable or disable spider middlewares
-# See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-# SPIDER_MIDDLEWARES = {
-#    'scrappers.middlewares.ScrappersSpiderMiddleware': 543,
-# }
-
-# Enable or disable downloader middlewares
-# See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    'scrappers.middlewares.ScrappersDownloaderMiddleware': 543,
-# }
-
-# Enable or disable extensions
-# See https://docs.scrapy.org/en/latest/topics/extensions.html
-# EXTENSIONS = {
-#    'scrapy.extensions.telnet.TelnetConsole': None,
-# }
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
@@ -74,9 +47,8 @@ ITEM_PIPELINES = {
     "scrappers.pipelines.PostItemPipeline": 300,
 }
 
-PRODUCT_ENDPOINT = "http://127.0.0.1:8000/api/product/ps/"
-AUTH_ENDPOINT = "http://127.0.0.1:8000/api/auth/login/"
-USERNAME = "scrapper@mail.com"
+
+USERNAME = "admin@mail.com"
 USERNAMEFIELD = "email"
 PASSWORD = "dd84gchkSNsbyCV"
 

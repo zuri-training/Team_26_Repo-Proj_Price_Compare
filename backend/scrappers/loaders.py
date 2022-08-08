@@ -2,6 +2,7 @@ from itemloaders.processors import TakeFirst, Identity, Compose
 from itemloaders import ItemLoader
 from itemadapter import ItemAdapter
 
+from urllib import parse
 
 def get_sub_and_main_category(value):
     data = value[0].split("/")
@@ -27,7 +28,7 @@ class JumiaProductItemLoader(ItemLoader):
         """
         adapter = ItemAdapter(self.item)
         for field_name in tuple(self._values):
-            if field_name == "search_url":
+            if field_name == "search_url" or field_name=="store":
                 continue
             value = self.get_output_value(field_name)
             if value is not None:
@@ -35,8 +36,13 @@ class JumiaProductItemLoader(ItemLoader):
 
         brand = adapter["brand"]
         name = adapter["name"]
-        adapter["search_url"] = f"https://wwww.jumia.com.ng/{brand}/?q={name}"
-
+        product_url = parse.quote_plus(adapter["product_url"])
+        product_url = parse.urljoin("https://www.jumia.com.ng", product_url)
+        adapter['product_url'] = product_url
+        brand_url = parse.quote_plus(brand.lower())
+        name_url = parse.quote_plus(name.lower())
+        search = parse.urljoin("https://www.jumia.com.ng", brand_url, name_url)
+        adapter['search_url'] = parse.urljoin("https://www.jumia.com.ng", search)
         return adapter.item
 
     def url_format(x):
