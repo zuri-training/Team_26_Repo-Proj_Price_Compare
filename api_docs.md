@@ -54,6 +54,7 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- Registering new users
 	- Verifying users email
 	- Authenticating and logging in users
+	- Refresh Token 
 	- Getting User(profile)
 	- Logging users out of all sessions
 	- Request for password reset
@@ -101,7 +102,23 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- password
 	}
 	- response : {
-		- token : token key used to validate
+		tokens: {
+			- refresh : token key used to to refresh access token if it expire or is tampered with
+			- access : token key used to validate
+		}
+	}
+	- Authentication : None
+
+
+- ### Token Refresh Endpoint
+	- Full path : /api/auth/token/refresh
+	- function : refresh expired or invalid access tokens
+	- accepted methods : [POST]
+	- required data : {
+		- refresh token
+	}
+	- response : {
+		- access : new access token generated
 	}
 	- Authentication : None
 
@@ -161,16 +178,16 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	
 	
 - ### Password Reset Endpoint
-	- Full path : /api/auth/request-password-reset/
-	- function :  sends a password reset link containing token and user's id to  the user's mail
+	- Full path : /api/auth/change-password/
+	- function :  change the user's password
 	- allowed methods : [PATCH]
 	- required data : {
-		- password
+		- password(new password)
 		- uidb64
 		- token
 	}
 	- response : {
-		- 'success':'A link have been sent to your mail to reset your password'
+		- 'success': 'Password Reset Successful'
 	}
 
 	- Authentication : None
@@ -192,7 +209,15 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- page_number : 1 (default start value)
 	}
 	- reponse : {
-		- products : list of 'n' number of  product instance [defaults to 10 for unathenticated request]
+		- products : [{
+			- name
+			- brand
+			- category
+			- price
+			- image_url
+			- slug
+			- url_on_store
+		}] list of 'n' number of  product instance [defaults to 10 for unathenticated request]
 	}
 	- response meta data : {
 		- items_count
@@ -208,7 +233,11 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- accepted method : [GET]
 	- required data : None
 	- reponse : {
-		- categories : list of categories
+		- categories : [{
+			- name
+			- url
+			- date_modified
+		}]
 	}
 	- Authentication : None
 
@@ -222,6 +251,10 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	}
 	- response : {
 		- product_id
+7-product-app
+		- name 
+		- brand
+
 		- name
 		- brand
 		- price
@@ -230,8 +263,18 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- images_urls : array
 		- store_name
 		- store_url
+ master
 		- category
-		- date_modified
+		- sale : {
+			- price 
+			- description
+			- weight (if any)
+			- images_urls : array
+			- store_name
+			- store_url
+			- day_modified
+			- reviews
+		}
 	}
 	Authentication : required
 

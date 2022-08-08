@@ -1,5 +1,7 @@
-import React from "react";
-import error_img from "../../assets/images/error-img.svg";
+import React from "react"
+import { Link } from "react-router-dom"
+import error_img from "../../assets/images/error-img.svg"
+
 
 const ErrorPage = () => {
   return (
@@ -15,9 +17,11 @@ const ErrorPage = () => {
           </p>
 
           {/* Go Back Button */}
-          <button className="go_bck_btn" id="btn">
-            Go Back
-          </button>
+          <Link to=''>
+            <button className="go_bck_btn" id="btn">
+              Go Back
+            </button>
+          </Link>
         </article>
         <div className="error_img_div">
           <figcaption>
