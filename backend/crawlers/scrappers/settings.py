@@ -76,9 +76,9 @@ ITEM_PIPELINES = {
 
 PRODUCT_ENDPOINT = "http://127.0.0.1:8000/api/product/ps/"
 AUTH_ENDPOINT = "http://127.0.0.1:8000/api/auth/login/"
-USERNAME = "admin@mail.com"
+USERNAME = "scrapper@mail.com"
 USERNAMEFIELD = "email"
-PASSWORD = "admin"
+PASSWORD = "dd84gchkSNsbyCV"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
