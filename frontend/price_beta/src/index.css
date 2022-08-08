@@ -172,10 +172,26 @@ li {
 .text_container ol ol li{
     font-size: var(--bodyLarge);
 }
+
+/* profile page styling by aswad*/
 p{
-    font-family: var(--ff-sans-cond);
+    font-family: var(--bodyLarge);
     font-size: var(--fs-400);
-    padding-left: 1rem;
+    color: #4B4B4A;
+    font-weight: 500;
+}
+.nav_pages {
+    display: flex;
+    justify-content: space-between;
+
+}
+.nav_pages ul {
+    display: flex;
+}
+.nav_pages ul a {
+    font-size: 16px;
+    font-weight: 400;
+    padding-right: 1rem;
 }
 
 
@@ -187,29 +203,37 @@ p{
 .flex-pro {
     display: flex;
 }
+.flex-pro h1 {
+    font-size: 48px;
+    font-weight: 700;
+}
 
 .left {
     font-size: 1rem;
     padding: 1rem;
 }
 
-.head{
-    margin-left: 2rem;
-}
-
-.ff-sans-cond {
-    font-family: var(--ff-sans-cond);
-}
-
-.text-white {
-    color: 0 0% 100%;
-}
-
-.letter-spacing-2 {
-    letter-spacing: 2.7px;
-}
 a {
     text-decoration: none;
+}
+
+.acct_detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.acct_detail button{
+    padding: 12px 20px;
+    color: #F88007;
+}
+.acct_detail button:hover{
+    color: #FFF7F0;
+    background: #F88007;
+    border: 1px solid #F88007;
+}
+.p p {
+    padding: 1rem 2rem;
 }
 
 .profile-img {
@@ -219,8 +243,8 @@ a {
     border-radius: 50%;
 }
 .section {
-    margin-left: 4.125rem;
-    margin-right: 7.875rem;
+    margin-left: 4rem;
+    margin-right: 4rem;
     margin-top: 1rem;
 }
 .section h3 {
@@ -230,27 +254,26 @@ a {
 .section h4 {
     margin-top: 1rem;
     margin-bottom: 2rem;
-    font-size: 28px;
+    font-size: 24px;
 }
 .pic {
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
+    margin-bottom: 1.5rem;
 }
+
 .prof {
     display: flex;
-    align-self: flex-end;
-    justify-content: space-between;
-    padding-bottom: 1rem;
+    align-items: flex-end;
 }
 
 .btn1 {
     margin-right: 36px;
-    width: 233px;
-    height: 60px;
+    padding: 18px 48px;
     cursor: pointer;
-    color: var(--clr-primaryOrange5);
-    background: var(--clr-secondaryOrange);
+    color: #FFF7F0;
+    background: #F72C2C;
     border: 1px solid #D1D5DB;
     justify-content: center;
     align-items: center;
@@ -259,11 +282,10 @@ a {
 }
   
 .btn2 {
-    width: 233px;
-    height: 60px;
+    padding: 18px 48px;
     cursor: pointer;
     color: #FFF7F0;
-    background: var(--clr-primaryOrange5);
+    background: #F88007;
     border: 1px solid var(--clr-secondaryOrange);
     border-radius: .3rem;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
@@ -271,10 +293,10 @@ a {
 }
 
 .btn3 {
-    padding: 18px 48px;
+    padding: 15px 25px;
     cursor: pointer;
     color: #FFF7F0;
-    background: var(--clr-primaryOrange5);
+    background: red;
     border-radius: .3rem;
     border: 1px solid var(--clr-secondaryOrange);
     margin-bottom: 1rem;
@@ -294,15 +316,103 @@ a {
     display: flex;
     justify-content: flex-end;
 }
+.watch {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+.watch .icon {
+    color: #F88007;
+}
+
+.section_acct {
+    margin-left: 4rem;
+    margin-right: 4rem;
+    margin-top: 1rem;
+}
+.section_acct h4 {
+    font-size: 28px;
+    font-weight: 700;
+}
+.section_acct p {
+    font-size: 18px;
+    font-weight: 500;
+}
 
 .social {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
-    width: 45%;
+    width: 65%;
 }
 .social_icon {
     display: flex;
     align-items: center;
+}
+.social_icon p {
+    padding-left: 1rem;
+}
+.login {
+    margin: 1.5rem 4rem;
+}
+.login h4 {
+    font-size: 32px;
+    font-weight: 500;
+    padding-bottom: 1rem;
+}
+.login h2 {
+    font-size: 24px;
+    font-weight: 600;
+}
+.reset_container {
+    background: #FFFFFF;
+    padding: 3.5rem 2.875rem;
+    width: 642px;
+    height: 379px;
+    margin-top: 4.5rem;
+    margin-bottom: 2.5rem;
+}
+.reset_container p {
+    padding-bottom: 1rem;
+    padding-top: 0;
+}
+.reset_container h5 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #131211;
+}
+.reset_container input {
+    width: 540px;
+    height: 52px;
+}
+.reset_container button {
+    width: 540px;
+    height: 60px;
+    background: #F99939;
+    color: #FFF7F0;
+    border: 1px solid #F99939;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.security h3 {
+    font-size: 28px;
+    font-weight: 700;
+    padding-bottom: 1rem;
+}
+.section .sign_out {
+    font-size: 24px;
+    font-weight: 600;
+    padding-top: 1rem;
+}
+
+.security button {
+    width: 472px;
+    height: 60px;
+    background: red;
+    border: none;
+    color: #FFF7F0;
+    margin-bottom: 2rem;
+    border-radius: .3rem;
+    cursor: pointer;
 }
