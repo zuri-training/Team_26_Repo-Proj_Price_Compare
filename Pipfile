@@ -29,6 +29,7 @@ cssselect = "==1.1.0"
 distlib = "==0.3.4"
 treq = "*"
 psycopg2-binary = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
