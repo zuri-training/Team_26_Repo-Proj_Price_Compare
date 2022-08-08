@@ -35,6 +35,7 @@ const NavContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   padding: 10px 64px;
+  
 
 
   .menu_logo {

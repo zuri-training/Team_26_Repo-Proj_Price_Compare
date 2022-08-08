@@ -11,7 +11,7 @@ import {
   Login,
   Logout,
   SharedLayout,
-  Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules
+  Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules, SignUp
 } from './pages/sharedPages'
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
           <Route path='discount-deals' element={<DiscountDeals/>} />
           <Route path='profile' element={<Profile/>} />
           <Route path='trending' element={<Trending/>} />
-          <Route path='login-security' element={<Login/>} />
+          <Route path='login' element={<Login/>} />
           <Route path='logout' element={<Logout/>} />
           <Route path='email-preferences' element={<EmailPreference/>} />
           <Route path='about-us' element={<About/>} />
@@ -31,7 +31,8 @@ function App() {
           <Route path='cookie-policy' element={<CookiePolicy/>} />
           <Route path='rules-guidelines' element={<Rules/>} />
           <Route path='compare-price' element={ <ComparePrice/>} />
-          <Route path='product-categories' element={<Categories/>} />        
+          <Route path='product-categories' element={<Categories/>} />               
+          <Route path='sign-up' element={<SignUp/>} />        
           <Route path='*' element={<Error />} />
         </Route> 
       </Routes>
