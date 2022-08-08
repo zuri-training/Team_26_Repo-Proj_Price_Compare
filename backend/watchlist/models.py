@@ -16,7 +16,7 @@ class WatchListItem(models.Model):
         on_delete=models.CASCADE,
         null=True
     )
-    desired_price=models.DecimalField(max_digits=10, decimal_places=2)
+    desired_price=models.DecimalField(max_digits=10, decimal_places=2,null=True)
     price_changes=ArrayField(ArrayField(models.DecimalField(max_digits=30, decimal_places=2)))
     created_on=models.DateTimeField(auto_now_add=True, null=True)
     modified_on=models.DateTimeField(auto_now_add=True, null=True)

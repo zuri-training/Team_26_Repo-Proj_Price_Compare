@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-rygg*&=ne_gicvijf6(eubn@9)bfgicrm1td2hyt2ei^6bz$zi
 #SITE ID
 SITE_ID = 1
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'scoutvendorapi.herokuapp.com']
 
@@ -48,12 +48,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #third party
     'rest_framework',
+    'rest_framework.authtoken',  # Authentication to use api
     'corsheaders',
     'whitenoise.runserver_nostatic',
     #local
     'accounts',
     'products.apps.ProductsConfig',
-    'favourites.apps.FavouritesConfig',
     'watchlist.apps.WatchlistConfig',
 ]
 
@@ -80,7 +80,7 @@ ROOT_URLCONF = 'price_compare.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -147,9 +147,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ## CUSTOM USER MODEL
 AUTH_USER_MODEL = 'accounts.User'
 
-AUTHENTICATION_BACKENDS = [
-    'accounts.backends.EmailPhoneUsernameAuthenticationBackend'
-]
 
 
 # Internationalization
@@ -166,7 +163,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
+BASE_DIR=Path(__file__).resolve().parent.parent
+LOGIN_REDIRECT_URL='api/watchlist/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
 

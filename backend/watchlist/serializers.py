@@ -8,7 +8,7 @@ class WatchListItemSerializer(serializers.ModelSerializer):
     class Meta:
         model=WatchListItem
         fields=('user','product','desired_price','price_changes','created_on','modified_on')
-        read_only_fields=('id','user','product')
+        
         
 
             
