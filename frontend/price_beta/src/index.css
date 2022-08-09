@@ -1,0 +1,356 @@
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+/* Google Inter Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* 
+Variables
+*/
+
+:root {
+  --clr-black: #000000;
+
+  --clr-text-black: #131211;
+  --clr-text-headline: #140a00;
+
+  --clr-grey3: #bcbbba;
+  --clr-grey5: #717070;
+  --clr-grey6: #4b4b4a;
+
+  --clr-background: #fff7f0;
+
+  --clr-secondaryOrange: #fadfc7;
+  --clr-primaryOrange5: #f88007;
+  --clr-primaryOrange4: #c66606;
+
+  /* fonts */
+  --bodyFont: 'Inter', sans-serif;
+  --headlineLarge: 52px;
+  --headlineMedium: 48px;
+  --headlineSmall: 32px;
+  --titleLarge: 28px;
+  --titleMedium: 24px;
+  --titleSmall: 20px;
+  --bodyLarge: 18px;
+  --bodyMedium: 16px;
+  --bodySmall: 14px;
+
+  /* Others */
+  --common-border: 1px solid var(--clr-primaryOrange4);
+  --borderRadius: 8px;
+  --transition: 0.3s ease-in-out all;
+  --fluid-width: 90vw;
+  --max-width: 1120px;
+  --letterSpacing: 1px;
+  --lineHeight: 24px;
+}
+
+body {
+  background: var(--clr-background);
+  font-family: var(--bodyFont);
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--headlineLarge);
+}
+
+h3 {
+  font-size: var(--titleLarge);
+}
+p {
+  font-weight: 500;
+}
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  font-size: var(--titleMedium);
+  font-weight: 500;
+}
+
+.svlogo {
+  width: 230px;
+}
+
+.nav_border {
+  border: 1px solid var(--clr-primaryOrange4);
+  padding: 24px 64px;
+  margin-top: 8px;
+}
+
+.btn {
+  background: var(--clr-primaryOrange5);
+  border-radius: var(--borderRadius);
+  border-style: none;
+  cursor: pointer;
+  color: var(--clr-background);
+  text-align: center;
+  font-size: var(--titleSmall);
+  display: inline-block;
+  transition: var(--transition);
+}
+
+.container {
+  width: var(--fluid-width);
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  margin-bottom: 48px;
+  gap: 40px;
+}
+
+.category_tile {
+  background: var(--clr-primaryOrange5);
+  border-radius: var(--borderRadius);
+  width: -webkit-fill-available;
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  padding: 12px 4px;
+  font-size: var(--titleSmall);
+  color: var(--clr-background);
+}
+
+.full_page {
+  min-height: 100vh;
+}
+
+.text_container {
+  padding: 10px 64px 150px 64px;
+  text-align: justify;
+  color: var(--clr-grey6);
+}
+
+.text_container h1 {
+  font-size: var(--headlineLarge);
+  font-weight: 700;
+}
+
+.text_container p {
+  font-size: var(--titleLarge);
+}
+
+.text_container h3 {
+  font-size: var(--headlineSmall);
+}
+
+.text_container ul {
+  margin-left: 40px;
+}
+
+.text_container ul li {
+  line-height: var(--lineHeight);
+  list-style-type: disc;
+  line-height: 35px;
+}
+
+.text_container ol li {
+  font-size: var(--headlineSmall);
+  font-weight: 700;
+}
+
+.text_container ol ul li {
+  font-size: var(--bodyLarge);
+  font-weight: 500;
+}
+
+.text_container ol p,
+.text_container ol ul p {
+  font-size: var(--bodyLarge);
+  font-weight: 500;
+  line-height: var(--lineHeight);
+}
+
+.nested_ol {
+  list-style-type: disc;
+
+.contact-form label {
+  font-size: var(--bodySmall);
+}
+
+.form-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-wrapper > * {
+  width: 50%;
+}
+
+.contact-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+  padding: 14px 16px;
+}
+
+.form-control {
+  padding: 14px 16px;
+  border: 1.2px solid var(--clr-grey3);
+  border-radius: var(--borderRadius);
+  background: var(--clr-background);
+}
+
+.contact-form-group button {
+  width: 50%;
+  padding: 14px 16px;
+  background: var(--clr-primaryOrange5);
+  border-radius: var(--borderRadius);
+  border: none;
+  color: var(--clr-background);
+  font-size: var(--titleSmall);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .contact-container {
+    width: 95%;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-container {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-text {
+    margin: 36px;
+  }
+
+  .contact-text h2 {
+    text-align: center;
+  }
+
+  .contact-form {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-form {
+    padding: 0;
+  }
+  .contact-form h3 {
+    padding: 10px;
+  }
+
+  .form-wrapper > * {
+    width: 100%;
+  }
+
+  .contact-form-group button {
+    width: 60%;
+  }
+
+  .error_img {
+    width: 400px;
+    height: 400px;
+    margin-right: 43px;
+  }
+
+  .error_h1 {
+    margin-bottom: 10px;
+  }
+
+  .error_h1:nth-child(1) {
+    font-size: var(--headlineLarge);
+    line-height: var(--lineHeight64);
+  }
+
+  .error_h1:nth-child(2) {
+    color: var(--clr-red);
+    font-size: var(--headlineMedium);
+    line-height: var(--lineheight52);
+  }
+
+  .error_paragraph {
+    margin-bottom: 100px;
+    font-size: var(--titleMedium);
+    font-weight: 500;
+  }
+
+  .go_bck_btn {
+    padding: 18px;
+    background-color: var(--clr-background);
+    border-radius: var(--borderRadius);
+    width: 65%;
+    border: none;
+    color: var(--clr-primaryOrange5);
+    font-size: var(--titleSmall);
+  }
+
+  .go_bck_btn:hover {
+    cursor: pointer;
+  }
+}
+/* 
+Error Page Styles
+Mobile and Tablets Media Querry
+*/
+@media all and (min-width: 320px) and (max-width: 820px) {
+  .error-container {
+    display: var(--displayFlex);
+    flex-direction: column-reverse;
+    max-width: 98%;
+    margin: 0 auto;
+  }
+
+  .error_text_container,
+  .error_img_div {
+    max-width: 100%;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .error_img {
+    margin-right: 0;
+    max-width: 100%;
+  }
+
+  .error_h1:nth-child(1) {
+    font-size: var(--headlineMedium);
+  }
+
+  .error_h1:nth-child(2) {
+    font-size: 38px;
+  }
+
+  .error_paragraph {
+    margin-bottom: 50px;
+    font-size: --titleSmall;
+  }
+
+  .go_bck_btn {
+    max-width: 50%;
+  }
+}
+<<<<<<< Bridget
+>>>>>>> 3e425467a0d656aed63ee4d5f326a5c8d2ffb02d
+=======
+>>>>>>> master
