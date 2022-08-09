@@ -5,12 +5,14 @@ import instag from "../../assets/images/instagram.png"
 import {FaEdit} from "react-icons/fa"
 import {AiOutlineDelete} from "react-icons/ai"
 import {BsCartPlus} from "react-icons/bs"
+import {AiOutlineLeft} from "react-icons/ai"
 
 const ProfilePage = () => {
   return (
     <div>
         <div class="section">
             <div class="flex-pro">
+                <AiOutlineLeft/>
                 <h1>Profile</h1>
             </div>
             <div class="pic">
@@ -26,12 +28,12 @@ const ProfilePage = () => {
         </div>
         <div className='nav_pages section'>
             <ul>
-                <li><a href="#account">Account</a></li>
-                <li><a href="#security">Security</a></li>
-                <li><a href="#preference">Email Preference</a></li>
+                <li className='nav_link'><a href="#account">Account</a></li>
+                <li className='nav_link'><a href="#security">Security</a></li>
+                <li className='nav_link'><a href="#preference">Email Preference</a></li>
             </ul>
             <div className='watch'>
-                <p>Watchlist</p>
+                <a href='#w'>Watchlist</a>
                 <BsCartPlus className='icon'/>
             </div>
         </div>
@@ -94,11 +96,107 @@ const ProfilePage = () => {
             </section>
             <section id='preference'></section>
         </div>
+        
+
+        <section className='pref-container'>
+            <div className="head">
+                <h1>Email Preferences</h1>
+                <button type='submit'>Unsubscribe from all</button>
+            </div>
+            <div className='text-wrapper'>
+            <h3>Marketing Emails</h3>
+            <div className='pref-content'>
+                <p>
+                The choice is yours. Decide which emails you'd like to receive
+                from us.
+                </p>
+                <div className='toggle-switch'>
+                <input type='checkbox' />
+                <div className='slider round'></div>
+                </div>
+            </div>
+            <h3>Weekly Comms</h3>
+            <div className='pref-content'>
+                <p>
+                Get your weekly dose of Canva news and learn with our handy design
+                tips.
+                </p>
+                <div className='toggle-switch'>
+                <input type='checkbox' />
+                <div className='slider round'></div>
+                </div>
+            </div>
+            <h3>Top Trending Templates</h3>
+            <div className='pref-content'>
+                <p>
+                Stay inspired and one step ahead of the design curve with our top
+                trending templates.
+                </p>
+                <div className='toggle-switch'>
+                <input type='checkbox' />
+                <div className='slider round'></div>
+                </div>
+            </div>
+            <h3>Creator Spotlight Email</h3>
+            <div className='pref-content'>
+                <p>
+                Check out amazing content from our photographers, illustrators,
+                and more.
+                </p>
+                <div className='toggle-switch'>
+                <input type='checkbox' />
+                <div className='slider round'></div>
+                </div>
+            </div>
+            <h3>Recommendations</h3>
+            <div className='pref-content'>
+                <p>Check out our recommended templates and find something new.</p>
+                <div className='toggle-switch'>
+                <input type='checkbox' />
+                <div className='slider round'></div>
+                </div>
+            </div>
+            <h3>What's New?</h3>
+            <div className='pref-content'>
+                <p>
+                Stay up to date with all the latest features and product launches
+                in Canva.
+                </p>
+                <div className='toggle-switch'>
+                <input type='checkbox' />
+                <div className='slider round'></div>
+                </div>
+            </div>
+            <h3>Special Occasions</h3>
+            <div className='pref-content'>
+                <p>
+                Opt-in or out of receiving Mother's/Father's Day communications.
+                </p>
+                <div className='toggle-switch'>
+                <input type='checkbox' />
+                <div className='slider round'></div>
+                </div>
+            </div>
+            <h3>Privacy</h3>
+                <div class='pref-content'>
+                <p>
+                    ScoutVendor can collect more data about me from third-party providers to
+                    personalise <br />
+                    my experience and messages.
+                </p>
+                <div class='toggle-switch'>
+                    <input type='checkbox' />
+                    <div class='slider round'></div>
+                </div>
+                </div>
+            </div>
+        </section>
         <div className='logout'>
             <a href="#d">Log Out</a>
         </div>
     </div>
   )
 }
+
 
 export default ProfilePage
