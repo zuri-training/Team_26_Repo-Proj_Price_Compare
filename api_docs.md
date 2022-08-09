@@ -251,10 +251,6 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	}
 	- response : {
 		- product_id
-7-product-app
-		- name 
-		- brand
-
 		- name
 		- brand
 		- price
@@ -263,7 +259,6 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- images_urls : array
 		- store_name
 		- store_url
- master
 		- category
 		- sale : {
 			- price 
