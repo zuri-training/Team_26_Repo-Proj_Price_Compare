@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     
     #Third Party apps
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     'whitenoise.runserver_nostatic',
 
