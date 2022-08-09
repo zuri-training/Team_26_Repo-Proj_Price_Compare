@@ -35,16 +35,12 @@ class JumiaSpider(scrapy.Spider):
         for item in menu_items:
             cat = CategoryItem()
             name = item.xpath(".//span/text()").get()
-            cat["url"] = item.attrib["href"]
-            cat["parent_category"] = None
-            cat["scrap_from"] = False
+            url = item.attrib["href"]
             if name == "Supermarket":
                 name = "Groceries"
             cat["name"] = name
-            # urls.append(cat["url"])
-            # yield cat
             yield response.follow(
-                cat["url"],
+                url,
                 callback=self.parse_subcategories,
                 meta={"cat": cat, "depth": 1},
             )
@@ -55,30 +51,22 @@ class JumiaSpider(scrapy.Spider):
         parent_cat = response.meta["cat"]
         depth = response.meta["depth"] + 1
         for sub in subs:
+            url = sub.attrib["href"]
             cat = CategoryItem()
-            cat["url"] = sub.attrib["href"]
-            cat["name"] = self.format_name_from_url(cat["url"])
-            cat["scrap_from"] = False if depth < 3 else True
-            cat["parent_category"] = self.get_parent_from_url(response.url)
+            cat["name"] = self.format_name_from_url(url)
 
             meta = {"cat": parent_cat, "depth": depth}
             if depth <= 2:
                 meta["sub"] = cat
-                yield response.follow(
-                    cat["url"], callback=self.parse_subcategories, meta=meta
-                )
+                yield response.follow(url, callback=self.parse_subcategories, meta=meta)
             else:
                 meta["sub"] = response.meta["sub"]
                 yield response.follow(
-                    cat["url"],
+                    url,
                     callback=self.parse_product,
                     meta=meta,
                     headers={"Accept": "application/json"},
                 )
-
-    def get_parent_from_url(self, url):
-        # format : https://www.jumia.ng/<needed info>/
-        return url.split(".ng")[-1]
 
     def format_name_from_url(self, url):
         # format : https://www.jumia.ng/some-category/
@@ -90,14 +78,12 @@ class JumiaSpider(scrapy.Spider):
         for product in products:
             item_detail = ScrapperItemLoader(ScrapperItem())
             loader = JumiaProductItemLoader(ProductItem())
-            loader.add_value("sku", product.get("sku"))
             loader.add_value("name", product.get("name"))
             loader.add_value("brand", product.get("brand"))
             loader.add_value("price", product.get("prices").get("rawPrice"))
             loader.add_value("image_url", product.get("image"))
             loader.add_value("product_url", product.get("url"))
             loader.add_value("available", product.get("isBuyable"))
-            loader.add_value("category", product.get("categories"))
 
             item = loader.load_item()
             subcategory = response.meta["sub"]

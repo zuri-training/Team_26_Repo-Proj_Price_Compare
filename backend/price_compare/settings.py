@@ -46,15 +46,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #third party
+    
+    #7-product-app
+    'django.contrib.sites',
+    
+    #Third Party apps
     'rest_framework',
-    'rest_framework.authtoken',  # Authentication to use api
     'corsheaders',
     'whitenoise.runserver_nostatic',
-    #local
+
+    #local apps
     'accounts',
-    'products.apps.ProductsConfig',
-    'watchlist.apps.WatchlistConfig',
+    'products',
+    'watchlist',
+
+
+>>>>>>>>> Temporary merge branch 2
 ]
 
 MIDDLEWARE = [
