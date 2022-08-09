@@ -1,42 +1,34 @@
 from django.contrib import admin
-from .models import Product,Review,Category,SalesDetail,Store
+from .models import Product,ProductImage,Category,Sale_Detail,Shop
 
 # Register your models here.
 
 
-# Review, rating and loved admin board
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = (
-        "name",
-        # "description",
-        "get_absolute_url"
-    )
-    prepopulated_fields = {'slug': ('name',)}
+# Register your models here.
+class ProductImageInline(admin.TabularInline):
+    model=ProductImage
 
+class SaleDetailInline(admin.TabularInline):
+    model=Sale_Detail
 
-
-@admin.register(Review)
-class ReviewAdmin(admin.ModelAdmin):
-    list_display = ("product", "comment", "date_time", "rating", "author")
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "is_sub_category", "get_absolute_url")
+    list_display=('name','slug','is_sub_category')
     prepopulated_fields = {'slug': ('name',)}
 
 
-# @admin.register(SubCategory)
-# class SubCategoryAdmin(admin.ModelAdmin):
-#     pass
+
+@admin.register(Product)
+class ItemAdmin(admin.ModelAdmin):
+    list_display =('name', 'category', 'brand', 'slug')
+    list_filter = ('category','brand')
+    prepopulated_fields = {'slug': ('name',)}
+    inlines = [ProductImageInline,SaleDetailInline]
 
 
-@admin.register(SalesDetail)
-class SalesDetail(admin.ModelAdmin):
-    pass
 
-
-@admin.register(Store)
-class StoreAdmin(admin.ModelAdmin):
-    pass
+@admin.register(Shop)
+class ShopAdmin(admin.ModelAdmin):
+    list_display =('name',)
