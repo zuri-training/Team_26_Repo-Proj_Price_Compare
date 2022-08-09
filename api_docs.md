@@ -53,8 +53,12 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 
 	- Registering new users
 	- Verifying users email
-	- authenticating and logging in users
-	- logging users out of all sessions
+	- Authenticating and logging in users
+	- Refresh Token 
+	- Getting User(profile)
+	- Logging users out of all sessions
+	- Request for password reset
+	- Password Reset
 
 
 - ### Registration Endpoint
@@ -74,6 +78,21 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- Authentication : None
 
 
+- ### Verification Endpoint
+	- Full path : /api/auth/verify-email/
+	- function : verify the activation key sent to user's mail and verify the user
+	- allowed methods : [GET]
+	- required data : {
+		- Token
+	}
+	- response : {
+		"email:"Account successfully activated"
+	}
+
+	- Authentication : None
+
+
+
 - ### Login Endpoint
 	- Full path : /api/auth/login/
 	- function : logs in and authenticate users
@@ -83,10 +102,35 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- password
 	}
 	- response : {
-		- first_name
-		- last_name
-		- expiry : expiry date of token
-		- token : token key used to validate
+		tokens: {
+			- refresh : token key used to to refresh access token if it expire or is tampered with
+			- access : token key used to validate
+		}
+	}
+	- Authentication : None
+
+
+- ### Token Refresh Endpoint
+	- Full path : /api/auth/token/refresh
+	- function : refresh expired or invalid access tokens
+	- accepted methods : [POST]
+	- required data : {
+		- refresh token
+	}
+	- response : {
+		- access : new access token generated
+	}
+	- Authentication : None
+
+- ### User Endpoint
+	- Full path : /api/auth/login/
+	- function : logs in and authenticate users
+	- accepted methods : [GET]
+	- required data : {
+		- token
+	}
+	- response : {
+		-user's data(excluding the password)
 	}
 	- Authentication : None
 
@@ -99,15 +143,54 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- response : {
 		message: Successful(if successful)
 	}
-
-- ### Logout-all Endpoint
-	- Full path : /api/auth/logoutall/
-	- function : logs a user and all devices of user out of session
-	- accepted methods : [GET]
-	- Authenticaiton : required
-	- response : {
-		message: Successful
+	
+	
+- ### Request Password Reset Endpoint
+	- Full path : /api/auth/request-password-reset/
+	- function :  sends a password reset link containing token and user's id to  the user's mail
+	- allowed methods : [POST]
+	- required data : {
+		- email
 	}
+	- response : {
+		- 'success':'A link have been sent to your mail to reset your password'
+	}
+
+	- Authentication : None
+
+
+- ### Checking Password Reset Token Endpoint
+	- Full path : /api/auth/request-password-reset/
+	- function :  sends a password reset link containing token and user's id to  the user's mail
+	- allowed methods : [GET]
+	- required data : {
+		- token
+		- id
+	}
+	- response : {
+		- 'success': True, 
+		- 'message':'Credentials Valid', 
+		- 'uidb64': uidb64 that have been converted to str to get the user's used to query the user from the database, 
+		- 'token':token
+	}
+	- Authentication : None
+
+	
+	
+- ### Password Reset Endpoint
+	- Full path : /api/auth/change-password/
+	- function :  change the user's password
+	- allowed methods : [PATCH]
+	- required data : {
+		- password(new password)
+		- uidb64
+		- token
+	}
+	- response : {
+		- 'success': 'Password Reset Successful'
+	}
+
+	- Authentication : None
 
 **For logging users out, tokens are used to identify the user making the call**
 
@@ -126,7 +209,15 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- page_number : 1 (default start value)
 	}
 	- reponse : {
-		- products : list of 'n' number of  product instance [defaults to 10 for unathenticated request]
+		- products : [{
+			- name
+			- brand
+			- category
+			- price
+			- image_url
+			- slug
+			- url_on_store
+		}] list of 'n' number of  product instance [defaults to 10 for unathenticated request]
 	}
 	- response meta data : {
 		- items_count
@@ -142,7 +233,11 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- accepted method : [GET]
 	- required data : None
 	- reponse : {
-		- categories : list of categories
+		- categories : [{
+			- name
+			- url
+			- date_modified
+		}]
 	}
 	- Authentication : None
 
@@ -165,7 +260,16 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- store_name
 		- store_url
 		- category
-		- date_modified
+		- sale : {
+			- price 
+			- description
+			- weight (if any)
+			- images_urls : array
+			- store_name
+			- store_url
+			- day_modified
+			- reviews
+		}
 	}
 	Authentication : required
 
@@ -232,6 +336,8 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 			print(res.json())
 		else:
 			res.raise_for_status()
+
+
 
 
 ## Login
