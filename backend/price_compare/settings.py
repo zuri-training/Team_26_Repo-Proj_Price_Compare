@@ -60,10 +60,9 @@ INSTALLED_APPS = [
     'accounts',
     'products',
     'watchlist',
-
-
->>>>>>>>> Temporary merge branch 2
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

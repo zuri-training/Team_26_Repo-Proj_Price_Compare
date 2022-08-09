@@ -100,7 +100,7 @@ class Product(models.Model):
         related_name="products",
         limit_choices_to={"is_sub_category": True},
     )
-    loved = models.ManyToManyField(User, related_name="favourites", null=True)
+    # loved = models.ManyToManyField(User, related_name="favourites", null=True)
     slug = models.SlugField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
@@ -139,14 +139,6 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name} by {self.brand}"
 
-class ProductImage(models.Model):
-    product=models.ForeignKey(
-        Product,
-        on_delete=models.SET_NULL, null=True,blank=True
-    )    
-    image=models.ImageField(
-        upload_to="productimages/"
-    )
     class Meta:
         # combination of product name and brand should be unique except where they are both empty
         constraints = [
@@ -163,9 +155,6 @@ class Store(models.Model):
     url = models.URLField()
     favicon = models.URLField()
 
-    def __str__(self):
-        return self.name
-=======
     def __str__(self):
         return self.name
 
@@ -236,7 +225,8 @@ class Review(models.Model):
     )
     # if the author is a user of our website
     # the we use user as a reference
-    is_user = models.BooleanField(default=False)
+    # else the user is our scrapper
+    is_scrapper = models.BooleanField(default=False)
     user = models.ForeignKey(
         User, related_name="reviews", on_delete=models.CASCADE, blank=True, null=True
     )

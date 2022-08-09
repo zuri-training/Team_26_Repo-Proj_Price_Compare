@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from products.models import Product
-from price_compare.settings import AUTH_USER_MODEL
+from accounts.models import User
 
 # Create your models here.
 class WatchListItem(models.Model):
     user=models.ForeignKey(
-        AUTH_USER_MODEL,
+        User,
         related_name='userwatchlistitems',
         on_delete=models.CASCADE,
     )

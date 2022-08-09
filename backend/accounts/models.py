@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.tokens import RefreshToken
-from watchlist.models import WatchListItem
 from django.db import models
 
 # Create your models here.
@@ -14,15 +13,11 @@ class User(AbstractUser):
     password = models.CharField(max_length=255)
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    watchlist_product= models.ForeignKey(
-        WatchListItem,
-        related_name='watchlist_items_for_user',
-        on_delete=models.SET_NULL,null=True
-    )
+
 
     USERNAME_FIELD = 'email'
 
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
 
     def tokens(self):
