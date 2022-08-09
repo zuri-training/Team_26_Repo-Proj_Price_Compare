@@ -29,7 +29,7 @@ class MainCategoryManager(models.Manager):
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    image_url = models.URLField()
+    image_url = models.URLField(null=True)
     slug = models.SlugField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -42,7 +42,7 @@ class Category(models.Model):
     )
     is_sub_category = models.BooleanField(default=True)
 
-    object = models.Manager()
+    objects = models.Manager()
     subCategories = SubCategoryManager()
     parentCategories = MainCategoryManager()
 
@@ -79,7 +79,7 @@ class Category(models.Model):
             assert self.parent is not None  # raise validation error
         else:
             assert self.parent is None  # raise validation error
-        super(Category, self).save(*args, **kwargs)
+        return super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -108,7 +108,7 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(f"{self.name} {self.brand}")
-        super(Product, self).save(*args, **kwargs)
+        return super(Product, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         DOMAIN = Site.objects.get_current().domain
@@ -170,10 +170,13 @@ class SalesDetail(models.Model):
     )
     # uncomment for postgres database
     # price_changes = ArrayField(DecimalField(decimal_places=2), size=5)
+
     # url to search on product on a particular store
     search_url = models.URLField(default="https://www.testing.com/")
+
     # url to get actual product on store
     product_url = models.URLField(default="https://www.testing.com/")
+    image_url = models.URLField(default="https://www.imageurl.com/")
     available = models.BooleanField(default=True)
     description = models.TextField()
     modified = models.DateTimeField(auto_now_add=True)

@@ -17,11 +17,6 @@ pytz = "==2022.1"
 sqlparse = "==0.4.2"
 tomli = "==2.0.1"
 typing-extensions = "==4.3.0"
-<<<<<<< HEAD
-python-dotenv = "*"
-django-cors-headers = "*"
-django-registration = "*"
-=======
 scrapy = "*"
 attrs = "==22.1.0"
 automat = "==20.2.0"
@@ -32,7 +27,9 @@ constantly = "==15.1.0"
 cryptography = "==37.0.4"
 cssselect = "==1.1.0"
 distlib = "==0.3.4"
->>>>>>> origin/7-product-app
+treq = "*"
+psycopg2-binary = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 

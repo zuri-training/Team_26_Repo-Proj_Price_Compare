@@ -6,7 +6,9 @@ from django.db import models
 # Create your models here.
 
 
+
 class User(AbstractUser):
+    username = models.CharField(max_length=255, null=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.CharField(max_length=255, unique=True)
@@ -19,11 +21,9 @@ class User(AbstractUser):
 
     REQUIRED_FIELDS = ['username']
 
+    REQUIRED_FIELDS = ["username"]
 
     def tokens(self):
         refresh = RefreshToken.for_user(self)
 
-        return {
-            "refresh": str(refresh),
-            "access":str(refresh.access_token)
-        }
+        return {"refresh": str(refresh), "access": str(refresh.access_token)}

@@ -84,14 +84,16 @@ class JumiaSpider(scrapy.Spider):
             loader.add_value("image_url", product.get("image"))
             loader.add_value("product_url", product.get("url"))
             loader.add_value("available", product.get("isBuyable"))
+            loader.add_value("description", "Coming soon...")
 
             item = loader.load_item()
             subcategory = response.meta["sub"]
             category = response.meta["cat"]
-
+            store = {'name' : 'Jumia'}
             item_detail.add_value("category", dict(category))
             item_detail.add_value("subcategory", dict(subcategory))
             item_detail.add_value("product", dict(item))
+            item_detail.add_value("store", dict(store))
 
             yield item_detail.load_item()
 
