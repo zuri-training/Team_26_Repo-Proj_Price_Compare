@@ -1,0 +1,6 @@
+[Mobile view of HiFi designs](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/25)
+https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/24
+https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/26
+https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/20
+https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/19
+https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/36
