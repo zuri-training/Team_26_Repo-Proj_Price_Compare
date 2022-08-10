@@ -1,3 +1,3 @@
-- [Wifeframes/Lo-fi designs](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/36)
+- [Wireframes/Lo-fi designs](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/36)
 - [Web View of Hi-fi Designs](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/24)
 - [Mobile View of Hi-fi Designs](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/27)
