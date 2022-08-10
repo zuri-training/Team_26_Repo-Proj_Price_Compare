@@ -39,7 +39,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         rating = validated_data["rating"]
         user = validated_data["user"]
         is_scrapper = validated_data.get("is_scrapper", False)
-        qs = Review.object.filter(product=product, store=store, user=user)
+        qs = Review.objects.filter(product=product, store=store, user=user)
         if qs:
             return self.update(
                 qs,
@@ -52,7 +52,7 @@ class ReviewSerializer(serializers.ModelSerializer):
                     "is_scrapper": is_scrapper,
                 },
             )
-        return Review.object.create(
+        return Review.objects.create(
             product=product,
             store=store,
             comment=comment,
@@ -78,7 +78,7 @@ class SalesDetailSerializer(serializers.ModelSerializer):
         store = validated_data["store"]
         product = validated_data["product"]
         price = validated_data["price"]
-        qs = SalesDetail.object.filter(Q(product=product) & Q(store=store))
+        qs = SalesDetail.objects.filter(Q(product=product) & Q(store=store))
         if qs:
             if qs["price"] > price:
                 qs["price"] = price
@@ -155,7 +155,7 @@ class StoreSerializer(serializers.ModelSerializer):
         read_only_fields = ["favicon", "url"]
 
 
-## fro creating object by our scrapper
+## fro creating objects by our scrapper
 class Holder(serializers.Serializer):
     name = serializers.CharField()
 
@@ -187,36 +187,49 @@ class CreateProductSerializer(serializers.Serializer):
 
         with transaction.atomic():
             store = validated_data.pop("store")
-            store_instance = Store.object.get_or_create(**store)
+            store_instance, _ = Store.objects.get_or_create(**store)
+            self.store = store_instance
 
             category = validated_data.pop("category")
-            category_instance = Category.object.get_or_create(**category)
+            category_instance, _ = Category.objects.get_or_create(
+                **category, parent=None, is_sub_category=False
+            )
+            self.category = category_instance
 
             subcategory = validated_data.pop("subcategory")
-            subcategory_instance = Category.object.get_or_create(
-                **subcategory, parent=category_instance
+            subcategory_instance, _ = Category.objects.get_or_create(
+                **subcategory, parent=category_instance, is_sub_category=True
             )
+            self.subcategory = subcategory_instance
 
             product["name"] = validated_data["product"].pop("name")
             product["brand"] = validated_data["product"].pop("brand")
-            product_instance = Product.object.get_or_create(**product)
+            product_instance, _ = Product.objects.get_or_create(
+                **product, category=subcategory_instance
+            )
 
             # review = validated_data.pop('review')
-            # qs = Review.object.filter(product=product, store=store, user=user)
+            # qs = Review.objects.filter(product=product, store=store, user=user)
             # if qs:
             # update qs with review
             # else create
-            # review_instance = Review.object.create(**review)
+            # review_instance = Review.objects.create(**review)
 
             # The remaining data should belong to sale_deatils
-            sale = request.data.pop("product")
-            qs = SalesDetail.object.filter(product=product, store=store, user=user)
+            sale = validated_data.pop("product")
+            try:
+                qs = SalesDetail.objects.get(
+                    product=product_instance, store=store_instance
+                )
+            except:  # except models.DOESNOTEXIST
+                qs = None
             if qs:
-                qs["price"] = sale["price"]
+                qs.price = sale["price"]
                 qs.save()
             else:
-                sale_instance = SalesDetail.object.create(
+                sale_instance = SalesDetail.objects.create(
                     **sale, product=product_instance, store=store_instance
                 )
-
-        return sale_instance
+            product.update(sale)
+            self.product = product
+        return self

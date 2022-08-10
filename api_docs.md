@@ -261,7 +261,7 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- store_url
 		- category
 		- sale : {
-			- price 
+			- price
 			- description
 			- weight (if any)
 			- images_urls : array
@@ -370,7 +370,7 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		print(res.ok)
 
 ## Logout-all
-		
+
 		import requests
 
 		header = {"Authorization" : "Bearer mytoken"}
@@ -379,7 +379,7 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		res = request.get(logout_url_all, header = header)
 
 		print(res.ok)
-	
+
 
 ## product categories
 
@@ -392,7 +392,7 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 			print(res.json())
 		else:
 			res.raise_for_status()
-	
+
 ## product list
 		import requests
 
@@ -443,7 +443,7 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 
 		url = "https://www.scoutvendor.com/api/search/"
 
-		# search for product containing "red bag" with a brand 
+		# search for product containing "red bag" with a brand
 		# of addidas and a category of fashion
 
 		brand = "addidas"
