@@ -48,9 +48,9 @@ ITEM_PIPELINES = {
 }
 
 
-USERNAME = "admin@mail.com"
-USERNAMEFIELD = "email"
-PASSWORD = "dd84gchkSNsbyCV"
+USERNAME = "scoutvendor@gmail.com"
+USERNAMEFIELD = "scoutvendoradmin"
+PASSWORD = "scoutvendoradmin"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

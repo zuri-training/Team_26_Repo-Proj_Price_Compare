@@ -19,7 +19,7 @@ from .serializers import (
 )
 from .models import Category, Product, Review, Store, SalesDetail
 from .permissions import AllowScrapper
-from .paginations import ListingPagination
+from .pagination import ListingPagination
 
 
 class FilterListAPIGenericView(generics.ListAPIView):

@@ -6,7 +6,6 @@ import re
 import pathlib
 
 from itemloaders.processors import Compose
-
 from scrappers.items import (
     ScrapperItem,
     CategoryItem,
