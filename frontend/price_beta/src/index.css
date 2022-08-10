@@ -187,7 +187,7 @@ li {
 
 .nested_ol {
   list-style-type: disc;
-
+}
 .contact-form label {
   font-size: var(--bodySmall);
 }
@@ -350,7 +350,4 @@ Mobile and Tablets Media Querry
     max-width: 50%;
   }
 }
-<<<<<<< Bridget
->>>>>>> 3e425467a0d656aed63ee4d5f326a5c8d2ffb02d
-=======
->>>>>>> master
+

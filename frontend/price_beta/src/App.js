@@ -10,7 +10,7 @@ import {
   Profile,
   Login,
   Logout,
-  SharedLayout,
+  SharedLayout, Redirect, Success,
   Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules, SignUp
 } from './pages/sharedPages'
 
@@ -32,7 +32,9 @@ function App() {
           <Route path='cookie-policy' element={<CookiePolicy/>} />
           <Route path='rules-guidelines' element={<Rules/>} />
           <Route path='compare-price' element={ <ComparePrice/>} />
-          <Route path='product-categories' element={<Categories/>} />               
+          <Route path='product-categories' element={<Categories/>} />    
+          <Route path='success' element={<Success/>} />  
+          <Route path='redirect' element={<Redirect/>} />         
           <Route path='sign-up' element={<SignUp/>} />        
           <Route path='*' element={<Error />} />
         </Route> 
