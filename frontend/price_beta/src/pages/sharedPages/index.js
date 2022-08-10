@@ -10,9 +10,11 @@ import Login from "./LoginPage";
 import Logout from "./LogoutPage";
 import Privacy from "./PrivacyPolicyPage";
 import Profile from "./ProfilePage";
+import Redirect from "./RedirectPage";
 import Rules from "./RulesPage";
 import SharedLayout from "./SharedLayout";
 import SignUp from "./SignUpPage";
+import Success from "./SuccessPage";
 import Trending from "./TrendingPage";
 
 
@@ -33,5 +35,7 @@ export {
     Privacy,
     CookiePolicy,
     SignUp,
+    Success,
+    Redirect,
 
 }

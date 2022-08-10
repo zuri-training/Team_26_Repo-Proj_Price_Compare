@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { CategoryTile } from '../../components'
 import Card from '../../components/Card'
-import data from '../../data2.json'
+//import data from '../../data2.json'
 
 const CategoriesPage = () => {
   return (
@@ -16,12 +16,12 @@ const CategoriesPage = () => {
     </div>
 
     <div className='category_cards cards'>
-    {data.all_categories.map((item) => {
+    {/*{data.all_categories.map((item) => {
             const {id, categoryImg, categoryName} = item
             return (
             <Card key={id} categoryImg={categoryImg} categoryName={categoryName} bgColor={'#ffffff'} textColor={'#131211'}/>
             )
-        })}
+        })}*/}
     </div>
     </CategoryPageContainer>
   )
