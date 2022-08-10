@@ -1,1 +1,6 @@
-
+- [Wifeframes/Lo-fi designs](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/36)
+- [Web View of Hi-fi Designs](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/24)
+- [Mobile View of Hi-fi Designs](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/27)
+- [Submission of Figma Link by 6pm Sunday 7 2022](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/20)
+- [Lo-fi Prototyping on Figma](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/23)
+- [Web and Mobile Hi-fi Prototyping on Figma](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/44)
