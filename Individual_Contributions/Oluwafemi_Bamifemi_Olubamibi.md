@@ -1,1 +1,12 @@
-
+- [Create and manage Github Project and tasks](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/49)
+- [Create Github Team and add all team members](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/48)
+- [Create Github Contribution Folder and links for all 26 teammates](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/52)
+- [Create Project Brief on Google Doc](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/51)
+- [Create and manage team biodata on Google Sheet](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/50)
+- [Wireframes/Lo-fi designs](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/36)
+- [Web View of Hi-fi Designs](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/24)
+- [Mobile View of Hi-fi Designs](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/27)
+- [Submission of Figma Link by 6pm Sunday 7 2022](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/20)
+- [Presentation Slide design](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/19)
+- [Logo Design](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/26)
+- [Record First Presentation Video](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/43)
