@@ -7,7 +7,7 @@ const RedirectPage = () => {
             <div class="box1">
                 <img src="../images/cancel.svg" alt="cancel"/>
                 <h1>Redirecting.....</h1>
-                <P>You are being redirected to your purchase website.</P>
+                <p>You are being redirected to your purchase website.</p>
             </div>
         </RedirectWrapper>
   )
