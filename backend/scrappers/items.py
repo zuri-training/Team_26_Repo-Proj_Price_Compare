@@ -13,9 +13,12 @@ class ScrapperItem(scrapy.Item):
     category = scrapy.Field()  # maps to CategoryItem
     subcategory = scrapy.Field()  # maps to CategoryItem
     product = scrapy.Field()  # maps to ProductItem
-    # review = scrapy.Field()  # maps to ReviewItem
-    # price = scrapy.Field()  # highest rating to price or just cheapest price
 
+
+class UpdateItem(scrapy.Item):
+    product = scrapy.Field()  # maps to ProductItem
+    reviews = scrapy.Field()  # maps to ReviewItem
+    store = scrapy.Field()    # maps to StoreItem
 
 class CategoryItem(scrapy.Item):
     name = scrapy.Field()
@@ -24,8 +27,9 @@ class CategoryItem(scrapy.Item):
 class ProductItem(scrapy.Item):
     name = scrapy.Field()
     brand = scrapy.Field()
+    # sales details
     image_url = scrapy.Field()
-    search_url = scrapy.Field()  # would be filled by our JumiaProductLoader
+    search_url = scrapy.Field()
     product_url = scrapy.Field()
     price = scrapy.Field()
     description = scrapy.Field()
@@ -36,10 +40,10 @@ class ProductItem(scrapy.Item):
 
 
 class ReviewItem(scrapy.Item):
-    sku = scrapy.Field()
     author = scrapy.Field()
     rating = scrapy.Field()
-    store = scrapy.Field()
+    date = scrapy.Field()
+    comment = scrapy.Field()
 
 
 # leave this for now

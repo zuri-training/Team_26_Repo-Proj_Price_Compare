@@ -30,6 +30,7 @@ distlib = "==0.3.4"
 treq = "*"
 psycopg2-binary = "*"
 djangorestframework-simplejwt = "*"
+celery = {extras = ["redis"], version = "*"}
 
 [dev-packages]
 

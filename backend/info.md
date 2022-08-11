@@ -4,13 +4,24 @@
 |-------|---------------------|------------------------|------|
 | Jumia | Every 2(two) Days   | Webscrapping (200 rpm) | [jumia seller faq] (https://sellercenter.jumia.com.ng/faq) |
 | Konga | Every 2(two) Days   | API calls              |     |
-| Ebay  |                     |                        |     |
+|   |                     |                        |     |
 
 ## Guide
 
 All scrapped product should be made to conform to the `ProductItem` container defined in the `items.py` file
 
 `ScrapperItem` defines a base template for how the items you scrap should be, Format your scrapped data using `the ScrappeItem for easy and consistent interaction with the post API that would process and save to database
+
+Getting new products from a store is done in three stages:
+	
+	- First, we three important details among others which are:
+		- name
+		- brand
+		- search_url
+	- We create a new product instance (if it doesn't exits) and also a new sales_detail instance linking to the product and the particular store
+	- We then send a post-save-signal to begin another scrapper which takes the search_url as a parameter to get a list of all matching products from the store and updates the sales_detail instance with the cheapest of all the products. 
+
+At the last stage, we also get the description, reviews and image_urls
 
 # Scrapping Jumia
 Jumia website returns a json response behind the scence(to see what that look like run see the json file which has been cut to the products field because of lots of data`). This json formatted response can be used by setting the DEFAULT_REQUEST_HEADER to

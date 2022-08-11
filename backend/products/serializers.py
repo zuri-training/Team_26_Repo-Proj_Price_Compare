@@ -9,7 +9,7 @@ from requests import Response
 from .models import Category, Product, Review, SalesDetail, Store
 from .utils import send_to_cloudinary
 
-
+# Users Endpoints
 class ReviewSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
 
@@ -155,9 +155,20 @@ class StoreSerializer(serializers.ModelSerializer):
         read_only_fields = ["favicon", "url"]
 
 
-## fro creating objects by our scrapper
+## Scrapper Endpoint
 class Holder(serializers.Serializer):
     name = serializers.CharField()
+
+
+class ReviewHolder(serializers.Serializer):
+    author = serializers.CharField()
+    rating = serializers.DecimalField()
+    date = serializers.DateField()
+    comment = serializers.CharField()
+
+
+class ReviewListSerializer(serializers.ListSerializer):
+    child = ReviewCreateSerializer
 
 
 class ProductSerializer(serializers.Serializer):
@@ -176,14 +187,10 @@ class CreateProductSerializer(serializers.Serializer):
     category = Holder()
     subcategory = Holder()
     product = ProductSerializer()
-    # review = ReviewSerializer()
-    # class Meta:
-    #     model = SalesDetail
-    #     fields = "__all__"
+    user = validated_data.pop("user")  # should be Scrapper
 
     def create(self, validated_data):
         product = {}
-        user = validated_data.pop("user")  # should be Scrapper
 
         with transaction.atomic():
             store = validated_data.pop("store")
@@ -208,13 +215,6 @@ class CreateProductSerializer(serializers.Serializer):
                 **product, category=subcategory_instance
             )
 
-            # review = validated_data.pop('review')
-            # qs = Review.objects.filter(product=product, store=store, user=user)
-            # if qs:
-            # update qs with review
-            # else create
-            # review_instance = Review.objects.create(**review)
-
             # The remaining data should belong to sale_deatils
             sale = validated_data.pop("product")
             try:
@@ -233,3 +233,33 @@ class CreateProductSerializer(serializers.Serializer):
             product.update(sale)
             self.product = product
         return self
+
+
+class UpdateSerializer(serializers.Serializer):
+    product = ProductSerializer
+    reviews = ReviewListSerialzer
+    store = Holder()
+    user = validated_data.pop("user")  # should be Scrapper
+
+    def create(self, validated_data):
+        name = validated_data["product"].pop("name")
+        brand = validated_data["product"].pop("brand")
+        store_name = validated_data.pop("store")["name"]
+        Product = Product.objects.get(name=name, brand=brand)
+        store = Store.objects.get(name=store_name)
+        sale = SalesDetail.objects.get(
+            product=product,
+            store=store,
+            search_url=validated_data["product"]["search_url"],
+        )
+        for k in validated_data["product"].keys():
+            attr = getattr(sale, k, None)
+            if attr is not None:
+                sale.attr = validated_data["product"][attr]
+        sale.save()
+        for reveiw in reviews:
+            instance = Review(product=product, store=store)
+            instance.comment = review["comment"]
+            instance.rating = review["rating"]
+            instance.is_scrapper = True
+            instance.user = review["user"]

@@ -14,8 +14,6 @@ from pathlib import Path
 
 import os
 
-load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,14 +28,21 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SITE ID
 SITE_ID = 1
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Redis config
+REDIS_HOST = os.environ["REDIS_HOST"]
+REDIS_PORT = os.environ["REDIS_PORT"]
+REDIS_DB = 0
+
+# Celery config
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
