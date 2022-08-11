@@ -17,7 +17,7 @@ CLOSESPIDER_ITEMCOUNT = 150
 
 # USER_AGENT = 'scrappers (+http://www.yourdomain.com)'
 
-DEFAULT_REQUEST_HEADERS = {"Accept": "application/json"}
+# DEFAULT_REQUEST_HEADERS = {"Accept": "application/json"}
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
@@ -47,6 +47,6 @@ ITEM_PIPELINES = {
 }
 
 
-USERNAME = "admin@mail.com"
+USERNAME = "admin@email.com"
 USERNAMEFIELD = "email"
 PASSWORD = "dd84gchkSNsbyCV"

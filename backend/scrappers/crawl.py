@@ -13,32 +13,23 @@ UPDATE_SPIDERS = [
 ]
 
 
-def run_crawlers(process):
-    for spider in REGISTERED_SPIDERS:
+def run_crawlers():
+    settings = get_project_settings()
+    process = CrawlerProcess(settings)
+    for spider in CRAWL_SPIDERS:
         process.crawl(spider)
     process.start()
 
 
-def run_update(process, url):
+def run_update(url):
+    settings = get_project_settings()
+    process = CrawlerProcess(settings)
     for spider in UPDATE_SPIDERS:
         process.crawl(spider, url=url)
     process.start()
 
 
-def main(*, update=False, run=False, **kwargs):
-    settings = get_project_settings()
-    process = CrawlerProcess(settings)
-    if update and run:
-        raise Exception("Call either with only one keyword=True")
-    if update:
-        assert "url" in kwargs
-        url = kwargs["url"]
-        run_update(process, url=url)
-    if run:
-        run_crawlers(process)
-
-
-if __name__ == "__main__":
-    # use argparser to select function
-    settings = get_project_settings()
-    process = CrawlerProcess(settings)
+# if __name__ == "__main__":
+#     # use argparser to select function
+#     settings = get_project_settings()
+#     process = CrawlerProcess(settings)

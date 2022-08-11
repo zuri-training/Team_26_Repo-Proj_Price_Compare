@@ -4,7 +4,8 @@ from rest_framework.pagination import PageNumberPagination
 
 
 class ListingPagination(PageNumberPagination):
-    page_size = 50
+    page_size = 20
+    max_page_size = 100
 
     # number of items per page
     page_size_query_description = _("Number of items per page.")

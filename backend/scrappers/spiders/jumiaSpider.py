@@ -120,7 +120,7 @@ class JumiaSpider(scrapy.Spider):
 class JumiaUpdateSpider(scrapy.Spider):
     # for price and reviews
     custom_settings = {
-        "DEFAULT_HEADERS_REQUEST": {"Accept": "application/json"},
+        "DEFAULT_REQUEST_HEADERS": {"Accept": "application/json"},
         "ITEM_PIPELINES": {
             "scrappers.pipelines.UpdateItemPipeline": 100,
         },
@@ -128,15 +128,15 @@ class JumiaUpdateSpider(scrapy.Spider):
     name = "JumiaUpdateSpider"
 
     def __init__(self, url=None, **kwargs):
-        self.start_url = [url]  # list of search_url's
-        super(JumiaLiveSpider, self).__init__(**kwargs)
+        self.start_urls = [url]  # list of search_url's
+        super(JumiaUpdateSpider, self).__init__(**kwargs)
 
     def parse(self, response):
         products = response.json()["viewData"]["products"]
         cleaned_products = [
             p for p in products if p["name"] == self.name and p["brand"] == self.brand
         ]
-        cheapest = get_cheapest[cleaned_products]
+        cheapest = self.get_cheapest_by_max_rating_ratio(cleaned_products)
         yield response.follow(
             cheapest["url"],
             callback=self.parse_product_detail,
@@ -152,7 +152,7 @@ class JumiaUpdateSpider(scrapy.Spider):
         # get price, description, reviews, product_url, available, name & brand for product identification
 
         product_loader.add_value("product_url", response.url)
-        product_loader.add_value("search_url", response.meta["searcu_url"])
+        product_loader.add_value("search_url", response.meta["search_url"])
         product_loader.add_value(
             "description", self.html_parser(view_data["description"])
         )

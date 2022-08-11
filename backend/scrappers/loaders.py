@@ -34,18 +34,16 @@ class JumiaProductItemLoader(ItemLoader):
         """
         adapter = ItemAdapter(self.item)
         for field_name in tuple(self._values):
+            if field_name == "search_url":
+                continue
             value = self.get_output_value(field_name)
             if value is not None:
                 adapter[field_name] = value
-            else:
-                if field_name == "search_url":
-                    brand_param = parse.quote_plus(adapter["brand"].lower())
-                    name_param = parse.quote_plus(adapter["name"].lower())
-                    search_params = f"/{brand_param}/{name_param}/"
-                    adapter["search_url"] = parse.urljoin(
-                        "https://www.jumia.com.ng", search_params
-                    )
 
+        brand_param = parse.quote_plus(adapter["brand"].lower())
+        name_param = parse.quote_plus(adapter["name"].lower())
+        search_params = f"/{brand_param}/{name_param}/"
+        adapter["search_url"] = parse.urljoin("https://www.jumia.com.ng", search_params)
         product_url = parse.quote_plus(adapter["product_url"])
         product_url = parse.urljoin("https://www.jumia.com.ng", product_url)
         adapter["product_url"] = product_url

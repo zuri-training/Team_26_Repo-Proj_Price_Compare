@@ -5,14 +5,14 @@ from rest_framework import serializers
 from rest_framework.views import APIView
 
 from requests import Response
-
+from datetime import datetime
 from .models import Category, Product, Review, SalesDetail, Store
 from .utils import send_to_cloudinary
 
 # Users Endpoints
 class ReviewSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
-
+    product = serializers.SerializerMethodField()
     class Meta:
         model = Review
         fields = [
@@ -23,7 +23,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             "product",
             "user",
         ]
-        read_only_fields = ["author"]
+        read_only_fields = ["author", "product"]
         extra_kwargs = {
             "product": {"write_only": True},
             "user": {"write_only": True},
@@ -31,6 +31,9 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def get_author(self, obj):
         return obj.get_author()
+
+    def get_product(self, obj):
+        return f"{obj.product.brand} {obj.product.name}"
 
     def create(self, validated_data):
         product = validated_data["product"]
@@ -67,7 +70,7 @@ class SalesDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SalesDetail
-        fields = "__all__"
+        exclude = ['search_url']
         read_only_fields = ["modified", "store"]  # "price_changes"]
         extra_kwargs = {
             "product": {"write_only": True},
@@ -98,7 +101,6 @@ class ProductListSerializer(serializers.ModelSerializer):
     # serializing class for product model
     url = serializers.SerializerMethodField()
     category = serializers.StringRelatedField()
-
     class Meta:
         model = Product
         fields = "__all__"
@@ -112,7 +114,10 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     def get_url(self, obj):
         return obj.get_absolute_url()
-
+    
+    def get_days_modified(self,obj):
+        delta = datetime.now().date() - obj.modified
+        return delta.days()
 
 class ProductDetailSerializer(serializers.ModelSerializer):
     sales = SalesDetailSerializer(source="sales_details", many=True)
@@ -162,13 +167,13 @@ class Holder(serializers.Serializer):
 
 class ReviewHolder(serializers.Serializer):
     author = serializers.CharField()
-    rating = serializers.DecimalField()
+    rating = serializers.DecimalField(max_digits=20, decimal_places=2, max_value=5.0)
     date = serializers.DateField()
     comment = serializers.CharField()
 
 
 class ReviewListSerializer(serializers.ListSerializer):
-    child = ReviewCreateSerializer
+    child = ReviewHolder
 
 
 class ProductSerializer(serializers.Serializer):
@@ -187,11 +192,10 @@ class CreateProductSerializer(serializers.Serializer):
     category = Holder()
     subcategory = Holder()
     product = ProductSerializer()
-    user = validated_data.pop("user")  # should be Scrapper
 
     def create(self, validated_data):
         product = {}
-
+        user = validated_data.pop("user")  # should be Scrapper
         with transaction.atomic():
             store = validated_data.pop("store")
             store_instance, _ = Store.objects.get_or_create(**store)
@@ -235,13 +239,13 @@ class CreateProductSerializer(serializers.Serializer):
         return self
 
 
-class UpdateSerializer(serializers.Serializer):
+class UpdateProductSerializer(serializers.Serializer):
     product = ProductSerializer
-    reviews = ReviewListSerialzer
+    reviews = ReviewListSerializer
     store = Holder()
-    user = validated_data.pop("user")  # should be Scrapper
 
     def create(self, validated_data):
+        user = validated_data.pop("user")  # should be Scrapper
         name = validated_data["product"].pop("name")
         brand = validated_data["product"].pop("brand")
         store_name = validated_data.pop("store")["name"]

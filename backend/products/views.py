@@ -5,6 +5,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework import status
 
@@ -73,11 +74,18 @@ class ProductListAPIView(FilterListAPIGenericView):
     # gets a list of product under a subcategory
     queryset = Product.objects.all()
     serializer_class = ProductListSerializer
-    paginator_class = ListingPagination
+    pagination_class = ListingPagination
     filter_by_expr = "category__slug"
     filter_param = "slug"
 
+class ProductSearchAPIView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductListSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'brand', 'slug', 'category__name', 'category__parent__name']
+    pagination_class = ListingPagination
 
+    
 class ProductDetailApiView(generics.RetrieveAPIView):
     # gets a product and all related sales details
     queryset = Product.objects.all()

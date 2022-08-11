@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+from celery.schedules import crontab
 from dotenv import load_dotenv
 from pathlib import Path
+
 
 import os
 
@@ -39,8 +41,6 @@ REDIS_HOST = os.environ["REDIS_HOST"]
 REDIS_PORT = os.environ["REDIS_PORT"]
 REDIS_DB = 0
 
-# Celery config
-CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
 
 # Application definition
 INSTALLED_APPS = [
@@ -55,9 +55,11 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
+    "django_celery_beat",
     # local apps
     "accounts",
     "products",
+    "scrappers",
 ]
 
 MIDDLEWARE = [
@@ -160,3 +162,12 @@ EMAIL_USE_TLs = True
 EMAIL_HOST = "smtp.zoho.com"
 EMAIL_HOST_USER = os.environ["EMAIL_USER"]
 EMAIL_HOST_PASSWORD = os.environ["EMAIL_PASSWORD"]
+
+# Celery config
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
+CELERY_BEAT_SCHEDULE = {
+    "update_product": {
+        "task": "products.tasks.crawl",
+        "schedule": crontab(minute="*/1"),
+    }
+}

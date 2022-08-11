@@ -18,7 +18,8 @@ class ScrapperItem(scrapy.Item):
 class UpdateItem(scrapy.Item):
     product = scrapy.Field()  # maps to ProductItem
     reviews = scrapy.Field()  # maps to ReviewItem
-    store = scrapy.Field()    # maps to StoreItem
+    store = scrapy.Field()  # maps to StoreItem
+
 
 class CategoryItem(scrapy.Item):
     name = scrapy.Field()
