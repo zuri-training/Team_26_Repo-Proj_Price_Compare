@@ -1,0 +1,2 @@
+- [User Research and Analysis](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/21)
+- [Research Plan](https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/issues/22)

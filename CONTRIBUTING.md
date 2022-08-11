@@ -23,6 +23,7 @@ This project uses the following tools:
 - [venv]() : As virtual environment manager
 
 
+
 ## Setup
 
 Navigate to the folder containging the `requirements.txt` file for this project and activate your virtual environment by running the command
@@ -35,6 +36,25 @@ This would install all the required dependencies.
 
 If you wish to install a package remember to add the package to the requirements.txt file using the command `pip freeze > requirements.txt`.  
 
+## Postgres Database Setup
+Use these commands to setup the database on the postgres terminal:
+
+	postgres=# CREATE DATABASE scoutvendor;
+	
+	postgres=# CREATE USER scoutvendoradmin WITH PASSWORD 'scoutvendoradmin';
+
+To follow a Django recommendation regarding PostgreSQL configuration modify these parameters on the postgres terminal:
+
+	postgres=# ALTER ROLE scoutvendoradmin SET client_encoding TO 'utf8';
+	
+	postgres=# ALTER ROLE scoutvendoradmin SET default_transaction_isolation TO 'read committed';
+	
+	postgres=# ALTER ROLE scoutvendoradmin SET timezone TO 'UTC';
+
+Finally, grant the scoutvendor admin user unrestricted access to administer the database:
+
+	postgres=# GRANT ALL PRIVILEGES ON DATABASE scoutvendor TO scoutvendoradmin;
+        
 ## Code formatting
 
 Before committing your changes to the repo, ensure that all your python files are black formatted. You can do this by installing and activating black extension on your favourite editor. If your editor does not have support for black, simply run the command
