@@ -7,6 +7,9 @@ import SVLogo from '../assets/images/SVLogo.png'
 
 const Footer = () => {
   const footerYear = new Date().getFullYear()
+  const scrollToTop = () => {
+    window.scrollTo(0, 0)
+  }
   return (
     <FooterContainer>
       <div className='footer_details'>
@@ -14,18 +17,18 @@ const Footer = () => {
           <div className='about_us'>
             <h2>About Us</h2>
             <ul>
-              <li><Link to='about-us'>About PriceBeta</Link></li>
-              <li><Link to='compare-price'>Comparing Prices</Link></li>
-              <li><Link to='/'>Contact Us</Link></li>
+              <li onClick={scrollToTop}><Link to='about-us'>About PriceBeta</Link></li>
+              <li onClick={scrollToTop}><Link to='compare-price'>Comparing Prices</Link></li>
+              <li onClick={scrollToTop}><Link to='/'>Contact Us</Link></li>
               <li><Link to='/'>FAQ</Link></li>
             </ul>
           </div>
           <div className='info'>
             <h2>Information</h2>
             <ul>
-              <li><Link to='rules-guidelines'>Rules and Guidelines</Link></li>
-              <li><Link to='privacy-policy'>Privacy Policy</Link></li>
-              <li><Link to='cookie-policy'>Cookie Policy</Link></li>
+              <li onClick={scrollToTop}><Link to='rules-guidelines'>Rules and Guidelines</Link></li>
+              <li onClick={scrollToTop}><Link to='privacy-policy'>Privacy Policy</Link></li>
+              <li onClick={scrollToTop}><Link to='cookie-policy'>Cookie Policy</Link></li>
             </ul>
           </div>
           <div className='catalogue'>

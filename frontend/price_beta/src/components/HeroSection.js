@@ -18,7 +18,7 @@ const HeroSection = () => {
         <p><MdOutlineCheckCircle className='check_circle'/>Discount Deals</p>
         </div>
 
-        <Link to='/'>
+        <Link to='sign-up'>
         <button type='button' className='btn hero_btn'>Get Started</button>
         </Link>
     </div>

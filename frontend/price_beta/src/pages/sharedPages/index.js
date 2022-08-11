@@ -10,10 +10,13 @@ import Login from "./LoginPage";
 import Logout from "./LogoutPage";
 import Privacy from "./PrivacyPolicyPage";
 import Profile from "./ProfilePage";
+import Redirect from "./RedirectPage";
 import Rules from "./RulesPage";
 import SharedLayout from "./SharedLayout";
+import SignUp from "./SignUpPage";
+import Success from "./SuccessPage";
 import Trending from "./TrendingPage";
-
+import ProductList from "./ProductListPage";
 
 export {
     About,
@@ -30,6 +33,9 @@ export {
     Home,
     ComparePrice,
     Privacy,
-    CookiePolicy
-
+    CookiePolicy,
+    SignUp,
+    Success,
+    Redirect,
+    ProductList,
 }

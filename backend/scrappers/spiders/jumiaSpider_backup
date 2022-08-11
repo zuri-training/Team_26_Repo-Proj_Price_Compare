@@ -1,0 +1,120 @@
+"""Jumia website scrapper"""
+from urllib.parse import urljoin
+import scrapy
+import json
+import re
+import pathlib
+
+from itemloaders.processors import Compose
+
+from scrappers.items import (
+    JumiaCategory,
+    ProductItem,
+    JumiaProductReview,
+    JumiaLiveDetail,
+)
+from scrappers.loaders import JumiaProductItemLoader
+
+# Scrape by categories
+# get one category and go 3 steps deep to get all sub category listing in that category
+# migth be better for getting more number of products
+class JumiaCategorySpider(scrapy.Spider):
+    "Get all main categories from jumia homepage"
+    name = "JumiaCategorySpider"
+    start_urls = ["https://www.jumia.com.ng/"]
+    store = "Jumia"
+    steps = 0
+
+    def parse(self, response):
+        menu_items = response.xpath('//a[@role="menuitem"]')
+        urls = []
+        self.steps += 1
+        others = menu_items.pop()
+        for item in menu_items:
+            cat = JumiaCategory()
+            name = item.xpath(".//span/text()").get()
+            cat["url"] = item.attrib["href"]
+            cat["parent_category"] = None
+            cat["scrap_from"] = False
+            if name == "Supermarket":
+                name = "Groceries"
+            cat["name"] = name
+            urls.append(cat["url"])
+            yield cat
+        yield from response.follow_all(urls, callback=self.parse_subcategories)
+        # return
+
+    def parse_subcategories(self, response):
+        subs = response.xpath("//*[contains(text(), 'Category')]/following-sibling::a")
+        urls = []
+        self.steps += 1
+        self.log(f"step : {self.steps}")
+        for sub in subs:
+            cat = JumiaCategory()
+            cat["url"] = sub.attrib["href"]
+            cat["name"] = self.format_name_from_url(cat["url"])
+            cat["scrap_from"] = False if self.steps < 3 else True
+            cat["parent_category"] = self.get_parent_from_url(response.url)
+            yield cat
+        if self.steps < 3:
+            yield from response.follow_all(urls, callback=self.parse_subcategories)
+
+    def get_parent_from_url(self, url):
+        # format : https://www.jumia.ng/<needed info>/
+        return url.split(".ng")[-1]
+
+    def format_name_from_url(self, url):
+        # format : https://www.jumia.ng/some-category/
+        return url.title().strip("/").replace("-", " ")
+
+
+# scrape from catalog
+# use this to get all products available for scraping : about 2000
+class JumiaProductSpider(scrapy.Spider):
+    # response is returned in json format
+    # product list is found in response.json()["viewData"]['products']
+    name = "JumiaProductSpider"
+    custom_settings = {
+        "DEFAULT_REQUEST_HEADERS": {
+            "Accept": "application/json",
+            "Accept-Language": "en",
+        }
+    }
+    max_page = 50
+
+    def start_requests(self):
+        parent = pathlib.Path(".").absolute()  # .parent.absolute()
+        file_path = f"{parent}/categories.json"
+        base_url = "https://www.jumia.ng"
+        with open(file_path, "r") as js:
+            categories = json.load(js)
+        to_scrap_urls = [
+            urljoin(base_url, cat["url"]) for cat in categories if cat["scrape_from"]
+        ]
+        for url in to_scrap_urls:
+            yield scrapy.Request(url, callback=self.parse_product)
+            break
+
+    def parse_product(self, response):
+        current_page = response.meta.get("page", 1)
+        products = response.json()["viewData"].get("products", [])
+        for product in products:
+            item = ProductItem()
+            loader = JumiaProductItemLoader(item)
+            loader.add_value("sku", product.get("sku"))
+            loader.add_value("name", product.get("name"))
+            loader.add_value("brand", product.get("brand"))
+            loader.add_value("price", product.get("prices").get("rawPrice"))
+            loader.add_value("image_url", product.get("image"))
+            loader.add_value("product_url", product.get("url"))
+            loader.add_value("available", product.get("isBuyable"))
+            loader.add_value("category", product.get("categories"))
+            yield loader.load_item()
+
+        # get next page
+        next_page = current_page + 1
+        response.meta.update({'page' : next_page})
+        next_page_url = urljoin(response.url, f'?page={next_page}')
+        if current_page == 3:
+            return 
+        yield response.follow(next_page_url, callback=self.parse_product, meta=response.meta)

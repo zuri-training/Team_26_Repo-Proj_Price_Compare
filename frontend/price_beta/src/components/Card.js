@@ -2,12 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-const Card = ({categoryImg, categoryName}) => {
+const Card = ({categoryImg, categoryName, bgColor, textColor }) => {
   return (
-    <CardContainer>
+    <CardContainer style={{backgroundColor: bgColor}}>
         <Link to=''>
         <img src={categoryImg} alt="card img" />
-        <h3>{categoryName}</h3>
+        <h3 style={{color: textColor}}>{categoryName}</h3>
         </Link>
     </CardContainer>
   )
@@ -15,7 +15,6 @@ const Card = ({categoryImg, categoryName}) => {
 
 
 const CardContainer = styled.div`
-    background: var(--clr-secondaryOrange);
     height:400px;
     width: 400px;
     padding: 60px 0;
@@ -32,6 +31,7 @@ const CardContainer = styled.div`
         color: var(--clr-background);
         font-size: var(--titleLarge);
         text-align: center;
+        margin-top: 10px;
     }
 `
 
