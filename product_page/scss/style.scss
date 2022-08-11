@@ -1,0 +1,68 @@
+@import 'config';
+@import 'utilities';
+@import 'buttons';
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+    
+    background-color:$light-color;
+    color: $secondary-color;
+    font-family: $font-stack;
+    line-height: 1.6;
+}
+
+.container {
+    margin: 3%;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 18px;
+    text-align: justify;
+    padding: 10px;
+    border-bottom: 1px solid  #4A4A4A;
+    .flex-item-left {
+        padding: 10px;
+        flex: 25%;
+    }
+    .flex-item-right {
+        padding: 10px;
+        flex: 75%;
+        .item-specs{
+            // padding: 10px;
+            margin-bottom: 20px;
+
+        }
+    }
+    @media (max-width: 800px) {
+        .container{
+            // margin: 3%;
+            // display: flex;
+            flex-direction: row;
+            font-size: 18px;
+            text-align: justify;
+            padding: 10px;
+            border-bottom: 1px solid  #4A4A4A;
+            .flex-item-left {
+                padding: 10px;
+                flex: 25%;
+            }
+            .flex-item-right {
+                padding: 10px;
+                flex: 75%;
+                .item-specs{
+                    // padding: 10px;
+                    margin-bottom: 20px;
+
+                }
+            }
+        }
+        // .flex-item-right{
+        //     flex: 50%;  
+        // }
+        //  .flex-item-left {
+        // flex: 50%;
+        // }
+    }
+}
