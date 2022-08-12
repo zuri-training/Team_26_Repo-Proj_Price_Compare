@@ -80,9 +80,9 @@ def add_watchlist_item(request):
 @api_view(['POST'])
 @permission_classes((permissions.IsAuthenticated,IsOwner))
 def update_watchlist_item(request,pk):
-    item = WatchListItem.objects.get(watchlist_item=pk,user=request.user)
-    print(item)
-    if item:
+    itemexists= WatchListItem.objects.filter(watchlist_item=pk,user=request.user).exists()
+    if itemexists== True:
+        item = WatchListItem.objects.get(watchlist_item=pk,user=request.user)
         watchlist_item={
             "desired_price":request.data["desired_price"],
             "user":request.user.pk
@@ -100,7 +100,7 @@ def update_watchlist_item(request,pk):
             return Response(
                 status=status.HTTP_404_NOT_FOUND
             )   
-    else:
+    elif itemexists == False:
         raise NotAcceptable("You don't have this item in your WatchList")
 
 
@@ -112,10 +112,18 @@ def update_watchlist_item(request,pk):
 @api_view(['DELETE'])
 @permission_classes((permissions.IsAuthenticated,IsOwner))
 def delete_watchlist_item(request, pk):
-    item = WatchListItem.objects.get(watchlist_item=pk,user=request.user)
-    item.delete()
-    return Response(
-        {"success": "The product has been removed from watchlist"},
-        status=status.HTTP_202_ACCEPTED
-        )
+    itemexists= WatchListItem.objects.filter(watchlist_item=pk,user=request.user).exists()
+    
+
+    if itemexists== True: 
+        item = WatchListItem.objects.get(watchlist_item=pk,user=request.user)       
+        item.delete()
+        return Response(
+            {"success": "The product has been removed from watchlist"},
+            status=status.HTTP_202_ACCEPTED
+            )
+    elif itemexists== False:
+        raise NotAcceptable("Cannot delete since you don't have this item in your WatchList")
+
+
 
