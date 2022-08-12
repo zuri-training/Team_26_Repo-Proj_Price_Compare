@@ -10,8 +10,6 @@ import {
   Profile,
   Login,
   Logout,
-  ProductList,
-  SharedLayout, Redirect, Success,
   Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules, SignUp
 } from './pages/sharedPages'
 
@@ -38,6 +36,7 @@ function App() {
           <Route path='success' element={<Success/>} />  
           <Route path='redirect' element={<Redirect/>} />         
           <Route path='sign-up' element={<SignUp/>} />        
+          <Route path='faq' element={<Faq/>} />        
           <Route path='*' element={<Error />} />
         </Route> 
       </Routes>
