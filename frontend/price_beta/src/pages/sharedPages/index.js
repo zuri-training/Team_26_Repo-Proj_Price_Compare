@@ -16,7 +16,7 @@ import SharedLayout from "./SharedLayout";
 import SignUp from "./SignUpPage";
 import Success from "./SuccessPage";
 import Trending from "./TrendingPage";
-
+import ProductList from "./ProductListPage";
 
 export {
     About,
@@ -37,5 +37,5 @@ export {
     SignUp,
     Success,
     Redirect,
-
+    ProductList,
 }

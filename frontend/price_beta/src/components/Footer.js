@@ -74,9 +74,14 @@ const Footer = () => {
 
 const FooterContainer = styled.footer`
   display: block;
-  background: var(--clr-primaryOrange1);
+  background: var(--clr-grey6);
   color: var(--clr-background);
   padding: 64px;
+
+  @media screen and (max-width: 992px) {
+    flex-direction: column;
+    padding: 12px 32px 0 12px;
+  }
 
   a {
     color: var(--clr-bcgWhite);
@@ -84,21 +89,43 @@ const FooterContainer = styled.footer`
 
   .footer_details {
     display: flex;
-    justify-content: space-between;
-    
-    .about_us h5, .info h5, .catalogue h5 {
-      align-self: baseline;
-      font-size: var(--titleLarge);
+    align-items: center;
+
+    @media (max-width: 992px) {
+      display: block;
     }
 
-    .about_us, .info, .catalogue {
-      ul {
-        li {
-          font-size: var(--bodyLarge);
-          line-height: 35px;
+    ul {
+      line-height: 35px;
+    }
+
+    .footer_info {
+      display: flex;
+      align-items: center;
+      align-self: baseline;
+
+      @media (max-width: 992px){
+        flex-direction: column;
+      }
+      
+      .about_us, .info, .catalogue {
+        align-self: normal;
+        margin-right: 40px;
+
+        h2 {
+          font-size: var(--headlineSmall);
+        }
+
+        ul li {
+          font-size: var(--titleSmall);
+          line-height: var(--lineHeight);
+        }
+
+        @media (max-width: 992px){
+          margin: 0;
         }
       }
-
+      
     }
     
     .newsletter {
@@ -118,7 +145,6 @@ const FooterContainer = styled.footer`
       }
 
       input, button {
-        width: 300px;
         height: 52px;
         border-radius: var(--borderRadius);
         border-style: none;
@@ -132,13 +158,6 @@ const FooterContainer = styled.footer`
       input:focus {
         padding-left: 20px;
       }
-
-      button {
-        font-size: 20px;
-        margin-top: 16px;
-      }
-
-    }
   }
 
   .hr {
@@ -170,7 +189,11 @@ const FooterContainer = styled.footer`
       font-size: var(--bodySmall);
     }
   }
+  
 
+  @media (max-width: 428px) {
+    display: block;
+    padding: 50px 0 0 0;
 
   @media (max-width: 428px) {
     padding: 64px 0 25px;

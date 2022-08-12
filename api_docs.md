@@ -311,6 +311,107 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 **When using this endpoint, specify either query_string or category. If both are specified, query_string would take precedence**
 
 
+## WatchList Endpoints
+
+All endpoints that deals with watchlist would be handled by the watchlist enpoints. Watchlist endpoints can be identified as endpoints that are relative url to **/api/watchlist/**. The watchlist endpoint has the following functionalities"
+
+	- Viewing all user watchlist items
+	- Adding a product to watchlist
+	- Updating of users desired price 
+	- Deleting an item from watchlist
+
+
+- ### View all Watchlist items endpoint
+
+	 
+        - Full path : /api/watchlist/update/<int:pk>/ -the <int:pk> is the value on  watchlist_item key
+        - Function : Enable an authenticated user to delete a watchlist item 
+        - allowed methods : [GET]
+        - required data : {
+		- None
+	     }
+		
+		[
+		    {
+			-created_on
+			-current_price
+			-desired_price
+			-id
+			-image_url
+			-modified_on
+			-price_changes
+			-slug
+			-user
+			-watchlist_item
+		    }
+		]
+	    }
+
+        - Authentication : Required
+
+
+- ### Add product to watchlist
+
+        - Full path : /api/watchlist/add/
+        - Function : Enable an authenticated user to add a product to watchlist
+        - allowed methods : [POST]
+        - required data : {
+		- id -This is the product id
+		- desired_price
+		}
+        - response : {
+		
+		{
+		    "success": "The product has been added to watchlist"
+		}
+	       }
+        - Authentication : Required
+
+
+
+- ### Update a watchlist item
+	
+        - Full path : /api/watchlist/update/<int:pk>/ -the <int:pk> is the value on  watchlist_item key
+        - Function : Enable an authenticated user to update a watchlist item by updating desired price
+        - allowed methods : [POST]
+        - required data : {
+		- desired_price
+		}
+
+        - response : {
+		
+		  {
+	             "success": "The product has been succesfully updated"
+		  }
+		
+	  }
+	  
+       - Authentication : Required
+
+
+- ### Delete watchlist Item
+
+        - Full path : /api/watchlist/update/<int:pk>/ -the <int:pk> is the value on  watchlist_item key
+        - Function : Enable an authenticated user to delete a watchlist item 
+        - allowed methods : [DELETE]
+        - required data : {
+		- None
+	     }
+	   
+
+        - response : {
+		
+		  {
+	             "success": "The product has been succesfully deleted"
+		  }
+		
+	  }
+	  
+       - Authentication : Required
+
+
+
+
 
 
 # PYTHON CODE SNIPPETS

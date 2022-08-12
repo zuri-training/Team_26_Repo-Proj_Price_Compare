@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     'whitenoise.runserver_nostatic',
+    'gmailapi_backend',
     # local apps
     "accounts",
     "products",
@@ -121,7 +122,12 @@ DATABASES['default'].update(db_from_env)
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
+         'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated'
+   ),
+
 }
 
 
@@ -185,9 +191,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 
-EMAIL_PORT = 1025
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_USE_SSL = True
-EMAIL_HOST = 'smtp.zoho.com'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+
+EMAIL_BACKEND = 'gmailapi_backend.mail.GmailBackend'
+GMAIL_API_CLIENT_ID = os.environ["GMAIL_API_CLIENT_ID"]
+GMAIL_API_CLIENT_SECRET = os.environ["GMAIL_API_CLIENT_SECRET"]
+GMAIL_API_REFRESH_TOKEN = os.environ["GMAIL_API_REFRESH_TOKEN"]

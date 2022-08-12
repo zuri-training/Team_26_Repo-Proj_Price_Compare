@@ -4,4 +4,4 @@ from .models import WatchListItem
 
 @admin.register(WatchListItem)
 class WatchListItemAdmin(admin.ModelAdmin):
-    list_display=('user','product','created_on','modified_on')
+    list_display=('user','watchlist_item','created_on','modified_on')
