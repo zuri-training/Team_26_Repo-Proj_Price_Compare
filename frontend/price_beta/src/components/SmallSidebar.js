@@ -2,11 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa';
 import NavLinks from './NavLinks';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleSidebar } from '../features/user/userSlice';
 
 const SmallSidebar = () => {
-
+    const { isSidebarOpen } = useSelector((store) => store.user)
+    const dispatch = useDispatch();
     const toggle = () => {
-
+        dispatch(toggleSidebar())
     }
   return (
     <SidebarContainer>
@@ -17,7 +20,7 @@ const SmallSidebar = () => {
             <button className='close-btn' onClick={toggle}>
                 <FaTimes/>
             </button>
-            <NavLinks/>
+            <NavLinks toggleSidebar={toggle}/>
         </div>
 
         </div>

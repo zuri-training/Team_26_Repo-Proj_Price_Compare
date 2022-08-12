@@ -1,30 +1,44 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { Navbar, Footer } from './components'
-import { About, Categories, ComparePrice, CookiePolicy, EmailPreference, Error, Home, HotDeals, Login, Logout, Privacy, Profile, Rules, Trending } from './pages'
+import { Footer, } from './components'
+import {
+  About,
+  DiscountDeals,
+  EmailPreference,
+  Home,
+  Trending,
+  Profile,
+  Login,
+  Logout,
+  Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules, SignUp
+} from './pages/sharedPages'
+
 
 function App() {
   return (
-    <Router>
-      <Navbar />
+    <Router>      
       <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='privacy-policy' element={<Privacy/>} />
-        <Route path='about-us' element={<About/>} />
-        <Route path='cookie-policy' element={<CookiePolicy/>} />
-        <Route path='rules-guidelines' element={<Rules/>} />
-        <Route path='compare-price' element={ <ComparePrice/>} />
-        <Route path='product-categories' element={<Categories/>} />
-        <Route path='profile' element={<Profile/>} />
-        <Route path='trending' element={<Trending/>} />
-        <Route path='hot-deals' element={<HotDeals/>} />
-        <Route path='login-security' element={<Login/>} />
-        <Route path='email-preferences' element={<EmailPreference/>} />
-        <Route path='logout' element={<Logout/>} />
-
-
-        <Route path='*' element={<Error />} />
-
+        <Route path='/' element={<SharedLayout/>} >
+          <Route index element={<Home/>} />
+          <Route path='discount-deals' element={<DiscountDeals/>} />
+          <Route path='profile' element={<Profile/>} />
+          <Route path='trending' element={<Trending/>} />
+          <Route path='login' element={<Login/>} />
+          <Route path='logout' element={<Logout/>} />
+          <Route path='email-preferences' element={<EmailPreference/>} />
+          <Route path='about-us' element={<About/>} />
+          <Route path='privacy-policy' element={<Privacy/>} />
+          <Route path='cookie-policy' element={<CookiePolicy/>} />
+          <Route path='rules-guidelines' element={<Rules/>} />
+          <Route path='compare-price' element={ <ComparePrice/>} />
+          <Route path='product-categories' element={<Categories/>} />
+          <Route path='product-list' element={<ProductList/>} />    
+          <Route path='success' element={<Success/>} />  
+          <Route path='redirect' element={<Redirect/>} />         
+          <Route path='sign-up' element={<SignUp/>} />        
+          <Route path='faq' element={<Faq/>} />        
+          <Route path='*' element={<Error />} />
+        </Route> 
       </Routes>
       <Footer />
     </Router>

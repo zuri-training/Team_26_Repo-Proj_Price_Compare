@@ -58,6 +58,7 @@ cover/
 *.pot
 
 # Django stuff:
+**/migrations/**
 *.log
 local_settings.py
 db.sqlite3
@@ -114,6 +115,8 @@ ipython_config.py
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
 
+#vi
+*.swo
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid

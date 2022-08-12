@@ -18,7 +18,7 @@ const HeroSection = () => {
         <p><MdOutlineCheckCircle className='check_circle'/>Discount Deals</p>
         </div>
 
-        <Link to='/'>
+        <Link to='sign-up'>
         <button type='button' className='btn hero_btn'>Get Started</button>
         </Link>
     </div>
@@ -60,7 +60,7 @@ const HeroContainer = styled.section`
       }
 
       .check_circle {
-        color: var(--clr-primaryOrange);
+        color: var(--clr-primaryOrange5);
         margin-right: 17px;
       }
     }
@@ -73,8 +73,8 @@ const HeroContainer = styled.section`
     }
 
     .circle{
-      position: relative;
-      left: 800px;
+      // position: relative;
+      // left: 800px;
       margin: 30px 0;
       filter: drop-shadow(0 0 2rem var(--clr-secondaryOrange) );
     }

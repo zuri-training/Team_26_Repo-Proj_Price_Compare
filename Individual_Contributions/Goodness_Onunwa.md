@@ -1,0 +1,3 @@
+- Created API documentation (API doc)[https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/blob/master/api_docs.md]
+- created Jumia Scrapper Script (scrapper branch)[https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/commits/product-authentication-brach]
+- Contributed to product API endpoints including serialization and model creation (product branch)[https://github.com/zuri-training/Team_26_Repo-Proj_Price_Compare/commits/product-authentication-brach]
