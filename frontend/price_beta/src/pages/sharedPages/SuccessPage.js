@@ -7,7 +7,7 @@ const SuccessPage = () => {
             <div class="box1">
                 <img src="../images/cancel.svg" alt="cancel"/>
                 <h1><b>CONGRATULATIONS</b></h1>
-                <P>You have successfully registered for our Newsletter.</P>
+                <p>You have successfully registered for our Newsletter.</p>
             </div>
         </RedirectWrapper>
   )

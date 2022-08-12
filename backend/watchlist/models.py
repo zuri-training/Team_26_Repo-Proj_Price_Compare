@@ -10,20 +10,22 @@ class WatchListItem(models.Model):
         related_name='userwatchlistitem',
         on_delete=models.CASCADE,
     )
-    product=models.ForeignKey(
+    watchlist_item=models.ForeignKey(
         Product,
         related_name='watchlistitem',
         on_delete=models.CASCADE,
     )
-    current_price = models.DecimalField(max_digits=10, decimal_places=2,null=True,blank=True)
+    image_url = models.URLField(max_length=200)
+    slug = models.CharField(max_length=100,null=True,blank=True)
+    current_price = models.DecimalField(max_digits=20, decimal_places=2, null=True,blank=True)
     desired_price=models.DecimalField(max_digits=10, decimal_places=2,null=True,blank=True)
-    price_changes=ArrayField(ArrayField(models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True),null=True,blank=True),null=True,blank=True)
+    price_changes=ArrayField(models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True))
     created_on=models.DateTimeField(auto_now_add=True)
     modified_on=models.DateTimeField(auto_now_add=True)
 
 
     class Meta:
-        ordering = ('product','-created_on')
+        ordering = ('watchlist_item','-created_on')
 
     def get_absolute_url(self):
         """Returns the URL to access a particular instance of WatchListItem"""
@@ -31,27 +33,16 @@ class WatchListItem(models.Model):
 
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
-        return self.product.name
+        return self.watchlist_item.name
 
-     #get current product price
-    def get_current_price(self):
-        return     
-        self.current_price = SaleDetail.objects.filter(self.product).order_by('-price').last()
+    #  #get current product price
+    # def get_current_price(self):
+    #     return     
+    #     self.current_price = SaleDetail.objects.filter(self.product).order_by('-price').last()
 
 
 
-    def save(self, *args, **kwargs):
-        self.current_price = self.get_current_price()
-       
-        # check if user had set their desired price
-        if self.desired_price != None:
-            if self.price_changes is None:
-                self.price_changes=price_changes.append(self.current_price)
 
-        else:
-            self.price_changes=None
-        
-        super().save(*args, **kwargs)
 
 
 

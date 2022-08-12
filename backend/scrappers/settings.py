@@ -48,7 +48,7 @@ ITEM_PIPELINES = {
 }
 
 
-USERNAME = "scoutvendor@gmail.com"
+USERNAME = "scoutvendoradmin@gmail.com"
 USERNAMEFIELD = "scoutvendoradmin"
 PASSWORD = "scoutvendoradmin"
 
