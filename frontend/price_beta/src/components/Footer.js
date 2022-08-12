@@ -17,7 +17,7 @@ const Footer = () => {
           <div className='about_us'>
             <h2>About Us</h2>
             <ul>
-              <li onClick={scrollToTop}><Link to='about-us'>About PriceBeta</Link></li>
+              <li onClick={scrollToTop}><Link to='about-us'>About ScoutVendor</Link></li>
               <li onClick={scrollToTop}><Link to='compare-price'>Comparing Prices</Link></li>
               <li onClick={scrollToTop}><Link to='/'>Contact Us</Link></li>
               <li><Link to='/'>FAQ</Link></li>
@@ -49,7 +49,7 @@ const Footer = () => {
         <div className='newsletter'>
           <img src={Newsletter} alt="newsletter-logo" />
           <p>
-            Get updates on prices and shopping tips with PriceBeta Newsletter
+            Get updates on prices and shopping tips with ScoutVendor Newsletter
           </p>
           <input type="email" placeholder='Your email address' />
           <button type='click' className='btn'>Subscribe</button>
@@ -73,11 +73,10 @@ const Footer = () => {
 }
 
 const FooterContainer = styled.footer`
-  height: 620px;
-  display: flex;
-  background: var(--clr-grey6);
+  display: block;
+  background: var(--clr-primaryOrange1);
   color: var(--clr-background);
-  padding: 24px 64px 35px 72px;
+  padding: 64px;
 
   a {
     color: var(--clr-bcgWhite);
@@ -85,48 +84,53 @@ const FooterContainer = styled.footer`
 
   .footer_details {
     display: flex;
-    align-items: center;
-
-    ul {
-      line-height: 35px;
+    justify-content: space-between;
+    
+    .about_us h5, .info h5, .catalogue h5 {
+      align-self: baseline;
+      font-size: var(--titleLarge);
     }
 
-    .footer_info {
-      display: flex;
-      align-items: center;
-      align-self: baseline;
-      height: 340px;
-
-      h2 {
-        font-size: 32px;
+    .about_us, .info, .catalogue {
+      ul {
+        li {
+          font-size: var(--bodyLarge);
+          line-height: 35px;
+        }
       }
-      
-      .about_us, .info, .catalogue {
-        align-self: normal;
-        margin-right: 40px;
-      } 
+
     }
     
     .newsletter {
       background: var(--clr-secondaryOrange);
       width: 340px;
       color: var(--clr-black);
-      padding: 18px 32px 16px;
+      padding: 18px 24px 16px;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      margin-left: 130px;
 
       p {
-        font-size: 24px;
+        font-size: var(--titleMedium);
         text-align: center;
         font-weight: 600;
       }
 
       input, button {
-        height: 60px;
-        width: -webkit-fill-available;
+        width: 300px;
+        height: 52px;
+        border-radius: var(--borderRadius);
+        border-style: none;
+        border: 1.2px solid #BCBBBA;
+      }
+
+      input::placeholder {
+        padding-left: 10px;
+      }
+      
+      input:focus {
+        padding-left: 20px;
       }
 
       button {
@@ -137,42 +141,92 @@ const FooterContainer = styled.footer`
     }
   }
 
-  hr {
+  .hr {
     border: 1px solid var(--clr-grey5);
     margin: 70px 0;
+    @media (max-width: 992px) {
+      margin: 0 0 20px 0;
+    }
   }
 
   .footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: var(--clr-grey3);
 
     .footer_content {
       display: flex;
-    justify-content: center;
-    align-items: center;
+      justify-content: center;
+      align-items: center;
 
-    .footer_logo {
-      width: 100px;
-      margin-right: 30px;
+      .footer_logo {
+        width: 100px;
+        margin-right: 30px;
+      }
     }
+
+    .back_to_top {
+      color: var(--secondaryOrange);
+      font-size: var(--bodySmall);
     }
   }
 
 
-  .back_to_top {
-    // position: a;
-    // right: 30px;
-    // position: fixed;
-    // right: 1.875rem;
-    // font-size: 24px;
-    // font-weight: 600;
-    color: var(--clr-grey3);
-  }
+  @media (max-width: 428px) {
+    padding: 64px 0 25px;
 
-  @media (min-width: 776px) {
-    flex-direction: column;
+    .footer_details {
+      flex-direction: column;
+
+      .about_us h5, .info h5, .catalogue h5 {
+        align-self: baseline;
+        font-size: var(--titleMedium);
+      }
+
+      .about_us, .info, .catalogue {
+        margin: 0 0 70px 64px;
+        ul {
+          li {
+            font-size: var(--bodyMedium);
+            line-height: var(--lineHeight);
+          }
+        }
+
+      }
+
+      .newsletter {
+        padding: 10px 0 20px;
+        border: 2px solid #F6C598;
+        margin: 30px 24px 67px 24px;
+
+        p {
+          font-size: var(--titleSmall);
+        }
+
+        button {
+          font-size: 20px;
+          margin-top: 12px;
+        }
+      }
+
+    }
+
+    .footer {
+      margin-bottom: 20px;
+      padding: 0 12px 22px 12px;
+
+      .footer_content {
+
+        .footer_logo {
+          width: 144px;
+          height: 24px;
+        }
+        span {
+          font-size: 12px;
+        }
+      }
+    }
+
   }
   
 `
