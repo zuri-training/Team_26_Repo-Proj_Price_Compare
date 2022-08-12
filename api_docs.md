@@ -72,7 +72,8 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- password
 	}
 	- response : {
-		user's data(excluding the password)
+		data:user's data(excluding the password),
+		message:activation link has been sent the email you provided
 	}
 
 	- Authentication : None
@@ -437,8 +438,22 @@ All endpoints that deals with watchlist would be handled by the watchlist enpoin
 			print(res.json())
 		else:
 			res.raise_for_status()
+			
+			
+## Email Verification
 
+		import requests
+		header = {"Authorization" : "Bearer mytoken"}
 
+		url = "https://www.scoutvendor.com/api/auth/verify-email"
+
+		res = requests.get(url, data= token)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
+			
 
 
 ## Login
@@ -450,7 +465,7 @@ All endpoints that deals with watchlist would be handled by the watchlist enpoin
 			"password" : "somepassword"
 		}
 
-		url = "https://www.scoutvendor.com/api/auth/login/"
+		url = "https://www.scoutvendor.com/api/auth/login"
 
 		res = request.post(url, data=details)
 
@@ -458,7 +473,71 @@ All endpoints that deals with watchlist would be handled by the watchlist enpoin
 			print(res.json())
 		else:
 			res.raise_for_status()
+			
+			
+## User
+		import requests
+		header = {"Authorization" : "Bearer mytoken"}
 
+		url = "https://www.scoutvendor.com/api/auth/user
+
+		res = requests.get(url, data= token)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
+
+
+
+## Request Password reset
+
+		import requests
+		"email" : "johndoe@email.com"
+		
+		url = "https://www.scoutvendor.com/api/auth/request-password-reset"
+
+		res = requests.post(url, data=email)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
+
+## Password Reset Token check
+
+		import requests
+		header = {"Authorization" : "Bearer mytoken", "id":"uidb64"}
+
+		url = "https://www.scoutvendor.com/api/auth/reset-passwword"
+
+		res = requests.get(url, data= token, uidb64)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
+			
+			
+## Set New Password
+
+		import requests
+
+		details = {
+			"email" : "johndoe@email.com",
+			"password" : "somepassword"
+		}
+
+		url = "https://www.scoutvendor.com/api/auth/change-password"
+
+		res = request.patch(url, data=details)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
+			
+			
 ## Logout
 
 		import requests
@@ -481,6 +560,20 @@ All endpoints that deals with watchlist would be handled by the watchlist enpoin
 
 		print(res.ok)
 
+
+## Refresh token
+
+		import requests
+		"refresh":"token"
+		
+		url = "https://www.scoutvendor.com/api/auth/token/refresh"
+
+		res = requests.post(url, data=access)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
 
 ## product categories
 
