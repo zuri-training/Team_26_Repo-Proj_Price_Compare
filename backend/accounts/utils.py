@@ -1,4 +1,9 @@
 from django.core.mail import EmailMessage
+from dotenv import load_dotenv
+
+import os,smtplib
+
+load_dotenv()
 
 
 class Util:
@@ -11,3 +16,4 @@ class Util:
             to=[data["to_email"]],
         )
         mail.send()
+    
