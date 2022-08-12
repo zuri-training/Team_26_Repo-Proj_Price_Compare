@@ -32,11 +32,10 @@ class RegisterView(APIView):
         absolute_url = 'http://'+current_site+relative_url+'?token='+smart_str(token)
         email_body = 'hi ' + user.first_name+' verify your email with this link \n'+absolute_url
 
-        data={'email_body':email_body, 'email_subject': 'Verify your email','from_email': 'gentlesoul@zohomail.com', 'to_email':user.email}
+        data={'email_body':email_body, 'email_subject': 'Verify your email','from_email': 'info.scoutvendor@yahoo.com', 'to_email':user.email}
         Util.send_mail(data)
 
-        
-        return Response(user_data, status=status.HTTP_201_CREATED)
+        return Response({'data':user_data, 'message':'activation link have been sent the email you provided'}, status=status.HTTP_201_CREATED)
 
 
 class EmailVerifyView(APIView):
@@ -132,7 +131,7 @@ class RequestPasswordResetEmail(APIView):
             absolute_url = 'http://'+current_site+relative_url
             email_body = 'Hi ' + user.first_name+' reset your password with this link \n'+absolute_url
 
-            data={'email_body':email_body, 'email_subject': 'Password Reset', 'to_email':user.email}
+            data={'email_body':email_body, 'email_subject': 'Password Reset', 'to_email':user.email, 'from_email':'info.scoutvendor@yahoo.com'}
             Util.send_mail(data)
 
         return Response({'success':'A link have been sent to your mail to reset your password'}, status=status.HTTP_200_OK)
