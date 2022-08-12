@@ -17,7 +17,7 @@ const Footer = () => {
           <div className='about_us'>
             <h2>About Us</h2>
             <ul>
-              <li onClick={scrollToTop}><Link to='about-us'>About PriceBeta</Link></li>
+              <li onClick={scrollToTop}><Link to='about-us'>About ScoutVendor</Link></li>
               <li onClick={scrollToTop}><Link to='compare-price'>Comparing Prices</Link></li>
               <li onClick={scrollToTop}><Link to='/'>Contact Us</Link></li>
               <li><Link to='/'>FAQ</Link></li>
@@ -49,7 +49,7 @@ const Footer = () => {
         <div className='newsletter'>
           <img src={Newsletter} alt="newsletter-logo" />
           <p>
-            Get updates on prices and shopping tips with PriceBeta Newsletter
+            Get updates on prices and shopping tips with ScoutVendor Newsletter
           </p>
           <input type="email" placeholder='Your email address' />
           <button type='click' className='btn'>Subscribe</button>
@@ -73,202 +73,162 @@ const Footer = () => {
 }
 
 const FooterContainer = styled.footer`
-  display: block;
-  background: var(--clr-grey6);
-  color: var(--clr-background);
-  padding: 24px 64px 35px 72px;
+display: block;
+background: var(--clr-primaryOrange1);
+color: var(--clr-background);
+padding: 64px;
 
-  @media screen and (max-width: 992px) {
-    flex-direction: column;
-    padding: 12px 32px 0 12px;
+a {
+  color: var(--clr-bcgWhite);
+}
+
+.footer_details {
+  display: flex;
+  justify-content: space-between;
+  
+  .about_us h5, .info h5, .catalogue h5 {
+    align-self: baseline;
+    font-size: var(--titleLarge);
   }
 
-  a {
-    color: var(--clr-bcgWhite);
-  }
-
-  .footer_details {
-    display: flex;
-    align-items: center;
-
-    @media (max-width: 992px) {
-      display: block;
-    }
-
+  .about_us, .info, .catalogue {
     ul {
-      line-height: 35px;
+      li {
+        font-size: var(--bodyLarge);
+        line-height: 35px;
+      }
     }
 
-    .footer_info {
-      display: flex;
-      align-items: center;
-      align-self: baseline;
+  }
+  
+  .newsletter {
+    background: var(--clr-secondaryOrange);
+    width: 340px;
+    color: var(--clr-black);
+    padding: 18px 24px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
-      @media (max-width: 992px){
-        flex-direction: column;
-      }
-      
-      .about_us, .info, .catalogue {
-        align-self: normal;
-        margin-right: 40px;
+    p {
+      font-size: var(--titleMedium);
+      text-align: center;
+      font-weight: 600;
+    }
 
-        h2 {
-          font-size: var(--headlineSmall);
-        }
+    input, button {
+      width: 300px;
+      height: 52px;
+      border-radius: var(--borderRadius);
+      border-style: none;
+      border: 1.2px solid #BCBBBA;
+    }
 
-        ul li {
-          font-size: var(--titleSmall);
-          line-height: var(--lineHeight);
-        }
-
-        @media (max-width: 992px){
-          margin: 0;
-        }
-      }
-      
+    input::placeholder {
+      padding-left: 10px;
     }
     
-    .newsletter {
-      background: var(--clr-secondaryOrange);
-      width: 340px;
-      color: var(--clr-black);
-      padding: 18px 32px 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+    input:focus {
+      padding-left: 20px;
+    }
 
-      @media (max-width: 992px) {
-        margin: 0;
+    button {
+      font-size: 20px;
+      margin-top: 16px;
+    }
+
+  }
+}
+
+.hr {
+  border: 1px solid var(--clr-grey5);
+  margin: 70px 0;
+  @media (max-width: 992px) {
+    margin: 0 0 20px 0;
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .footer_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .footer_logo {
+      width: 100px;
+      margin-right: 30px;
+    }
+  }
+
+  .back_to_top {
+    color: var(--secondaryOrange);
+    font-size: var(--bodySmall);
+  }
+}
+
+
+@media (max-width: 428px) {
+  padding: 64px 0 25px;
+
+  .footer_details {
+    flex-direction: column;
+
+    .about_us h5, .info h5, .catalogue h5 {
+      align-self: baseline;
+      font-size: var(--titleMedium);
+    }
+
+    .about_us, .info, .catalogue {
+      margin: 0 0 70px 64px;
+      ul {
+        li {
+          font-size: var(--bodyMedium);
+          line-height: var(--lineHeight);
+        }
       }
+
+    }
+
+    .newsletter {
+      padding: 10px 0 20px;
+      border: 2px solid #F6C598;
+      margin: 30px 24px 67px 24px;
 
       p {
-        font-size: 24px;
-        text-align: center;
-        font-weight: 600;
-      }
-
-      input, button {
-        height: 60px;
-        width: -webkit-fill-available;
-        border-radius: var(--borderRadius);
-        border-style: none;
-        border: 1.2px solid #BCBBBA;
+        font-size: var(--titleSmall);
       }
 
       button {
         font-size: 20px;
-        margin-top: 16px;
+        margin-top: 12px;
       }
-
     }
-  }
 
-  .hr {
-    border: 1px solid var(--clr-grey5);
-    margin: 70px 0;
-    @media (max-width: 992px) {
-      margin: 0 0 20px 0;
-    }
   }
 
   .footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 0 12px 22px 12px;
 
     .footer_content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
 
       .footer_logo {
-        width: 100px;
-        margin-right: 30px;
+        width: 144px;
+        height: 24px;
       }
-    }
-
-    .back_to_top {
-      color: var(--secondaryOrange);
-      font-size: var(--bodySmall);
+      span {
+        font-size: 12px;
+      }
     }
   }
-  
 
-  @media (max-width: 428px) {
-    display: block;
-    padding: 50px 0 0 0;
+}
 
-    .footer_details {
-      display: block;
-
-      ul {
-        line-height: 20px;
-        margin: 5px 0;
-      }
-
-      .footer_info {
-        display: flex;
-        flex-direction: column-reverse;
-        padding-left: 66px;
-
-        .about_us, .info, .catalogue {
-          align-self: normal;
-  
-          h2 {
-            font-size: var(--headlineSmall);
-          }
-
-          ul li {
-            font-size: var(--bodyMedium);
-            line-height: var(--lineHeight);
-          }
-  
-        }
-
-        .about_us, .info, .catalogue {
-          margin-top: 70px;
-        }
-      }
-
-      .newsletter {
-        margin: 78px 28px 72px 32px;
-        padding: 10px 55px 22px;
-        width: 368px;
-        height: 330px;
-        border: 2px solid #F6C598;
-
-        p {
-          font-size: var(--titleSmall);
-        }
-
-        input, button {
-          height: 52px;
-          width: 257px;
-          padding: 12px 4px;
-
-        }
-        button {
-          font-size: 20px;
-          margin-top: 12px;
-        }
-      }
-
-    }
-
-    .footer {
-      margin-bottom: 20px;
-      padding: 0 12px 22px 12px;
-
-      .footer_content {
-        .footer_logo {
-          width: 144px;
-          height: 24px;
-        }
-      }
-    }
-  
-  }
   
 `
 
