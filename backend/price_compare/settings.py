@@ -9,13 +9,13 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+from celery.schedules import crontab
 from dotenv import load_dotenv
 from pathlib import Path
 
+import cloudinary
 import os
 import dj_database_url
-
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,14 +32,19 @@ SECRET_KEY = 'django-insecure-rygg*&=ne_gicvijf6(eubn@9)bfgicrm1td2hyt2ei^6bz$zi
 
 # SITE ID
 SITE_ID = 1
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'scoutvendorapi.herokuapp.com']
 
+# Redis config
+REDIS_HOST = os.environ["REDIS_HOST"]
+REDIS_PORT = os.environ["REDIS_PORT"]
+REDIS_DB = 0
+
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -54,10 +59,13 @@ INSTALLED_APPS = [
     "corsheaders",
     'whitenoise.runserver_nostatic',
     'gmailapi_backend',
+    "django_celery_beat",
+    "cloudinary",
     # local apps
     "accounts",
     "products",
     "watchlist",
+    "scrappers",
 ]
 
 MIDDLEWARE = [
@@ -196,3 +204,30 @@ EMAIL_BACKEND = 'gmailapi_backend.mail.GmailBackend'
 GMAIL_API_CLIENT_ID = os.environ["GMAIL_API_CLIENT_ID"]
 GMAIL_API_CLIENT_SECRET = os.environ["GMAIL_API_CLIENT_SECRET"]
 GMAIL_API_REFRESH_TOKEN = os.environ["GMAIL_API_REFRESH_TOKEN"]
+
+# Celery config
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
+CELERY_BEAT_SCHEDULE = {
+    # update record every 3 hours
+    "update_product": {
+        "task": "products.tasks.crawl",
+        "schedule": crontab(hour="*/3"),
+    },
+    # run crawlers every two days
+    "run_crawlers": {
+        "task": "product.tasks.crawl",
+        "schedule": crontab(day_of_week=[0, 3, 6]),
+    },
+}
+
+# Cloudinary config
+CLOUDINARY_CLOUD_NAME = os.environ["CLOUDINARY_CLOUD_NAME"]
+CLOUDINARY_API_KEY = os.environ["CLOUDINARY_API_KEY"]
+CLOUDINARY_API_SECRET_KEY = os.environ["CLOUDINARY_API_SECRET_KEY"]
+
+cloudinary.config(
+    cloud_name=CLOUDINARY_CLOUD_NAME,
+    api_key=CLOUDINARY_API_KEY,
+    api_secret=CLOUDINARY_API_SECRET_KEY,
+    secure=True,
+)
