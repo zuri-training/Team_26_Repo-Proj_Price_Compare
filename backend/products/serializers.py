@@ -7,12 +7,25 @@ from rest_framework.views import APIView
 from requests import Response
 from datetime import datetime
 from .models import Category, Product, Review, SalesDetail, Store
-from .utils import send_to_cloudinary
+from .tasks import send_to_cloudinary
+
+
+def get_or_create_partial(model, field):
+    created = False
+    try:
+        instance = model.objects.get(**field)
+    except:
+        instance = model(**field)
+        created = True
+    finally:
+        return instance, created
+
 
 # Users Endpoints
 class ReviewSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
     product = serializers.SerializerMethodField()
+
     class Meta:
         model = Review
         fields = [
@@ -21,7 +34,6 @@ class ReviewSerializer(serializers.ModelSerializer):
             "rating",
             "store",
             "product",
-            "user",
         ]
         read_only_fields = ["author", "product"]
         extra_kwargs = {
@@ -70,7 +82,7 @@ class SalesDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SalesDetail
-        exclude = ['search_url']
+        exclude = ["search_url"]
         read_only_fields = ["modified", "store"]  # "price_changes"]
         extra_kwargs = {
             "product": {"write_only": True},
@@ -101,6 +113,7 @@ class ProductListSerializer(serializers.ModelSerializer):
     # serializing class for product model
     url = serializers.SerializerMethodField()
     category = serializers.StringRelatedField()
+
     class Meta:
         model = Product
         fields = "__all__"
@@ -114,10 +127,11 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     def get_url(self, obj):
         return obj.get_absolute_url()
-    
-    def get_days_modified(self,obj):
+
+    def get_days_modified(self, obj):
         delta = datetime.now().date() - obj.modified
         return delta.days()
+
 
 class ProductDetailSerializer(serializers.ModelSerializer):
     sales = SalesDetailSerializer(source="sales_details", many=True)
@@ -196,22 +210,69 @@ class CreateProductSerializer(serializers.Serializer):
     def create(self, validated_data):
         product = {}
         user = validated_data.pop("user")  # should be Scrapper
+        sale_pk = None
         with transaction.atomic():
             store = validated_data.pop("store")
             store_instance, _ = Store.objects.get_or_create(**store)
             self.store = store_instance
 
             category = validated_data.pop("category")
-            category_instance, _ = Category.objects.get_or_create(
-                **category, parent=None, is_sub_category=False
-            )
-            self.category = category_instance
-
             subcategory = validated_data.pop("subcategory")
-            subcategory_instance, _ = Category.objects.get_or_create(
-                **subcategory, parent=category_instance, is_sub_category=True
+            # category_instance, _ = Category.objects.get_or_create(
+            #     **category, parent=None, is_sub_category=False
+            # )
+            category_instance, c_created = get_or_create_partial(
+                Category, {"name": category["name"]}
             )
-            self.subcategory = subcategory_instance
+            subcategory_instance, s_created = get_or_create_partial(
+                Category, {"name": subcategory["name"]}
+            )
+            if not c_created and category_instance.is_sub_category:
+                if not s_created:
+                    # simple case : category is sub_category and sub-category is category
+                    # then swap them
+                    if not subcategory_instance.is_sub_category:
+                        category_instance, subcategory_instance = (
+                            subcategory_instance,
+                            category_instance,
+                        )
+
+                    # case 2: Both are sub_categories
+                    # then assign category to subcategory's parent
+                    elif subcategory_instance.is_sub_category:
+                        category_instance = subcategory_instance.parent
+
+                    # case 3: Both are main categories
+                    # then create a new subcategory using `store` name
+                    elif not subcategory.is_sub_category:
+                        store_category = (
+                            f"{store_instance.name} {subcategory.pop('name')}".title()
+                        )
+                        store_category = Category.objects.create(
+                            name=store_category,
+                            is_sub_category=True,
+                            parent=category_instnace,
+                        )
+
+                else:
+                    category_instance = category_instance.parent
+                    # subcategory is created and category is a subcategory
+                    # setup subcategory
+                    subcategory_instance = Category.objects.create(
+                        **subcategory, is_sub_category=True, parent=category_instance
+                    )
+            if s_created:
+                subcategory_instance = Category(**subcategory, is_sub_category=True)
+                if c_created:
+                    category_instance = Category.objects.create(
+                        **category, is_sub_category=False, parent=None
+                    )
+                    # subcategory_instance = Category.objects.create(**subcategory, is_sub_category=True, parent=category_instance)
+                # else:
+                subcategory_instance.parent = category_instance
+                subcategory_instance.save()
+
+                # Both are created then continue as normal
 
             product["name"] = validated_data["product"].pop("name")
             product["brand"] = validated_data["product"].pop("brand")
@@ -231,11 +292,15 @@ class CreateProductSerializer(serializers.Serializer):
                 qs.price = sale["price"]
                 qs.save()
             else:
-                sale_instance = SalesDetail.objects.create(
+                # save then schedule for upload to url
+                qs = SalesDetail.objects.create(
                     **sale, product=product_instance, store=store_instance
                 )
+            sale_pk = qs.pk
             product.update(sale)
             self.product = product
+
+        transaction.on_commit(lambda: send_to_cloudinary.delay(sale_pk))
         return self
 
 
@@ -243,27 +308,37 @@ class UpdateProductSerializer(serializers.Serializer):
     product = ProductSerializer
     reviews = ReviewListSerializer
     store = Holder()
+    sale_pk = None
 
     def create(self, validated_data):
         user = validated_data.pop("user")  # should be Scrapper
-        name = validated_data["product"].pop("name")
-        brand = validated_data["product"].pop("brand")
+        product = {}
+        product["name"] = validated_data["product"].pop("name")
+        product["brand"] = validated_data["product"].pop("brand")
         store_name = validated_data.pop("store")["name"]
-        Product = Product.objects.get(name=name, brand=brand)
-        store = Store.objects.get(name=store_name)
-        sale = SalesDetail.objects.get(
-            product=product,
-            store=store,
-            search_url=validated_data["product"]["search_url"],
-        )
-        for k in validated_data["product"].keys():
-            attr = getattr(sale, k, None)
-            if attr is not None:
-                sale.attr = validated_data["product"][attr]
-        sale.save()
-        for reveiw in reviews:
-            instance = Review(product=product, store=store)
-            instance.comment = review["comment"]
-            instance.rating = review["rating"]
-            instance.is_scrapper = True
-            instance.user = review["user"]
+        sale_pk = None
+        with transaction.atom():
+            product_instance = Product.objects.get(
+                name=product["name"], brand=product["brand"]
+            )
+            store_instance = Store.objects.get(name=store_name)
+            sale = SalesDetail.objects.get(
+                product=product,
+                store=store_instance,
+                search_url=validated_data["product"]["search_url"],
+            )
+            sale_pk = sale.pk
+            for k in validated_data["product"].keys():
+                attr = getattr(sale, k, None)
+                if attr is not None:
+                    sale.attr = validated_data["product"][attr]
+            sale.save()
+
+            for reveiw in reviews:
+                instance = Review(product=product, store=store)
+                instance.comment = review["comment"]
+                instance.rating = review["rating"]
+                instance.is_scrapper = True
+                instance.user = review["user"]
+
+        transaction.on_commit(lambda: send_to_cloudinary.delay(sale_pk))

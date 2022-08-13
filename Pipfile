@@ -32,6 +32,8 @@ psycopg2-binary = "*"
 djangorestframework-simplejwt = "*"
 celery = {extras = ["redis"], version = "*"}
 django-celery-beat = "*"
+cloudinary = "*"
+pillow = "*"
 
 [dev-packages]
 

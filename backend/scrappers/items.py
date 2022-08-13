@@ -30,14 +30,15 @@ class ProductItem(scrapy.Item):
     brand = scrapy.Field()
     # sales details
     image_url = scrapy.Field()
+    # images = scrapy.Field()
     search_url = scrapy.Field()
     product_url = scrapy.Field()
     price = scrapy.Field()
     description = scrapy.Field()
     available = scrapy.Field()
 
-    def __repr__(self):
-        return f"{self['brand']} {self['name']}-{self['sku']}"
+    # def __repr__(self):
+    #     return f"{self['brand']} {self['name']}"
 
 
 class ReviewItem(scrapy.Item):

@@ -13,7 +13,7 @@ from celery.schedules import crontab
 from dotenv import load_dotenv
 from pathlib import Path
 
-
+import cloudinary
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "django_celery_beat",
+    "cloudinary",
     # local apps
     "accounts",
     "products",
@@ -166,8 +167,26 @@ EMAIL_HOST_PASSWORD = os.environ["EMAIL_PASSWORD"]
 # Celery config
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
 CELERY_BEAT_SCHEDULE = {
+    # update record every 3 hours
     "update_product": {
         "task": "products.tasks.crawl",
-        "schedule": crontab(minute="*/1"),
-    }
+        "schedule": crontab(hour="*/3"),
+    },
+    # run crawlers every two days
+    "run_crawlers": {
+        "task": "product.tasks.crawl",
+        "schedule": crontab(day_of_week=[0, 3, 6]),
+    },
 }
+
+# Cloudinary config
+CLOUDINARY_CLOUD_NAME = os.environ["CLOUDINARY_CLOUD_NAME"]
+CLOUDINARY_API_KEY = os.environ["CLOUDINARY_API_KEY"]
+CLOUDINARY_API_SECRET_KEY = os.environ["CLOUDINARY_API_SECRET_KEY"]
+
+cloudinary.config(
+    cloud_name=CLOUDINARY_CLOUD_NAME,
+    api_key=CLOUDINARY_API_KEY,
+    api_secret=CLOUDINARY_API_SECRET_KEY,
+    secure=True,
+)

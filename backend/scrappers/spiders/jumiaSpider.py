@@ -82,6 +82,9 @@ class JumiaSpider(scrapy.Spider):
         return url.title().strip("/").replace("-", " ")
 
     def parse_product(self, response):
+        if response.status == 404:
+            return
+
         current_page = response.meta.get("page", 1)
         products = response.json()["viewData"].get("products", [])
         for product in products:
@@ -110,8 +113,8 @@ class JumiaSpider(scrapy.Spider):
         next_page = current_page + 1
         response.meta.update({"page": next_page})
         next_page_url = urljoin(response.url, f"?page={next_page}")
-        if current_page == 3:
-            return
+        # if current_page == 3:
+        #     return
         yield response.follow(
             next_page_url, callback=self.parse_product, meta=response.meta
         )
@@ -160,7 +163,7 @@ class JumiaUpdateSpider(scrapy.Spider):
         product_loader.add_value("brand", view_data["product"]["brand"])
         product_loader.add_value("available", view_data["product"]["isBuyable"])
         product_loader.add_value("price", view_data["product"]["prices"]["rawPrice"])
-
+        product_loader.add_value("image_urls", view_data["product"]["image"])
         product = product_loader.load_item()
         for data in view_data["reviews"]:
             review = ReviewItem()
