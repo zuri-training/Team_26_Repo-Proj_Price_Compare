@@ -17,6 +17,7 @@ import SignUp from "./SignUpPage";
 import Success from "./SuccessPage";
 import Trending from "./TrendingPage";
 import ProductList from "./ProductListPage";
+import Faq from "./FaqPage";
 
 export {
     About,
@@ -38,4 +39,5 @@ export {
     Success,
     Redirect,
     ProductList,
+    Faq,
 }

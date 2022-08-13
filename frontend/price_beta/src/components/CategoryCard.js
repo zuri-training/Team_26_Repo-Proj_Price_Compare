@@ -6,7 +6,6 @@ import { BsArrowRightShort } from 'react-icons/bs';
 import { Link } from 'react-router-dom'
 
 const CategoryCard = () => {
-    console.log(data.all_categories);
   return (
     <CategoryContainer>
     <div className='category_name'>
@@ -18,9 +17,9 @@ const CategoryCard = () => {
 
     <div className='cards'>
         {data.all_categories.map((item) => {
-            const {id, categoryImg, categoryName} = item
+            const {id, categoryImg, categoryName, path} = item
             return (
-            <Card key={id} categoryImg={categoryImg} categoryName={categoryName} bgColor={'#F6C598'}/>
+            <Card key={id} categoryImg={categoryImg} categoryName={categoryName} bgColor={'#F6C598'} path={path}/>
             )
         })}
     </div>
