@@ -10,20 +10,19 @@ from rest_framework import status,permissions
 from rest_framework.exceptions import NotAcceptable, PermissionDenied
 from datetime import datetime
 
-#works fine
+#get API view
 @api_view(['GET'])
-@permission_classes((permissions.IsAuthenticated))
 def WatchlistAPIOverview(request):
     api_urls = {
         'all_watchlist_items': '/all',
-        'Add': '/create',
+        'Add': '/add',
         'Update': '/update/pk',
         'Delete': '/watchlistitem/pk/delete'
     }
   
     return Response(api_urls)
 
-#works fine
+#list all watchlist items
 @api_view(['GET'])
 @permission_classes((permissions.IsAuthenticated,IsOwner))
 def view_watchlist_items(request):
@@ -63,14 +62,11 @@ def add_watchlist_item(request):
         }  
         serializer=WatchListItemSerializer(data=watchlist_item)
         if serializer.is_valid():
-            print(serializer.errors)
             serializer.save()
-            print(serializer.errors)
             return Response({"success": "The product has been added to watchlist"},
                 status=status.HTTP_201_CREATED
             )
         else:
-            print(serializer.errors)
             return Response(
                 status=status.HTTP_404_NOT_FOUND
             )    
@@ -108,7 +104,7 @@ def update_watchlist_item(request,pk):
 
 
 
-##some issues remaining
+#delete item on watchlist
 @api_view(['DELETE'])
 @permission_classes((permissions.IsAuthenticated,IsOwner))
 def delete_watchlist_item(request, pk):
