@@ -6,34 +6,35 @@ const links = [
     },
     {
         id: 2,
-        text: 'Profile',
-        path: 'profile',
+        text: 'About SV',
+        // path: 'profile',
+        path: '/',
+
     }, 
     {
         id: 3,
-        text: 'Trending',
-        path: 'trending',
+        text: 'Contact Us',
+        // path: 'trending',
+        path: '/',
+
     }, 
     {
         id: 4,
-        text: 'Discount Deals',
-        path: 'discount-deals',
+        text: 'FAQ',
+        // path: 'discount-deals',
+        path: '/',
+
     },
-    {
-        id: 5,
-        text: 'Login & Security',
-        path: 'login-security',
-    },
-    {
-        id: 6,
-        text: 'Email Preference',
-        path: 'email-preferences',
-    },
-    {
-        id: 7,
-        text: 'Log Out',
-        path: 'logout',
-    },
+    // {
+    //     id: 5,
+    //     text: 'Login & Security',
+    //     // path: 'login-security',
+    //     path: 'coming-soon',
+    // },
 ]
 
 export default links
+
+export const products_url = 'https://course-api.com/react-store-products'
+
+export const single_product_url = `https://course-api.com/react-store-single-product?id=`
