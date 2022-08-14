@@ -100,7 +100,6 @@ class Product(models.Model):
         related_name="products",
         limit_choices_to={"is_sub_category": True},
     )
-    # loved = models.ManyToManyField(User, related_name="favourites", null=True)
     slug = models.SlugField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
@@ -172,10 +171,10 @@ class SalesDetail(models.Model):
     # price_changes = ArrayField(DecimalField(decimal_places=2), size=5)
 
     # url to search on product on a particular store
-    search_url = models.URLField(default="https://www.testing.com/")
+    search_url = models.URLField(unique=True)
 
     # url to get actual product on store
-    product_url = models.URLField(default="https://www.testing.com/")
+    product_url = models.URLField(unique=True)
     image_url = models.URLField(default="https://www.imageurl.com/")
     available = models.BooleanField(default=True)
     description = models.TextField()
@@ -214,7 +213,7 @@ class Review(models.Model):
         Product, related_name="reviews", on_delete=models.CASCADE, null=True
     )
     date_time = models.DateTimeField(auto_now_add=True)
-    comment = models.TextField(max_length=250, blank=True, null=True)
+    comment = models.TextField(blank=True, null=True)
     rating = models.DecimalField(
         max_digits=3, decimal_places=2, validators=[max_rating_validator], default=0.00
     )
@@ -231,7 +230,7 @@ class Review(models.Model):
     # else the user is our scrapper
     is_scrapper = models.BooleanField(default=False)
     user = models.ForeignKey(
-        User, related_name="reviews", on_delete=models.CASCADE, blank=True, null=True
+            User, related_name="reviews", on_delete=models.CASCADE, blank=True, null=True
     )
 
     class Meta:
@@ -244,9 +243,6 @@ class Review(models.Model):
 
     def __str__(self):
         return f"review by {self.get_author()} on {self.product}"
-
-    # def total_love(self):
-    #     return self.loved.count()
 
     def get_store(self):
         return self.store.name

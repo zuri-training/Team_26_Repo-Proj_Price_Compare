@@ -11,6 +11,8 @@ from django.shortcuts import redirect
 from django.conf import settings
 from django.urls import reverse
 
+from rest_framework import status,permissions
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -31,6 +33,8 @@ import jwt, datetime
 
 # Create your views here.
 class RegisterView(APIView):
+    permission_classes=[AllowAny]
+
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -54,16 +58,17 @@ class RegisterView(APIView):
         data={'email_body':email_body, 'email_subject': 'Verify your email','from_email': 'info.scoutvendor@yahoo.com', 'to_email':user.email}
         Util.send_mail(data)
 
-        return Response({'data':user_data, 'message':'activation link have been sent the email you provided'}, status=status.HTTP_201_CREATED)
+        return Response({'data':user_data, 'message':'activation link has been sent the email you provided'}, status=status.HTTP_201_CREATED)
 
 
 class EmailVerifyView(APIView):
+    permission_classes=[AllowAny]
+
     def get(self, request):
         token = request.GET.get("token")
 
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
-            print(payload)
             user = User.objects.get(id=payload["user_id"])
             if not user.is_verified:
                 user.is_verified = True
@@ -85,6 +90,9 @@ class EmailVerifyView(APIView):
 
 
 class LoginView(APIView):
+    permission_classes=[AllowAny]
+
+
     def post(self, request):
         email = request.data["email"]
         password = request.data["password"]
@@ -104,15 +112,19 @@ class LoginView(APIView):
         }
 
         token = jwt.encode(payload, "secret", algorithm="HS256")
+        serializer = UserSerializer(user)
+        serializer = UserSerializer(user)
 
         response = Response()
 
         response.set_cookie(key="jwt", value=token, httponly=True)
-        response.data = {"tokens": user.tokens()}
+        response.data = {"tokens": user.tokens(), "data":serializer.data, "data":serializer.data}
         return response
 
 
 class UserView(APIView):
+    permission_classes=[IsAuthenticated]
+
     def get(self, request):
         token = request.COOKIES.get("jwt")
 
@@ -135,31 +147,36 @@ class UserView(APIView):
 
 
 class RequestPasswordResetEmail(APIView):
+    permission_classes=[AllowAny]
+
     def post(self, request):
         serializer = PasswordResetSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save
+        data =serializer.data
 
-        email = request.data["email"]
-        if User.objects.filter(email=email).exists():
-            user = User.objects.get(email=email)
-            uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
-            token = PasswordResetTokenGenerator().make_token(user)
+        email = data["email"]
+        if not User.objects.filter(email=email).exists():
+            raise AuthenticationFailed("User not found!")
 
-            current_site = get_current_site(request).domain
-            relative_url = reverse(
-                "accounts:reset-password", kwargs={"uidb64": uidb64, "token": token}
-            )
-            absolute_url = "http://" + current_site + relative_url
-            email_body = (
-                "Hi "
-                + user.first_name
-                + " reset your password with this link \n"
-                + absolute_url
-            )
+        user = User.objects.get(email=email)
+        uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
+        token = PasswordResetTokenGenerator().make_token(user)
 
-            data={'email_body':email_body, 'email_subject': 'Password Reset', 'to_email':user.email, 'from_email':'info.scoutvendor@yahoo.com'}
-            Util.send_mail(data)
+        current_site = get_current_site(request).domain
+        relative_url = reverse(
+            "accounts:reset-password", kwargs={"uidb64": uidb64, "token": token}
+        )
+        absolute_url = "http://" + current_site + relative_url
+        email_body = (
+            "Hi "
+            + user.first_name
+            + " reset your password with this link \n"
+            + absolute_url
+        )
+
+        data={'email_body':email_body, 'email_subject': 'Password Reset', 'to_email':user.email, 'from_email':'info.scoutvendor@yahoo.com'}
+        Util.send_mail(data)
 
         return Response(
             {"success": "A link have been sent to your mail to reset your password"},
@@ -168,6 +185,8 @@ class RequestPasswordResetEmail(APIView):
 
 
 class PasswordResetTokenCheckView(APIView):
+    permission_classes=[AllowAny]
+
     def get(self, request, uidb64, token):
         id = smart_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(id=id)
@@ -196,6 +215,8 @@ class PasswordResetTokenCheckView(APIView):
 
 
 class SetNewPasswordView(generics.UpdateAPIView):
+    permission_classes=[AllowAny]
+
     def patch(self, request):
         serializer = SetNewPasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -205,7 +226,6 @@ class SetNewPasswordView(generics.UpdateAPIView):
         user = User.objects.get(id=id)
         if not PasswordResetTokenGenerator().check_token(user, data["token"]):
             raise AuthenticationFailed("Invalid token", 401)
-        print(user)
         user.set_password(data["password"])
         user.save()
         return Response(
@@ -214,6 +234,8 @@ class SetNewPasswordView(generics.UpdateAPIView):
 
 
 class LogoutView(APIView):
+    permission_classes=[IsAuthenticated]
+
     def post(self, request):
         response = Response()
         response.delete_cookie("jwt")
