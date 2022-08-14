@@ -31,6 +31,7 @@ import jwt, datetime
 
 # Create your views here.
 class RegisterView(APIView):
+    
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -54,7 +55,7 @@ class RegisterView(APIView):
         data={'email_body':email_body, 'email_subject': 'Verify your email','from_email': 'info.scoutvendor@yahoo.com', 'to_email':user.email}
         Util.send_mail(data)
 
-        return Response({'data':user_data, 'message':'activation link have been sent the email you provided'}, status=status.HTTP_201_CREATED)
+        return Response({'data':user_data, 'message':'activation link has been sent the email you provided'}, status=status.HTTP_201_CREATED)
 
 
 class EmailVerifyView(APIView):
@@ -63,7 +64,6 @@ class EmailVerifyView(APIView):
 
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
-            print(payload)
             user = User.objects.get(id=payload["user_id"])
             if not user.is_verified:
                 user.is_verified = True
@@ -85,6 +85,7 @@ class EmailVerifyView(APIView):
 
 
 class LoginView(APIView):
+
     def post(self, request):
         email = request.data["email"]
         password = request.data["password"]
@@ -104,11 +105,12 @@ class LoginView(APIView):
         }
 
         token = jwt.encode(payload, "secret", algorithm="HS256")
+        serializer = UserSerializer(user)
 
         response = Response()
 
         response.set_cookie(key="jwt", value=token, httponly=True)
-        response.data = {"tokens": user.tokens()}
+        response.data = {"tokens": user.tokens(), "data":serializer.data}
         return response
 
 
@@ -139,27 +141,30 @@ class RequestPasswordResetEmail(APIView):
         serializer = PasswordResetSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save
+        data =serializer.data
 
-        email = request.data["email"]
-        if User.objects.filter(email=email).exists():
-            user = User.objects.get(email=email)
-            uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
-            token = PasswordResetTokenGenerator().make_token(user)
+        email = data["email"]
+        if not User.objects.filter(email=email).exists():
+            raise AuthenticationFailed("User not found!")
 
-            current_site = get_current_site(request).domain
-            relative_url = reverse(
-                "accounts:reset-password", kwargs={"uidb64": uidb64, "token": token}
-            )
-            absolute_url = "http://" + current_site + relative_url
-            email_body = (
-                "Hi "
-                + user.first_name
-                + " reset your password with this link \n"
-                + absolute_url
-            )
+        user = User.objects.get(email=email)
+        uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
+        token = PasswordResetTokenGenerator().make_token(user)
 
-            data={'email_body':email_body, 'email_subject': 'Password Reset', 'to_email':user.email, 'from_email':'info.scoutvendor@yahoo.com'}
-            Util.send_mail(data)
+        current_site = get_current_site(request).domain
+        relative_url = reverse(
+            "accounts:reset-password", kwargs={"uidb64": uidb64, "token": token}
+        )
+        absolute_url = "http://" + current_site + relative_url
+        email_body = (
+            "Hi "
+            + user.first_name
+            + " reset your password with this link \n"
+            + absolute_url
+        )
+
+        data={'email_body':email_body, 'email_subject': 'Password Reset', 'to_email':user.email, 'from_email':'info.scoutvendor@yahoo.com'}
+        Util.send_mail(data)
 
         return Response(
             {"success": "A link have been sent to your mail to reset your password"},
@@ -205,7 +210,6 @@ class SetNewPasswordView(generics.UpdateAPIView):
         user = User.objects.get(id=id)
         if not PasswordResetTokenGenerator().check_token(user, data["token"]):
             raise AuthenticationFailed("Invalid token", 401)
-        print(user)
         user.set_password(data["password"])
         user.save()
         return Response(
