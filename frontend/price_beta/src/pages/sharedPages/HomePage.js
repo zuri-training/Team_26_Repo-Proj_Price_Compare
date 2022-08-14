@@ -4,7 +4,7 @@ import { FeaturedCategories, Hero } from '../../components'
 
 const HomePage = () => {
   return (
-    <HomeContainer>
+    <HomeContainer className='container'>
     <Hero/>
     <FeaturedCategories />
     </HomeContainer>

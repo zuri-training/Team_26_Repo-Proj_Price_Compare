@@ -4,17 +4,20 @@
         {
             "id": 1,
             "categoryImg": "./images/categoryImages/Electronics.png",
-            "categoryName": "Electronics"
+            "categoryName": "Electronics",
+            "path": "/"
         },
         {
             "id": 2,
             "categoryImg": "./images/categoryImages/Food.png",
-            "categoryName": "Food"
+            "categoryName": "Food",
+            "path": "/"
         },
         {
             "id": 3,
             "categoryImg": "./images/categoryImages/HomeOffice.png",
-            "categoryName": "Home Office"
+            "categoryName": "Home Office",
+            "path": "/"
         }
 
     ]

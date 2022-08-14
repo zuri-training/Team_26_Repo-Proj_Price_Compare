@@ -12,6 +12,7 @@ cssselect==1.1.0
 distlib==0.3.4
 Django==4.0.6
 django-cors-headers==3.13.0
+django-gmailapi-backend==0.3.2
 django-registration==3.3
 djangorestframework==3.13.1
 djangorestframework-simplejwt==5.2.0
