@@ -5,6 +5,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework import status
 
@@ -71,15 +72,25 @@ class SubCategoryListAPIView(FilterListAPIGenericView):
 
 class ProductListAPIView(FilterListAPIGenericView):
     # gets a list of product under a subcategory
+    permission_classes = [AllowAny]
     queryset = Product.objects.all()
     serializer_class = ProductListSerializer
-    paginator_class = ListingPagination
+    pagination_class = ListingPagination
     filter_by_expr = "category__slug"
     filter_param = "slug"
 
+class ProductSearchAPIView(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    queryset = Product.objects.all()
+    serializer_class = ProductListSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'brand', 'slug', 'category__name', 'category__parent__name']
+    pagination_class = ListingPagination
 
+    
 class ProductDetailApiView(generics.RetrieveAPIView):
     # gets a product and all related sales details
+    permission_classes = [AllowAny]
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
 
@@ -89,35 +100,3 @@ class ReviewAPIView(generics.ListCreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
-
-class CreateProductAPIView(generics.CreateAPIView):
-    """
-    Creation is done in a particular order.
-        - Store is created or fetched
-        - Category is created or fetched first
-        - Subcategory is created or fetched second and Category is passed as parent
-        - Product is created or fetched with Subcategory as category
-        - SalesDetail is created with Product as product and store as Store
-        - Review is created with Product as product and store as Store
-
-    For duplicate SalesDetails, if the duplicate is cheaper it will be used to update the current
-    SalesDetail
-    """
-
-    serializer_class = CreateProductSerializer
-    response_data = {}
-    permission_classes = [AllowScrapper]
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid()
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
-
-    def perform_create(self, serializer):
-        user = get_user_model().objects.get(pk=1)
-        serializer.save(user=user)

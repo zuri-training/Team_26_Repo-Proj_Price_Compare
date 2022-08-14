@@ -13,7 +13,11 @@ from scrappers.items import (
     ReviewItem,
     JumiaLiveDetail,
 )
-from scrappers.loaders import ScrapperItemLoader, JumiaProductItemLoader
+from scrappers.loaders import (
+    ScrapperItemLoader,
+    JumiaProductItemLoader,
+    JumiaUpdateItemLoader,
+)
 
 # Scrape by categories
 # get one category and go 3 steps deep to get all sub category listing in that category
@@ -23,6 +27,11 @@ class JumiaSpider(scrapy.Spider):
     name = "JumiaSpider"
     start_urls = ["https://www.jumia.com.ng/"]
     # allowed_domains = ["jumia.ng"]
+    custom_settings = {
+        "ITEM_PIPELINES": {
+            "scrappers.pipelines.PostItemPipeline": 100,
+        }
+    }
     max_page = 50
     store_name = "Jumia"
 
@@ -72,6 +81,9 @@ class JumiaSpider(scrapy.Spider):
         return url.title().strip("/").replace("-", " ")
 
     def parse_product(self, response):
+        if response.status == 404:
+            return
+
         current_page = response.meta.get("page", 1)
         products = response.json()["viewData"].get("products", [])
         for product in products:
@@ -88,7 +100,7 @@ class JumiaSpider(scrapy.Spider):
             item = loader.load_item()
             subcategory = response.meta["sub"]
             category = response.meta["cat"]
-            store = {'name' : 'Jumia'}
+            store = {"name": "Jumia"}
             item_detail.add_value("category", dict(category))
             item_detail.add_value("subcategory", dict(subcategory))
             item_detail.add_value("product", dict(item))
@@ -96,14 +108,86 @@ class JumiaSpider(scrapy.Spider):
 
             yield item_detail.load_item()
 
-        return
-        # skip this to avoid exceeding allowed request per minute rate
         # get next page
         next_page = current_page + 1
         response.meta.update({"page": next_page})
         next_page_url = urljoin(response.url, f"?page={next_page}")
-        if current_page == 3:
-            return
+        # if current_page == 3:
+        #     return
         yield response.follow(
             next_page_url, callback=self.parse_product, meta=response.meta
         )
+
+
+class JumiaUpdateSpider(scrapy.Spider):
+    # for price and reviews
+    custom_settings = {
+        "DEFAULT_REQUEST_HEADERS": {"Accept": "application/json"},
+        "ITEM_PIPELINES": {
+            "scrappers.pipelines.UpdateItemPipeline": 100,
+        },
+    }
+    name = "JumiaUpdateSpider"
+
+    def __init__(self, url=None, **kwargs):
+        self.start_urls = [url]  # list of search_url's
+        super(JumiaUpdateSpider, self).__init__(**kwargs)
+
+    def parse(self, response):
+        products = response.json()["viewData"]["products"]
+        cleaned_products = [
+            p for p in products if p["name"] == self.name and p["brand"] == self.brand
+        ]
+        cheapest = self.get_cheapest_by_max_rating_ratio(cleaned_products)
+        yield response.follow(
+            cheapest["url"],
+            callback=self.parse_product_detail,
+            meta={"search_url": response.url},
+        )
+
+    def parse_product_detail(self, response):
+        update_loader = JumiaUpdateItemLoader(UpdateItem())
+        product_loader = JumiaProductItemLoader(ProductItem())
+
+        reviews = []
+        view_data = response["viewData"]
+        # get price, description, reviews, product_url, available, name & brand for product identification
+
+        product_loader.add_value("product_url", response.url)
+        product_loader.add_value("search_url", response.meta["search_url"])
+        product_loader.add_value(
+            "description", self.html_parser(view_data["description"])
+        )
+        product_loader.add_value("name", view_data["product"]["name"])
+        product_loader.add_value("brand", view_data["product"]["brand"])
+        product_loader.add_value("available", view_data["product"]["isBuyable"])
+        product_loader.add_value("price", view_data["product"]["prices"]["rawPrice"])
+        product_loader.add_value("image_urls", view_data["product"]["image"])
+        product = product_loader.load_item()
+        for data in view_data["reviews"]:
+            review = ReviewItem()
+            review["rating"] = data["rate"]
+            review["comment"] = data["comment"]
+            review["date"] = data["date"]
+            review["author"] = data["authorText"].split("by")[1].strip()
+            reviews.append(review)
+
+        update_loader.add_value("product", product)
+        update_loader.add_value("reviews", reviews)
+
+        yield update_loader.load_item()
+
+    def get_cheapest_by_max_rating_ratio(self, products):
+        # return the cheapest product
+        # sort products by highest price to ratings
+        by__rating_to_price = sorted(
+            products,
+            key=lambda p: (
+                float(p["rating"]["totalRatings"]) * float(p["rating"]["average"])
+            )
+            / p["prices"]["rawPrice"],
+        )
+        return by_price[0]
+
+    def htmlparser(value):
+        return value
