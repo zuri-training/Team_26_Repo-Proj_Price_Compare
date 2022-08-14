@@ -37,7 +37,7 @@ function App() {
           <Route path='redirect' element={<Redirect/>} />         
           <Route path='sign-up' element={<SignUp/>} />        
           <Route path='faq' element={<Faq/>} />        
-          <Route path='watch-list' element={<WatchList />} />        
+          <Route path='watch-list' element={<WatchList/>} />        
           <Route path='*' element={<Error />} />
         </Route> 
       </Routes>
