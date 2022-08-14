@@ -10,7 +10,7 @@ import {
   Profile,
   Login,
   Logout, ProductList, Success, SharedLayout, Redirect, Faq,
-  Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules, SignUp
+  Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules, SignUp, WatchList
 } from './pages/sharedPages'
 
 
@@ -37,6 +37,7 @@ function App() {
           <Route path='redirect' element={<Redirect/>} />         
           <Route path='sign-up' element={<SignUp/>} />        
           <Route path='faq' element={<Faq/>} />        
+          <Route path='watch-list' element={<WatchList />} />        
           <Route path='*' element={<Error />} />
         </Route> 
       </Routes>
