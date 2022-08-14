@@ -237,6 +237,6 @@ const ProductListContainer = styled.div`
       margin-bottom: 20px;
     }
   }
-  /*# sourceMappingURL=style.css.map */
+  
 `
 export default ProductListPage

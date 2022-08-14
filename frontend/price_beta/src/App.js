@@ -9,7 +9,7 @@ import {
   Trending,
   Profile,
   Login,
-  Logout,
+  Logout, ProductList, Success, SharedLayout, Redirect, Faq,
   Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules, SignUp
 } from './pages/sharedPages'
 
