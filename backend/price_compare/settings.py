@@ -120,11 +120,20 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+<<<<<<< HEAD
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
         'PASSWORD':config('DB_PASSWORD'),
         'HOST': config('DB_HOST')
+=======
+        'NAME': 'scoutvendor',
+        'USER': 'scoutvendoradmin',
+        'PASSWORD': 'scoutvendoradmin',
+        'HOST': 'localhost',
+        'PORT': 5432
+>>>>>>> origin/master
     }
+    
 }
 
 db_from_env = dj_database_url.config(conn_max_age=600)

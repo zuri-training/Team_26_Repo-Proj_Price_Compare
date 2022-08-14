@@ -14,7 +14,7 @@ Each API endpoint can be tested using [postman](), [curl]() or any other service
 
 Both request and response body are formatted in JSON, the content type for requests and responses would always be in `application/json`. Any API calls involving a different `content-Type` would be specified.
 
-In certain API calls an optional `meta` key can be supplied as part of the response and request body. This key is generally used for specifying request parameters such as `item_per_page` and `page_number`. In response body, it is used as meta information about the response, such as the actual number of items returned `items_count`.  
+In certain API calls optional `meta` keys can be supplied as part of the request body. These keys are generally used for specifying request parameters such as `item_per_page` and `page_number`. In response body, it is used as meta information about the response, such as the actual number of items returned `items_count`.  
 
 	- items_count : number of items returned
 	- items_per_page : number of items requested per page
@@ -25,11 +25,11 @@ In certain API calls an optional `meta` key can be supplied as part of the respo
 `meta` key is in the format
 
 
-		"meta" : {
-				"items_count" : "50",
-				"items_per_page" : "50",
-				"page_number" : 1
-			}
+		{
+			"items_count" : "50",
+			"items_per_page" : "50",
+			"page_number" : 1
+		}
 
 
 ### Authentication
@@ -72,7 +72,8 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- password
 	}
 	- response : {
-		user's data(excluding the password)
+		data:user's data(excluding the password),
+		message:activation link has been sent the email you provided
 	}
 
 	- Authentication : None
@@ -200,7 +201,7 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 ***optional authentication specifies that the API can be called with an Authorization header***
 
 ### product endpoint
-	- Full path : /api/product/list/
+	- Full path : /api/product/
 	- function : returns a list of products available
 	- accepted methods : [GET]
 	- required data : None
@@ -216,13 +217,13 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 			- price
 			- image_url
 			- slug
-			- url_on_store
+			- url [url to compare page of the product]
 		}] list of 'n' number of  product instance [defaults to 10 for unathenticated request]
 	}
 	- response meta data : {
-		- items_count
+		- item_count
 		- items_per_page
-		- page_number
+		- page
 	}
 	- Authetication : optional
 
@@ -235,27 +236,42 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 	- reponse : {
 		- categories : [{
 			- name
-			- url
-			- date_modified
+			- url 
+			- slug
+			- image_url
 		}]
 	}
 	- Authentication : None
 
+### product subcategories
+	- Full path : /api/product/category/<category_slug>/
+	- function : returns a list of all sub-categories under a main category 
+	- accepted_method : [GET]
+	- required_data : {
+		slug : category_slug [the slug of the main category]
+	}
+	- response : {
+		- subcategories : [{
+			- name
+			- url
+			- slug
+			- image_url
+		}]
+	}
 
 ### product details
-	- Full path : /api/product/detail/
-	- function : returns detail on a particular product
+	- Full path : /api/product/detail/<product_id>/
+	- function : returns details on a particular product.  
 	- accepted methods : [GET]
 	- required data : {
-		- product_id
+		- product_id : id of product
 	}
 	- response : {
 		- product_id
 		- name
 		- brand
-		- price
+		- price : average price across stores
 		- description
-		- weight (if any)
 		- images_urls : array
 		- store_name
 		- store_url
@@ -263,7 +279,6 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 		- sale : {
 			- price
 			- description
-			- weight (if any)
 			- images_urls : array
 			- store_name
 			- store_url
@@ -293,22 +308,20 @@ All endpoints that deals with authentication would be handled by the auth enpoin
 
 
 ## Search api
-	- Full path : /api/search/
+	- Full path : /api/product/?search=<query>
 	- function : searches database | runs search function to find new items and returns a list of matching products
 	- accepted methods : [GET]
 	- require data : {
-		- query_string (optional)
-		- category (optional)
-		- brand
-		- name
-	}
+		- query : keyword to search for
+		}
 	- request meta data : {
-		items_per_page
+		- items_per_page
+		- page :
 	}
 	- Authentication : required
 
 
-**When using this endpoint, specify either query_string or category. If both are specified, query_string would take precedence**
+**The search keyword value is matched against the name, brand, subcategory and main category of our database. If any match are found across any of the fields, an array of product instance would be return. The effect of matching across sub-category and main category means that a product with name and brand that doesn't match the search value may be returned because it's category of sub-category matches the search keyword. The benefit of this is that it makes searching across categories and sub-category possible**
 
 
 ## WatchList Endpoints
@@ -437,8 +450,22 @@ All endpoints that deals with watchlist would be handled by the watchlist enpoin
 			print(res.json())
 		else:
 			res.raise_for_status()
+			
+			
+## Email Verification
 
+		import requests
+		header = {"Authorization" : "Bearer mytoken"}
 
+		url = "https://www.scoutvendor.com/api/auth/verify-email"
+
+		res = requests.get(url, data= token)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
+			
 
 
 ## Login
@@ -450,7 +477,7 @@ All endpoints that deals with watchlist would be handled by the watchlist enpoin
 			"password" : "somepassword"
 		}
 
-		url = "https://www.scoutvendor.com/api/auth/login/"
+		url = "https://www.scoutvendor.com/api/auth/login"
 
 		res = request.post(url, data=details)
 
@@ -458,7 +485,71 @@ All endpoints that deals with watchlist would be handled by the watchlist enpoin
 			print(res.json())
 		else:
 			res.raise_for_status()
+			
+			
+## User
+		import requests
+		header = {"Authorization" : "Bearer mytoken"}
 
+		url = "https://www.scoutvendor.com/api/auth/user
+
+		res = requests.get(url, data= token)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
+
+
+
+## Request Password reset
+
+		import requests
+		"email" : "johndoe@email.com"
+		
+		url = "https://www.scoutvendor.com/api/auth/request-password-reset"
+
+		res = requests.post(url, data=email)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
+
+## Password Reset Token check
+
+		import requests
+		header = {"Authorization" : "Bearer mytoken", "id":"uidb64"}
+
+		url = "https://www.scoutvendor.com/api/auth/reset-passwword"
+
+		res = requests.get(url, data= token, uidb64)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
+			
+			
+## Set New Password
+
+		import requests
+
+		details = {
+			"email" : "johndoe@email.com",
+			"password" : "somepassword"
+		}
+
+		url = "https://www.scoutvendor.com/api/auth/change-password"
+
+		res = request.patch(url, data=details)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
+			
+			
 ## Logout
 
 		import requests
@@ -481,6 +572,20 @@ All endpoints that deals with watchlist would be handled by the watchlist enpoin
 
 		print(res.ok)
 
+
+## Refresh token
+
+		import requests
+		"refresh":"token"
+		
+		url = "https://www.scoutvendor.com/api/auth/token/refresh"
+
+		res = requests.post(url, data=access)
+
+		if res.ok:
+			print(res.json())
+		else:
+			res.raise_for_status()
 
 ## product categories
 
@@ -505,11 +610,11 @@ All endpoints that deals with watchlist would be handled by the watchlist enpoin
 				return requests.get(url, header=header, param=body)
 
 		url = "https://www.scoutvendor.com/api/product/list/"
-		body = {"meta" : {
+		param = {
 			"items_per_page" : 50,
 			"page_number" : 4
 		}}
-		res = make_auth_request(url, body)
+		res = make_auth_request(url, param)
 		if res.ok:
 			print(res.json())
 
@@ -547,11 +652,9 @@ All endpoints that deals with watchlist would be handled by the watchlist enpoin
 		# search for product containing "red bag" with a brand
 		# of addidas and a category of fashion
 
-		brand = "addidas"
-		cat = "fashion"
-		query = "red bag"
+		search = "red bag"
 
-		body = {"query" : query, "brand" : brand, "category" : cat}
-		res = make_auth_request(url, body)
+		body = {"search" : query}
+		res = make_auth_request(url, param)
 
 		print(res.json())

@@ -58,7 +58,7 @@ class RegisterView(APIView):
         data={'email_body':email_body, 'email_subject': 'Verify your email','from_email': 'info.scoutvendor@yahoo.com', 'to_email':user.email}
         Util.send_mail(data)
 
-        return Response({'data':user_data, 'message':'activation link have been sent the email you provided'}, status=status.HTTP_201_CREATED)
+        return Response({'data':user_data, 'message':'activation link has been sent the email you provided'}, status=status.HTTP_201_CREATED)
 
 
 class EmailVerifyView(APIView):
@@ -69,7 +69,6 @@ class EmailVerifyView(APIView):
 
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
-            print(payload)
             user = User.objects.get(id=payload["user_id"])
             if not user.is_verified:
                 user.is_verified = True
@@ -114,11 +113,12 @@ class LoginView(APIView):
 
         token = jwt.encode(payload, "secret", algorithm="HS256")
         serializer = UserSerializer(user)
+        serializer = UserSerializer(user)
 
         response = Response()
 
         response.set_cookie(key="jwt", value=token, httponly=True)
-        response.data = {"tokens": user.tokens(), "data":serializer.data}
+        response.data = {"tokens": user.tokens(), "data":serializer.data, "data":serializer.data}
         return response
 
 

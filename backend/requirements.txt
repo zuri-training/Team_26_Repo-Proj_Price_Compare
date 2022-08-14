@@ -51,7 +51,6 @@ lxml==4.9.1
 mypy-extensions==0.4.3
 parsel==1.6.0
 pathspec==0.9.0
-Pillow==9.2.0
 platformdirs==2.5.2
 prompt-toolkit==3.0.30
 Protego==0.2.1

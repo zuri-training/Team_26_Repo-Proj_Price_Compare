@@ -24,6 +24,7 @@ distlib==0.3.4
 Django==4.0.6
 django-celery-beat==2.3.0
 django-cors-headers==3.13.0
+django-gmailapi-backend==0.3.2
 django-registration==3.3
 django-timezone-field==5.0
 djangorestframework==3.13.1
