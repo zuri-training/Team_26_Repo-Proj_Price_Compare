@@ -4,7 +4,6 @@ import Navbar from './Navbar'
 import FeaturedCategories from './FeaturedCategories'
 import Hero from './HeroSection'
 import CategoryCard from './CategoryCard'
-import BigSidebar from './BigSidebar'
 import SmallSidebar from './SmallSidebar'
 import CategoryTile from './CategoryTile'
 
@@ -16,6 +15,5 @@ export {
     Navbar,
     Hero,
     CategoryCard,
-    BigSidebar,
     SmallSidebar,
 }
