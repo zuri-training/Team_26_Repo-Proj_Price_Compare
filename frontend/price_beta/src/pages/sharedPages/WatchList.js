@@ -1,16 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import wl_img_first from "../../assets/images/watch_list/104PX_first.svg";
-import wl_img_second from "../../assets/images/watch_list/104PX_second.svg";
-import wl_img_third from "../../assets/images/watch_list/104PX_third.svg";
-import wl_img_fourth from "../../assets/images/watch_list/104PX_fourth.svg";
-import wl_img_fifth from "../../assets/images/watch_list/104PX_fifth.svg";
-import wl_img_sixth from "../../assets/images/watch_list/104PX_sixth.svg";
+import React from "react"
+import styled from 'styled-components'
+import wl_img_first from "../../assets/images/watch_list/104PX_first.svg"
+import wl_img_second from "../../assets/images/watch_list/104PX_second.svg"
+import wl_img_third from "../../assets/images/watch_list/104PX_third.svg"
+import wl_img_fourth from "../../assets/images/watch_list/104PX_fourth.svg"
+import wl_img_fifth from "../../assets/images/watch_list/104PX_fifth.svg"
+import wl_img_sixth from "../../assets/images/watch_list/104PX_sixth.svg"
 // import delete_icon from "../../assets/images/watch_list/Vector.svg"
 
 const WatchList = () => {
   return (
-    <RedirectWrapper class="redirect">
+    <WatchListContainer>
       <div>
         <header>
           <h3 class="headerh3">
@@ -175,11 +175,11 @@ const WatchList = () => {
           </section>
         </main>
       </div>
-    </RedirectWrapper>
+    </WatchListContainer>
   );
 };
 
-const RedirectWrapper = styled.div`
+const WatchListContainer = styled.div`
   /*===== CSS RESET =====*/
 * {
   margin: 0;
@@ -399,6 +399,6 @@ button {
   }
 }
 
-`;
+`
 
-export default WatchList;
+export default WatchList
