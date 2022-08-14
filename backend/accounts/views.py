@@ -11,6 +11,8 @@ from django.shortcuts import redirect
 from django.conf import settings
 from django.urls import reverse
 
+from rest_framework import status,permissions
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -31,7 +33,8 @@ import jwt, datetime
 
 # Create your views here.
 class RegisterView(APIView):
-    
+    permission_classes=[AllowAny]
+
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -59,6 +62,8 @@ class RegisterView(APIView):
 
 
 class EmailVerifyView(APIView):
+    permission_classes=[AllowAny]
+
     def get(self, request):
         token = request.GET.get("token")
 
@@ -85,6 +90,8 @@ class EmailVerifyView(APIView):
 
 
 class LoginView(APIView):
+    permission_classes=[AllowAny]
+
 
     def post(self, request):
         email = request.data["email"]
@@ -106,15 +113,18 @@ class LoginView(APIView):
 
         token = jwt.encode(payload, "secret", algorithm="HS256")
         serializer = UserSerializer(user)
+        serializer = UserSerializer(user)
 
         response = Response()
 
         response.set_cookie(key="jwt", value=token, httponly=True)
-        response.data = {"tokens": user.tokens(), "data":serializer.data}
+        response.data = {"tokens": user.tokens(), "data":serializer.data, "data":serializer.data}
         return response
 
 
 class UserView(APIView):
+    permission_classes=[IsAuthenticated]
+
     def get(self, request):
         token = request.COOKIES.get("jwt")
 
@@ -137,6 +147,8 @@ class UserView(APIView):
 
 
 class RequestPasswordResetEmail(APIView):
+    permission_classes=[AllowAny]
+
     def post(self, request):
         serializer = PasswordResetSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -173,6 +185,8 @@ class RequestPasswordResetEmail(APIView):
 
 
 class PasswordResetTokenCheckView(APIView):
+    permission_classes=[AllowAny]
+
     def get(self, request, uidb64, token):
         id = smart_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(id=id)
@@ -201,6 +215,8 @@ class PasswordResetTokenCheckView(APIView):
 
 
 class SetNewPasswordView(generics.UpdateAPIView):
+    permission_classes=[AllowAny]
+
     def patch(self, request):
         serializer = SetNewPasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -218,6 +234,8 @@ class SetNewPasswordView(generics.UpdateAPIView):
 
 
 class LogoutView(APIView):
+    permission_classes=[IsAuthenticated]
+
     def post(self, request):
         response = Response()
         response.delete_cookie("jwt")

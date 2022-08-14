@@ -35,10 +35,15 @@ class WatchListItem(models.Model):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.watchlist_item.name
 
-    #  #get current product price
-    # def get_current_price(self):
-    #     return     
-    #     self.current_price = SaleDetail.objects.filter(self.product).order_by('-price').last()
+    # #update price changes
+    # # def update_price_changes(self):
+    # #     if self.current_price != self.price_changes[-1]:
+    # #         self.price_changes-
+
+    # #update price changes
+    # def update_price_changes(self):
+    #     if self.current_price != self.price_changes[-1]:
+            # self.price_changes-
 
 
 
