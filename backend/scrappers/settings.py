@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from pathlib import Path
 import os
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -46,5 +47,5 @@ DEPTH_LIMIT = 0
 
 IMAGES_STORE = BASE_DIR / "images"
 
-USERNAME = os.environ["SCRAPPER_USERNAME"]
-USERNAMEFIELD = os.environ["SCRAPPER_USERNAMEFIELD"]
+USERNAME = config("SCRAPPER_USERNAME")
+USERNAMEFIELD = config("SCRAPPER_USERNAMEFIELD")

@@ -10,17 +10,7 @@ from rest_framework import status,permissions
 from rest_framework.exceptions import NotAcceptable, PermissionDenied
 from datetime import datetime
 
-#get API view
-@api_view(['GET'])
-def WatchlistAPIOverview(request):
-    api_urls = {
-        'all_watchlist_items': '/all',
-        'Add': '/add',
-        'Update': '/update/pk',
-        'Delete': '/watchlistitem/pk/delete'
-    }
-  
-    return Response(api_urls)
+
 
 #list all watchlist items
 @api_view(['GET'])
