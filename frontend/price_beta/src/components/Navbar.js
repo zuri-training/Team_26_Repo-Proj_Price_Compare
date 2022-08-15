@@ -18,7 +18,7 @@ const Navbar = () => {
       </div>
       <div className='nav_text mobile'>
         <Link to='/'>Home</Link>
-        <Link to='/about-us'>About SV</Link>
+        <Link to='/about-us'>About Us</Link>
         <Link to='/'>FAQ</Link>
         <Link to='/contact-us'>Contact</Link>
       </div>
