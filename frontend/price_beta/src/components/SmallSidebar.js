@@ -2,25 +2,20 @@ import React from 'react'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa';
 import NavLinks from './NavLinks';
-import { useSelector, useDispatch } from 'react-redux';
-import { toggleSidebar } from '../features/user/userSlice';
+import { useProductsContext } from '../context/products_context';
 
 const SmallSidebar = () => {
-    const { isSidebarOpen } = useSelector((store) => store.user)
-    const dispatch = useDispatch();
-    const toggle = () => {
-        dispatch(toggleSidebar())
-    }
+    const { isSidebarOpen, toggleSidebar } = useProductsContext()
   return (
     <SidebarContainer>
         <div className={isSidebarOpen ? 'sidebar-container show-sidebar'
         : 'sidebar-container'   
     }>
         <div className="content">
-            <button className='close-btn' onClick={toggle}>
+            <button className='close-btn' onClick={toggleSidebar}>
                 <FaTimes/>
             </button>
-            <NavLinks toggleSidebar={toggle}/>
+            <NavLinks toggleSidebar={toggleSidebar}/>
         </div>
 
         </div>
@@ -42,7 +37,7 @@ const SidebarContainer = styled.aside`
         align-items: center;
         z-index: -1;
         opacity: 0;
-        // transition: var(--transition);
+        transition: var(--transition);
     } 
     
     .show-sidebar {
@@ -82,25 +77,12 @@ const SidebarContainer = styled.aside`
     color: var(--clr-text-black);
     padding: 1rem 0;
     text-transform: capitalize;
-    // transition: var(--transition);
+    transition: var(--transition);
     }
     .nav-link:hover {
     color: var(--clr-primaryOrange5);
     }
-    .nav-link:hover .icon {
-    color: var(--primary-500);
-    }
-    .icon {
-    font-size: 1.5rem;
-    margin-right: 1rem;
-    display: grid;
-    place-items: center;
-    // transition: var(--transition);
-    }
     .active {
-    color: var(--clr-primaryOrange5);
-    }
-    .active .icon {
     color: var(--clr-primaryOrange5);
     }
 

@@ -1,0 +1,53 @@
+{
+    "productDetails": [
+       {
+        "id": 1,
+        "productName": "Digitech SP Max  Wireless Advanced Model Gaming  Laptop - 15.6” QHD",
+        "productImg": "./images/productImages/alienware.png",
+        "productDesc": "Gaming computershave taken a wide trend and youre looking for the best for your activities.This laptop features Corei5 560GB rom 32Gb ram 200milli second speed",
+        "productPrice": "N750,000.75",
+        "shippingDetails": "Shipping not included"
+       }, 
+       {
+        "id": 2,
+        "productName": "Itel 17 Pro 3G - Galaxy Blue",
+        "productImg": "./images/productImages/itelphone.png",
+        "productDesc": "Gaming computershave taken a wide trend and youre looking for the best for your activities.This laptop features Corei5 4GB rom 156Gb ram 7000AmH Battery capacity",
+        "productPrice": "N70,655.75",
+        "shippingDetails": "Shipping not included"
+       }, 
+       {
+        "id": 3,
+        "productName": "Kiki New Gain LED Display Cordless Rechargeable Clipper",
+        "productImg": "./images/productImages/clipper.png",
+        "productDesc": "Have your own personal clipper with great features 1 Year Waranty 4 hours durability 200 Voltage",
+        "productPrice": "N6,000.00",
+        "shippingDetails": "Shipping not included"
+       },
+       {
+        "id": 4,
+        "productName": "Razer Blade 15 Advanced Model Gaming  Laptop - 15.6” QHD",
+        "productImg": "./images/productImages/razer.png",
+        "productDesc": "Gaming computershave taken a wide trend and youre looking for the best for your activities.This laptop features Corei5 560GB rom 32Gb ram 200milli second speed",
+        "productPrice": "N750,000.75",
+        "shippingDetails": "Shipping not included"
+       },
+       {
+        "id": 5,
+        "productName": "Razer Blade 15 Advanced Model Gaming  Laptop - 15.6” QHD",
+        "productImg": "./images/productImages/blade.png",
+        "productDesc": "Gaming computershave taken a wide trend and youre looking for the best for your activities.This laptop features Corei5 560GB rom 32Gb ram 200milli second speed",
+        "productPrice": "N750,000.75",
+        "shippingDetails": "Shipping not included"
+       },
+       {
+        "id": 6,
+        "productName": "Razer Blade 15 Advanced Model Gaming  Laptop - 15.6” QHD",
+        "productImg": "./images/productImages/gamming.png",
+        "productDesc": "Gaming computershave taken a wide trend and youre looking for the best for your activities.This laptop features Corei5 560GB rom 32Gb ram 200milli second speed",
+        "productPrice": "N750,000.75",
+        "shippingDetails": "Shipping not included"
+       } 
+
+    ]
+}
