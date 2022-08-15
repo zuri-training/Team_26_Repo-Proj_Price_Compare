@@ -18,6 +18,7 @@ import Success from "./SuccessPage";
 import Trending from "./TrendingPage";
 import ProductList from "./ProductListPage";
 import Faq from "./FaqPage";
+import WatchList from "./WatchList";
 
 export {
     About,
@@ -40,4 +41,5 @@ export {
     Redirect,
     ProductList,
     Faq,
+    WatchList,
 }
