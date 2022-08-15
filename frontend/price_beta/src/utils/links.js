@@ -6,23 +6,23 @@ const links = [
     },
     {
         id: 2,
-        text: 'About SV',
+        text: 'About Us',
         // path: 'profile',
-        path: '/',
+        path: 'about-us',
 
     }, 
     {
         id: 3,
         text: 'Contact Us',
         // path: 'trending',
-        path: '/',
+        path: 'contact-us',
 
     }, 
     {
         id: 4,
-        text: 'FAQ',
+        text: 'User Documentation',
         // path: 'discount-deals',
-        path: '/',
+        path: 'user-doc',
 
     },
     // {
