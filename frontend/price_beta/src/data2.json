@@ -1,0 +1,95 @@
+{
+    "all_categories": [
+        {
+            "id": 1,
+            "categoryImg": "./images/categoryImg/Groceries.png",
+            "categoryName": "Groceries",
+            "path": "../products"
+        },
+        {
+            "id": 2,
+            "categoryImg": "./images/categoryImg/Edibles.png",
+            "categoryName": "Food & Edibles",
+            "path": "../products"
+        },
+        {
+            "id": 3,
+            "categoryImg": "./images/categoryImg/Computers.png",
+            "categoryName": "Electronics & Computers",
+            "path": "../products"
+        },
+        {
+            "id": 4,
+            "categoryImg": "./images/categoryImg/Computers.png",
+            "categoryName": "Cellphones",
+            "path": "../products"
+        },
+        {
+            "id": 5,
+            "categoryImg": "./images/categoryImg/Vehicles.png",
+            "categoryName": "Vehicles",
+            "path": "../products"
+        },
+        {
+            "id": 6,
+            "categoryImg": "./images/categoryImg/Tools.png",
+            "categoryName": "Equipments & Tools",
+            "path": "../products"
+        },
+        {
+            "id": 7,
+            "categoryImg": "./images/categoryImg/Fashion.png",
+            "categoryName": "Fashion",
+            "path": "../products"
+        },
+        {
+            "id": 8,
+            "categoryImg": "./images/categoryImg/Beauty.png",
+            "categoryName": "Health & Beauty",
+            "path": "../products"
+        },
+        {
+            "id": 9,
+            "categoryImg": "./images/categoryImg/Jewelry.png",
+            "categoryName": "Jewelries",
+            "path": "../products"
+        },
+        {
+            "id": 10,
+            "categoryImg": "./images/categoryImg/Sports.png",
+            "categoryName": "Sports & Games",
+            "path": "../products"
+        },
+        {
+            "id": 11,
+            "categoryImg": "./images/categoryImg/Books.png",
+            "categoryName": "Books & Arts",
+            "path": "../products"
+        },
+        {
+            "id": 12,
+            "categoryImg": "./images/categoryImg/Babies.png",
+            "categoryName": "Babies and Kids",
+            "path": "../products"
+        },
+        {
+            "id": 13,
+            "categoryImg": "./images/categoryImg/Pets.png",
+            "categoryName": "For Pets",
+            "path": "../products"
+        },
+        {
+            "id": 14,
+            "categoryImg": "./images/categoryImg/Games.png",
+            "categoryName": "Games & Consoles",
+            "path": "../products"
+        },
+        {
+            "id": 15,
+            "categoryImg": "./images/categoryImg/Home.png",
+            "categoryName": "Home Office",
+            "path": "../products"
+        }
+
+    ]
+}
