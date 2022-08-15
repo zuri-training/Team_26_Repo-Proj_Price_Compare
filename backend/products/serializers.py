@@ -77,9 +77,11 @@ class ReviewSerializer(serializers.ModelSerializer):
         )
 
 
-class SalesDetailSerializer(serializers.ModelSerializer):
+class SalesListSerializer(serializers.ModelSerializer):
     store = serializers.StringRelatedField()
-
+    # product = serializers.StringRelatedField()
+    # brand = serializers.SerializerMethodField()
+    # category = serializers.SerializerMethodField()
     class Meta:
         model = SalesDetail
         exclude = ["search_url"]
@@ -89,24 +91,32 @@ class SalesDetailSerializer(serializers.ModelSerializer):
             "description": {"write_only": True},
         }
 
-    def create(self, validated_data):
-        store = validated_data["store"]
-        product = validated_data["product"]
-        price = validated_data["price"]
-        qs = SalesDetail.objects.filter(Q(product=product) & Q(store=store))
-        if qs:
-            if qs["price"] > price:
-                qs["price"] = price
-                qs.save()
-                return qs
-        else:
-            instance = SalesDetail(product=product, store=store)
-            instance["price"] = validated_data["price"]
-            instance["product_url"] = validated_data["product_url"]
-            instance["available"] = validated_data["available"]
-            instance["description"] = validated_data["description"]
-            instance.save()
-            return instance
+    def get_brand(self, obj):
+        return obj.product.brand
+
+    def get_category(self, obj):
+        return obj.product.category
+
+
+class SalesDetailSerializer(serializers.ModelSerializer):
+    store = serializers.StringRelatedField()
+    # product = serializers.StringRelatedField()
+    # brand = serializers.SerializerMethodField()
+    # category = serializers.SerializerMethodField()
+    class Meta:
+        model = SalesDetail
+        exclude = ["search_url"]
+        read_only_fields = ["modified", "store"]  # "price_changes"]
+        extra_kwargs = {
+            "product": {"write_only": True},
+            "description": {"write_only": True},
+        }
+
+    def get_brand(self, obj):
+        return obj.product.brand
+
+    def get_category(self, obj):
+        return obj.product.category
 
 
 class ProductListSerializer(serializers.ModelSerializer):

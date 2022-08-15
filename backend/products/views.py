@@ -14,6 +14,7 @@ from .serializers import (
     ProductDetailSerializer,
     SalesDetailSerializer,
     ProductListSerializer,
+    SalesListSerializer,
     CategorySerializer,
     ReviewSerializer,
     StoreSerializer,
@@ -78,14 +79,35 @@ class ProductListAPIView(FilterListAPIGenericView):
     filter_by_expr = "category__slug"
     filter_param = "slug"
 
+
 class ProductSearchAPIView(generics.ListAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductListSerializer
+    serializer_class = SalesListSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name', 'brand', 'slug', 'category__name', 'category__parent__name']
+    search_fields = [
+        "product__name",
+        "product__brand",
+        "product__slug",
+        "product__category__name",
+        "product__category__parent__name",
+    ]
     pagination_class = ListingPagination
 
-    
+
+class SalesListAPIView(generics.ListAPIView):
+    queryset = SalesDetail.objects.all()
+    serializer_class = SalesListSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = [
+        "product__name",
+        "product__brand",
+        "product__slug",
+        "product__category__name",
+        "product__category__parent__name",
+    ]
+    pagination_class = ListingPagination
+
+
 class ProductDetailApiView(generics.RetrieveAPIView):
     # gets a product and all related sales details
     queryset = Product.objects.all()

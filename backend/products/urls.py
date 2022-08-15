@@ -7,7 +7,10 @@ API_TITLE = "ScoutVendor API"
 API_DESCRIPTION = "A Web API for ScoutVendor."
 
 urlpatterns = [
-    path("", ProductSearchAPIView.as_view(), name="all_product_list"), # list all products
+    path("", SalesListAPIView.as_view(), name="all_sales_list"),  # list all products
+    path(
+        "products/", ProductSearchAPIView.as_view(), name="all_product_list"
+    ),  # list all products
     path(
         "categories/", CategoryListAPIView.as_view(), name="category_list"
     ),  # list all categories
