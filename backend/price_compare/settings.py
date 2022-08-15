@@ -29,7 +29,7 @@ load_dotenv(BASE_DIR.parent / ".env")
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SITE ID
-SITE_ID = 1
+SITE_ID = 2
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

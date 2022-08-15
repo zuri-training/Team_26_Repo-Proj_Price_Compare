@@ -79,9 +79,10 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 class SalesListSerializer(serializers.ModelSerializer):
     store = serializers.StringRelatedField()
-    # product = serializers.StringRelatedField()
-    # brand = serializers.SerializerMethodField()
-    # category = serializers.SerializerMethodField()
+    store_icon = serializers.SerializerMethodField()
+    product = serializers.StringRelatedField()
+    brand = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
     class Meta:
         model = SalesDetail
         exclude = ["search_url"]
@@ -95,7 +96,10 @@ class SalesListSerializer(serializers.ModelSerializer):
         return obj.product.brand
 
     def get_category(self, obj):
-        return obj.product.category
+        return obj.product.category.name
+
+    def get_store_icon(self, obj):
+        return obj.store.favicon
 
 
 class SalesDetailSerializer(serializers.ModelSerializer):

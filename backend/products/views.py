@@ -82,14 +82,14 @@ class ProductListAPIView(FilterListAPIGenericView):
 
 class ProductSearchAPIView(generics.ListAPIView):
     queryset = Product.objects.all()
-    serializer_class = SalesListSerializer
+    serializer_class = ProductListSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = [
-        "product__name",
-        "product__brand",
-        "product__slug",
-        "product__category__name",
-        "product__category__parent__name",
+        "name",
+        "brand",
+        "slug",
+        "category__name",
+        "category__parent__name",
     ]
     pagination_class = ListingPagination
 

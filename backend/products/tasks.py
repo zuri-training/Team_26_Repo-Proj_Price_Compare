@@ -39,7 +39,7 @@ def send_to_cloudinary(pk):
         f"Saving {slugify(sale.product.name)} image from {sale.store} to cloudinary"
     )
     folder = f"/{slugify(sale.product.brand)}/{slugify(sale.product.name)}/"
-    public_id = slugify(f"{sale.store}-{sale.product.name}")
+    public_id = slugify(f"{sale.store}")
     new_url = upload_to_cloudinary(image=image, folder=folder, public_id=public_id)
     logger.info(new_url)
     sale.image_url = new_url
