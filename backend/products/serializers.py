@@ -314,7 +314,7 @@ class CreateProductSerializer(serializers.Serializer):
             product.update(sale)
             self.product = product
 
-        transaction.on_commit(lambda: send_to_cloudinary.delay(sale_pk))
+        transaction.on_commit(lambda: send_to_cloudinary.apply_async(args=[sale_pk], countdown=40))
         return self
 
 
