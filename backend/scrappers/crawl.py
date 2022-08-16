@@ -19,9 +19,7 @@ def run_crawlers():
         print(f"Starting {spider}...")
         if spider == "KongaSpider":
             continue
-        continue
         process.crawl(spider)
-    # process.start()
     kongaSpider.run()
 
 
