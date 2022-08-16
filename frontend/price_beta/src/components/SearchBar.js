@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { MdSearch } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { handleChange } from "../features/allProducts/allProductsSlice";
 
-// import { GithubContext } from "../context/context";
 const SearchBar = () => {
-  // const [productName, setProductName] = useState("");
 
   const { 
     isLoading,
@@ -20,7 +18,6 @@ const SearchBar = () => {
     dispatch(handleChange({ name: e.target.name, value: e.target.value}))
   }
 
-//   const { requests, error, searchGithubUser, isLoading } = React.useContext(GithubContext)
 
   // get things from global context
 
@@ -66,15 +63,9 @@ const Wrapper = styled.div`
         letter-spacing: var(--letterSpacing);
         color: var(--clr-grey4);
       }
-      input::placeholder {
-        color: var(--clr-grey4);
-        text-transform: capitalize;
-        letter-spacing: var(--letterSpacing);
-        padding: 14px 0 14px 16px;
-        font-size: var(--bodyMedium);
-      }
-      input:focus {
-        padding-left: 14px;
+      
+      input[type=text] {
+        padding: 12px 20px;
       }
 
       button {
@@ -104,12 +95,8 @@ const Wrapper = styled.div`
         input {
           padding-right: 60px;
         }
-        input::placeholder {
-          padding: 14px 0 7px 7px;
-          font-size: var(--bodySmall);
-        }
-        input:focus {
-          padding-left: 7px;
+        input[type=text] {
+          padding: 6px 10px;
         }
       }
     }

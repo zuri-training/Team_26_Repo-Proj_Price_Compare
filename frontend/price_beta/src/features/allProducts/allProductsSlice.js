@@ -64,7 +64,7 @@ export const {
     hideLoading,
     handleChange,
     changePage,
-    clearAllProducts,
+    clearAllProductsState,
     clearFilters
 } = allProductsSlice.actions
 
