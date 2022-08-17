@@ -42,6 +42,11 @@ class PasswordResetSerializer(serializers.Serializer):
 
 
 class SetNewPasswordSerializer(serializers.Serializer):
+    """
+    This serializer is use to set  new password for user that has forgotten their password.
+    It takes the new password to be set, password reset token from the request password reset link and the encoded user's id
+    The new password is then used to replace the old one in the database
+    """
     password = serializers.CharField(max_length=68, min_length=8, write_only=True)
     token = serializers.CharField(min_length=1, write_only=True)
     uidb64 = serializers.CharField(min_length=1, write_only=True)

@@ -193,8 +193,10 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 
-
+# email backend used with gmailapi package
 EMAIL_BACKEND = 'gmailapi_backend.mail.GmailBackend'
+
+# gmail api email settings, client_id, client_secret and refresh_token gotten from gmail oauth
 GMAIL_API_CLIENT_ID = os.environ["GMAIL_API_CLIENT_ID"]
 GMAIL_API_CLIENT_SECRET = os.environ["GMAIL_API_CLIENT_SECRET"]
 GMAIL_API_REFRESH_TOKEN = os.environ["GMAIL_API_REFRESH_TOKEN"]
