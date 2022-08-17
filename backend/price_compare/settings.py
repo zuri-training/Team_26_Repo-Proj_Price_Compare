@@ -105,7 +105,6 @@ WSGI_APPLICATION = "price_compare.wsgi.application"
 
 DATABASES = {
     
-
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'scoutvendor',

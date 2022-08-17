@@ -47,6 +47,7 @@ class RegisterView(APIView):
 
         token = RefreshToken.for_user(user).access_token
         current_site = get_current_site(request).domain 
+    
         relative_url = reverse("accounts:email-activate")
         absolute_url = (
             current_site + relative_url + "?token=" + smart_str(token)
@@ -57,7 +58,6 @@ class RegisterView(APIView):
             + " verify your email with this link \n"
             + absolute_url
         )
-
         data={'email_body':email_body, 'email_subject': 'Verify your email','from_email': 'info.scoutvendor@yahoo.com', 'to_email':user.email}
         # head and body of mail sent for verification
         Util.send_mail(data)
@@ -71,7 +71,7 @@ class EmailVerifyView(APIView):
 
         try:
 
-            redirect_url = "https://scout-vendor.netlify.app/product" # to redirect to homepage of the app upon verification
+            redirect_url = "https://scout-vendor.netlify.app/products" # to redirect to homepage of the app upon verification
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
             user = User.objects.get(id=payload["user_id"])
             if not user.is_verified: # to verify user when they click on the verification link
