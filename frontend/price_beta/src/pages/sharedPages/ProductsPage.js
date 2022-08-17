@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { Loading, PageBtnContainer, ProductCard, SearchBar } from '../../components'
+import { PageBtnContainer, ProductCard, SearchBar } from '../../components'
+import { LoadingCenter } from '../../components/Loading'
 import { getAllProducts } from '../../features/allProducts/allProductsSlice'
 
 const ProductsPage = () => {
@@ -23,12 +24,12 @@ const ProductsPage = () => {
   }, [page, search])
 
   if (isLoading) {
-    return <Loading />
+    return <LoadingCenter center />
   }
 
   if (products.length === 0) {
     return (
-      <div>
+      <div className='section section-center'>
         <h2>No Products to display...</h2>
       </div>
     )

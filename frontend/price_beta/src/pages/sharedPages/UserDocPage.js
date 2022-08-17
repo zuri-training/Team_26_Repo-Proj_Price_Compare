@@ -71,9 +71,14 @@ const UserDocPage = () => {
 
       {/* Text and thumbs div */}
       <div>
-        <p>Was this page helpful? Was it great or not helpful. For more ways to help you use ScoutVendor</p>
-        <div>
-          
+        <p>Was this page helpful? For more ways to help you use  <Link to='../contact-us'>Contact Form</Link></p>
+        <div className='thumbs'>
+            <FaThumbsUp className={activeClass ? 'like active' : 'like' }
+              onClick={() => changeThumbClr()}
+            />
+
+            <FaThumbsDown className={activeClass ? 'dislike active' : 'dislike' }
+              onClick={() => changeThumbClr()}/>
         </div>
 
       </div>
@@ -90,5 +95,33 @@ const UserDocWrapper = styled.div`
   div {
     margin-bottom: 40px;
   }
+    .thumbs_text {
+      text-align: center;
+      .thumbs {
+        display: inline-block;
+        width: 100%;
+        margin-top: 40px;
+        padding-top: 40px;
+        text-align: center;
+        
+        .like, .dislike {
+          display: inline-block;
+          cursor: pointer;
+          font-size: var(--headlineLarge);
+          margin: 10px;
+        }
+    
+        .like:hover, .dislike:hover {
+          color: var(--clr-primaryOrange5);
+          transition: var(--transiton);
+          transform: scale(1.1)
+        }
+
+        .active {
+          color: var(--clr-primaryOrange5);
+        }
+      }
+    }
+
 `
 export default UserDocPage
