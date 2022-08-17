@@ -54,9 +54,8 @@ category_match = {
     5294: "Phones And Tablets",
     5227: "Computer Accessories",
 }
-user_agent = {
-    "User-Agent": "<your user agent here>"
-}
+# user_agent = {"User-Agent": "<your user agent here>"}
+user_agent = None
 headers = {
     "Origin": "https://www.konga.com",
     "Referer": "https://www.konga.com/",
@@ -134,6 +133,7 @@ async def save_products(products, cat_id):
         serializer.is_valid(raise_exception=True)
         serialized_products.append(serializer)
         pp.pprint(dict(item))
+        return
 
 
 async def fetch_products(session, cat_id, page_num):
@@ -186,19 +186,24 @@ async def main():
                 ]
                 await asyncio.gather(*txns)
 
+        return
+
 
 def save(product):
     try:
         product.save(user=USER)
         print(f"saved product {serialized_products.index(product)}")
     except:
+        print(e)
         print(f"skipping product {serialized_products.index(product)}")
 
 
-def save_all(workers=1):
-    executor = ThreadPoolExecutor(max_workers=workers)
-    for res in executor.map(save, serialized_products):
-        print(res)
+def save_all(workers=2):
+    # executor = ThreadPoolExecutor(max_workers=workers)
+    # for res in executor.map(save, serialized_products):
+    # print(res)
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        executor.map(save, serialized_products)
 
 
 def run():
