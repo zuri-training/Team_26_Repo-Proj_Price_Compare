@@ -1,300 +1,312 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import signup from '../../assets/svg/signup.svg'
+import signupmobile from '../../assets/svg/signupmobile.svg'
+import {FaGoogle} from 'react-icons/fa'
+import { registerUser } from '../../features/user/userSlice'
+// import FormField from '../../components/FormField'
 
-const SignUpPage = () => {
+const initialState = {
+  first_name: '',
+  last_name: '',
+  email: '',
+  password: '',
+}
+
+function SignUpPage() {
+  const [values, setValues] = useState(initialState)
+  const {user, isLoading} = useSelector(store => store.user)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+
+  const handleChange = (e) => {
+    const name = e.target.name
+    const value = e.target.value
+    setValues({...values, [name]: value})
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+    const { first_name, last_name, email, password } = values
+    if(!email || !password || !first_name || !last_name) {
+      toast.error('Please Fill Out all Fields')
+    }
+    dispatch(registerUser({ first_name, last_name, email, password }))
+    console.log(values)
+  }
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate('/')
+      }, 2000)
+    }
+  }, [user])
+
   return (
-    <SignContainer>
-      <div className='divWrap'>
-        <div className='divOne'>
-          <h1>Get Started With Us</h1>
-          <p>Compare prices across a wide rage of websites as well as get amazing deals from ScoutVendor.</p>
-          <img src="./categoryimages/sign2-img.jpg" alt=""/>
-        </div> 
-        <div className='divTwo'>
-          <h2>Sign Up</h2>
-          <hr/>
-          <form>
-            <label htmlFor='name'>Fullname</label>
-            <input type="text" id="name" placeholder="Jane Dorothy" />
-            <br/>
-            <label htmlFor='name'>Email Address</label>
-            <input type="email" id="email" placeholder="Janedorothy@gmail.com" />
-            <br/>
-            <label htmlFor='password'>Password</label>
-            <input type="password" id="password" placeholder="password" />
-          </form>
-          <br/>
-          <button className='email-bttn'>Sign up with email</button>
-          <br/>
-          <button className='google-bttn'>Sign up with Google</button>
-          <p className='check-box'><input type="checkbox" />  <span>I agree to the <a href='/'>Terms and Conditions</a></span></p>
-          <p className='term-txt'>By Completing this form, you acknowledge that you understand the <a href='/'>Privacy Policy</a></p>
-          <p className='login-txt'>Already have an account?  <a href="login">LoginHere</a></p>
-        </div>  
+    <SignUpWrapper>
+      <div className='signup_text'>
+        <h1>Get Started With Us</h1>
+        <p>Compare prices across a wide rage of websites 
+          as well as get amazing deals from ScoutVendor.
+        </p>
+        <img src={signup} className='signupimg_desktop' alt="signup flower" />
+        <img src={signupmobile} className='signupimg_mobile' alt='signup flower' />
+
       </div>
-    </SignContainer>
+
+      <div className='signup_form'>
+        <h3>Sign Up</h3>
+        <hr />
+        <form onSubmit={onSubmit}>
+          
+          <label htmlFor="first_name">First Name</label>
+          <input 
+            type="text"
+            name='first_name'
+            value={values.name}
+            onChange={handleChange}
+            placeholder='Jane'
+          />
+          <label htmlFor="last_name">Last Name</label>
+          <input 
+            type="text"
+            name='last_name'
+            value={values.name}
+            onChange={handleChange}
+            placeholder='Dorothy'
+          />
+
+          <label htmlFor="email">Email Address</label>
+          <input 
+            type="email"
+            name='email'
+            value={values.email}
+            onChange={handleChange}
+            placeholder='janedorothy@email.com'  
+          />
+
+          <label htmlFor="password">Password</label>
+          <input 
+            type="password"
+            name='password'
+            value={values.password}
+            onChange={handleChange}
+            placeholder='Enter Password'          
+          />
+
+          <button type="submit" className='btn signup_btn'
+            disabled={isLoading}
+          >
+          Sign Up with email
+          </button>
+        </form>
+
+        <button className='btn google_btn'> 
+         <FaGoogle/> Sign up with Google</button>
+
+        <p className='t_c'> <input type="checkbox" required/> 
+             I agree to the Terms and Conditions.
+        </p>
+
+        <p>By completing this form, you acknowledge 
+          that you understand the privacy policy.
+        </p>
+
+        <p>Already have an account? <Link to='../login'>Login Here</Link> </p>
+
+      </div>
+
+
+    </SignUpWrapper>
   )
 }
-const SignContainer = styled.div`
-.divWrap{
+
+const SignUpWrapper = styled.div`
+  background: var(--clr-primaryOrange5);
+  color: var(--clr-white);
   display: flex;
   justify-content: space-between;
-  background: #F88007;
-  margin: 10px auto;
-  padding:2rem 10px;
-}
-.divWrap .divOne{
-  margin: 30px 42px;
-  padding-top: 50px;
-}
+  padding: 64px 82px 48px 104px;
 
-.divWrap .divOne h1{
-  color: #FFF7F0;
-  padding: 32px 2px;
-  font-weight: 700;
-  
+  .signup_text {
+    align-self: center;
+    margin-right: 200px;
 
-}
-.divWrap .divOne p{
-  color: #FFF7F0;
-  font-weight: 600;
-  font-size: 22px;
-  padding-left: 10px
-  
+    h1 {
+      line-height: 64px;
+      margin-bottom: 36px;
+      width: max-content;
+    }
+    p {
+      line-height: 32px;
+      font-size: 22px;
+      margin-bottom: 52px;
+    }
 
-}
-.divWrap .divOne img{
-  padding: 20px;
-}
-.divWrap .divTwo{
-  background: #FFF7F0;
-  border-radius: 10px;
-  margin: 30px;
-  padding: 75px 55px;
-  
-}
-.divWrap .divTwo h2{
-  text-align: center;
-  font-weight: 700;
-  padding: 22px;
-}
-.divWrap .divTwo hr{
-  border: 1px solid #E1E0DF;
-  margin: 30px 0;
+    .signupimg_mobile {
+      display: none;
+    }
+  }
 
-
-}
-.divWrap .divTwo form{
-  padding-top: 20px;
-}
-.divWrap .divTwo form input{
-  background: #FFF7F0;
-  display: block;
-  width: 90%;
-  color: #969595;
-  padding: 15px 34px;
-  border: 1.2px solid #BCBBBA;
-  border-radius: 5px;
-  font-weight: 400;
-  font-size: 16px;
-  
-}
-.divWrap .divTwo form label{
-  color: #717070;
-  font-weight: 400;
-}
-.divWrap .divTwo .email-bttn{
-  background-color: #F88007;
-  width: 90%;
-  color: #FFF7F0;
-  font-size: 20px;
-  font-weight: 600;
-  padding: 15px 28px;
-  border: none;
-  border-radius: 8px;
-  display: block;
-  cursor: pointer;
-
-} 
-.divWrap .divTwo .google-bttn{
-  background: #131211;
-  width: 90%;
-  color: #FFF7F0;
-  font-size: 20px;
-  font-weight: 600;
-  padding: 15px 28px;
-  border: none;
-  border-radius: 8px;
-  display: block;
-  cursor: pointer;
-}
-.divWrap .divTwo .check-box{
-  display: block;
-  color: #131211;
-}
-.divWrap .divTwo .check-box input{
-  border: 2px solid #969595;
-  background-color: #FFF7F0
-}
-.divWrap .divTwo .check-box span a{
-  text-decoration: none;
-  color: #131211;
-}
-.divWrap .divTwo .term-txt{
-  color: #131211;
-}
-.divWrap .divTwo .term-txt a{
-  color: #131211;
-}
-.divWrap .divTwo .login-txt{
-  color: #131211;
-  font-weight:600;
-  font-size:22px;
-}
-.divWrap .divTwo .login-txt a{
-  color: #F88007;
-  
-}
-@media (max-width: 1300px){
-  .divWrap{
-    width: 150%;
-    margin: 10px;
-    padding: 30px 18px;
+  .signup_form {
+    background: var(--clr-background);
+    border-radius: 16px;
+    color: var(--clr-text-black);
+    padding: 24px;
     
-  }
-  .divWrap .divOne{
-    width: 50%;
-    padding: 10px 20px;
-    margin-right: 10px;
-  }
-  .divWrap .divOne img{
-    
-  }
-  .divWrap .divTwo{
-    width: 50%;
-    padding:10px 20px;
-    margin-left: 10px;
+    h3 {
+      font-size: var(--headlineSmall);
+      margin-bottom: 48px;
+      text-align: center;
+    }
 
-  }
-  .divWrap .divTwo form input{
-    width: 90%;
-    
-  }
-  .divWrap .divTwo .email-bttn{
-    padding: 10px 10px;
-  }
-  .divWrap .divTwo .google-bttn{
-    padding: 10px 10px;
+    form {
+      display: flex;
+      flex-direction: column;
+      margin: 48px 0 32px;
+
+      .form_field {
+        border: 1.2px solid var(--clr-grey4);
+        border-radius: var(--borderRadius);
+        background: var(--clr-background);
+        font-family: var(--bodyFont);
+        margin: 5px 0 30px 0;
+        height: 52px;
+
+        &::placeholder {
+          padding-left: 8px;
+        }
+
+        &:focus {
+          padding-left: 12px;
+        }
+      }
+
+      input {
+        border: 1.2px solid var(--clr-grey4);
+        border-radius: var(--borderRadius);
+        background: var(--clr-background);
+        font-family: var(--bodyFont);
+        margin: 5px 0 30px 0;
+        height: 52px;
+        padding-left: 12px;
+
+        &::placeholder {
+          padding-left: 8px;
+        }
+      }
+    }
+
+    .google_btn {
+      background: var(--clr-text-black);
+      padding: 14px 100px 14px 25px;
+      margin-bottom: 32px;
+      width: max-content;
+
+      svg {
+        margin-right: 50px;
+      }
+    }
+
+    .t_c {
+      margin-top: 48px;
+      input {
+        margin-right: 5px;
+      }
+    }
+    p {
+      a {
+        color: var(--clr-primaryOrange5);
+        text-decoration: underline;
+      }
+    }
   }
 
-}
-
-
-@media (max-width: 900px){
-  .divWrap{
-    width: 100%;
+  @media screen and (max-width: 428px) {
     flex-direction: column;
-    padding: 0; 
-  }
-  .divWrap .divOne{
-    width: 90%;
-    margin: 15px auto;
-    padding: 20px;
-  }
-  .divWrap .divTwo{
-    width: 90%;
-    margin: 15px auto;
-    padding: 20px 25px;
-  }
-  .divWrap .divTwo form input{
-    width: 90%;
+    margin-top: 22px;
+    padding: 72px 10px 12px;
 
-  }
-  .divWrap .divTwo .email-bttn{
-    padding: 15px 20px;
+    .signup_text {
+      align-self: center;
+      margin: 0 0 36px;
+      padding: 0 24px;
+  
+      h1 {
+        line-height: 64px;
+        margin: 0;
+        text-align: center;
+        width: 100%;
+      }
+      p {
+        line-height: 28px;
+        margin: 52px 0 26px;
+      }
 
-  }
-  .divWrap .divTwo .google-bttn{
-    padding: 15px 20px;
-  }
-}
+      .signupimg_desktop {
+        display: none;
+      }
 
+      .signupimg_mobile {
+        display: block;
+      }
+    }
 
-@media (max-width: 550px){
-  .divWrap{
-    padding: 1rem;
-  }
-  .divWrap .divOne img{
-    width: 140px;
-  }
-  .divWrap .divTwo form input{
-    padding: 0 10px;
+    .signup_form {
+      padding: 28px 24px 46px;
+      
+      h3 {
+        font-size: var(--headlineSmall);
+        text-align: justify;
+      }
+  
+      form {
+        display: flex;
+        flex-direction: column;
+        margin: 48px 0 0;
 
-  }
-  .divWrap .divTwo .term-txt{
-    font-size: 11px;
+  
+        input {
+          margin: 5px 0 30px 0;
+          height: 52px;
+  
+          &::placeholder {
+            padding-left: 12px;
+          }
+  
+          &:focus {
+            padding-left: 12px;
+          }
+        }
+
+        .signup_btn {
+          padding: 14px 92px;
+        }
+      }
+      .google_btn {
+        margin: 32px 0 0;
+        width: 100%;
+      }
+
+      .t_c {
+        margin-top: 32px;
+      }
+
+      p {
+        margin-top: 50px;
+        a {
+          margin-left: 47px;
+        }
+      }
+    }   
     
   }
-}
-
-@media (max-width: 455px){
-  .divWrap {
-    padding: 0;
-    width: 100%;
-    
-    
-  }
-  .divWrap .divOne{
-    width: 100%;
-    margin: 25px auto;
-    padding: 20px;
-    
-    
-  }
-  .divWrap .divOne h1{
-    padding: 10px;
-    text-align: justify;
-    
-  }
-
-  .divWrap .divOne p{
-    font-size: 16px;
-    line-height: 22px;
-  }
-  .divWrap .divOne img{
-    width: 328px;
-
-  }
-  .divWrap .divTwo{
-    width: 90%;
-    margin: 15px auto;
-    padding: 20px 25px;
-  }
-  .divWrap .divTwo h2{
-    text-align: left;
-  }
-  .divWrap .divTwo form input{
-    width: 100%;
-    padding: 10px 15px;
-
-  }
-  .divWrap .divTwo .email-bttn{
-    width: 100%;
-    padding: 10px 16px;
-    font-size: 18px;
-
-  }
-  .divWrap .divTwo  .google-bttn{
-    width: 100%;
-    padding: 10px 16px;
-    font-size: 18px;
-  }
-
-}
-
-
-
-
 `
 
 export default SignUpPage

@@ -7,39 +7,47 @@ For more information on this file, see
 https://docs.djangoproject.com/en/4.0/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/4.0/ref/settings/
-"""
-from dotenv import load_dotenv
-from pathlib import Path
+https://docs.djangoproject.com/en/4.0/ref/settings/"""
+
 
 import os
+from celery.schedules import crontab
 import dj_database_url
+from dotenv import load_dotenv
+from decouple import config
+from pathlib import Path
+from datetime import timedelta
+import cloudinary
 
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Load environment variables
-load_dotenv(BASE_DIR.parent / ".env")
+# load_dotenv(PROJECT_ROOT.parent / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-rygg*&=ne_gicvijf6(eubn@9)bfgicrm1td2hyt2ei^6bz$zi'
+SECRET_KEY =config('SECRET_KEY')
 
 # SITE ID
-SITE_ID = 1
+SITE_ID = 2
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'scoutvendorapi.herokuapp.com']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'scoutvendor.herokuapp.com']
 
+
+# Redis config
+REDIS_HOST = config("REDIS_HOST")
+REDIS_PORT = config("REDIS_PORT")
+REDIS_DB = 0
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -54,14 +62,18 @@ INSTALLED_APPS = [
     "corsheaders",
     'whitenoise.runserver_nostatic',
     'gmailapi_backend',
+    "django_celery_beat",
+    "cloudinary",
     # local apps
     "accounts",
     "products",
     "watchlist",
+    "scrappers",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -69,7 +81,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -107,11 +119,10 @@ DATABASES = {
     
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'scoutvendor',
-        'USER': 'scoutvendoradmin',
-        'PASSWORD': 'scoutvendoradmin',
-        'HOST': 'localhost',
-        'PORT': 5432
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD':config('DB_PASSWORD'),
+        'HOST': config('DB_HOST')
     }
     
 }
@@ -119,16 +130,57 @@ DATABASES = {
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
 
-
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-         'rest_framework.authentication.BasicAuthentication',
-    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated'
-   ),
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
 
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.FileUploadParser',
+        'rest_framework.parsers.FormParser',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+}
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
 
@@ -174,12 +226,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-BASE_DIR=Path(__file__).resolve().parent.parent
-LOGIN_REDIRECT_URL='api/watchlist/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATIC_URL = "static/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_URL = '/static/'
+
+# Extra places for collectstatic to find static files.
+
+MEDIA_ROOT = os.path.join(PROJECT_ROOT,'media')
 MEDIA_URL = '/media/'
 
 
@@ -194,8 +247,34 @@ CORS_ALLOW_CREDENTIALS = True
 
 # email backend used with gmailapi package
 EMAIL_BACKEND = 'gmailapi_backend.mail.GmailBackend'
+GMAIL_API_CLIENT_ID = config("GMAIL_API_CLIENT_ID")
+GMAIL_API_CLIENT_SECRET = config("GMAIL_API_CLIENT_SECRET")
+GMAIL_API_REFRESH_TOKEN = config("GMAIL_API_REFRESH_TOKEN")
 
-# gmail api email settings, client_id, client_secret and refresh_token gotten from gmail oauth
-GMAIL_API_CLIENT_ID = os.environ["GMAIL_API_CLIENT_ID"]
-GMAIL_API_CLIENT_SECRET = os.environ["GMAIL_API_CLIENT_SECRET"]
-GMAIL_API_REFRESH_TOKEN = os.environ["GMAIL_API_REFRESH_TOKEN"]
+# Celery config
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
+CELERY_BEAT_SCHEDULE = {
+    # update record every 3 hours
+    "update_product": {
+        "task": "products.tasks.crawl",
+        "schedule": crontab(hour="*/3"),
+    },
+    # run crawlers every two days
+    "run_crawlers": {
+        "task": "product.tasks.crawl",
+        "schedule": crontab(day_of_week=[0, 3, 6]),
+    },
+}
+
+# Cloudinary config
+CLOUDINARY_CLOUD_NAME = config("CLOUDINARY_CLOUD_NAME")
+CLOUDINARY_API_KEY = config("CLOUDINARY_API_KEY")
+CLOUDINARY_API_SECRET_KEY = config("CLOUDINARY_API_SECRET_KEY")
+
+cloudinary.config(
+    cloud_name=CLOUDINARY_CLOUD_NAME,
+    api_key=CLOUDINARY_API_KEY,
+    api_secret=CLOUDINARY_API_SECRET_KEY,
+    secure=True,
+)
+

@@ -8,9 +8,10 @@ import {
   Home,
   Trending,
   Profile,
-  Login,
-  Logout, ProductList, Success, SharedLayout, Redirect, Faq,
-  Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules, SignUp
+  Login, ContactUs,
+  Logout, ProtectedRoute, Products,
+  SharedLayout, SignUp, ComingSoon,
+  Categories, ComparePrice, CookiePolicy,  Error, Privacy, Rules, UserDoc
 } from './pages/sharedPages'
 
 
@@ -19,7 +20,7 @@ function App() {
     <Router>      
       <Routes>
         <Route path='/' element={<SharedLayout/>} >
-          <Route index element={<Home/>} />
+        <Route index element={<Home/>} />
           <Route path='discount-deals' element={<DiscountDeals/>} />
           <Route path='profile' element={<Profile/>} />
           <Route path='trending' element={<Trending/>} />
@@ -31,12 +32,16 @@ function App() {
           <Route path='cookie-policy' element={<CookiePolicy/>} />
           <Route path='rules-guidelines' element={<Rules/>} />
           <Route path='compare-price' element={ <ComparePrice/>} />
+          <Route path='contact-us' element={ <ContactUs/>} />
+          <Route path='coming-soon' element={ <ComingSoon/>} />
           <Route path='product-categories' element={<Categories/>} />
-          <Route path='product-list' element={<ProductList/>} />    
-          <Route path='success' element={<Success/>} />  
-          <Route path='redirect' element={<Redirect/>} />         
-          <Route path='sign-up' element={<SignUp/>} />        
-          <Route path='faq' element={<Faq/>} />        
+          
+          <Route path='/products' element={<ProtectedRoute>
+            <Products/>
+          </ProtectedRoute>}/>
+
+          <Route path='user-doc' element={<UserDoc/>} />       
+          <Route path='sign-up' element={<SignUp/>} />       
           <Route path='*' element={<Error />} />
         </Route> 
       </Routes>

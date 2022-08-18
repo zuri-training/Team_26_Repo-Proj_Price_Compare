@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import { BigSidebar, SmallSidebar,Navbar} from '../../components'
+import {SmallSidebar,Navbar} from '../../components'
 import styled from 'styled-components'
 
 
@@ -9,7 +9,6 @@ const SharedLayout = () => {
     <SharedContainer>
       <main className="shared_layout">
         <SmallSidebar />
-        <BigSidebar />
 
         <div>
           <Navbar/>

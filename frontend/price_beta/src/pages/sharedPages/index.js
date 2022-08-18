@@ -10,34 +10,36 @@ import Login from "./LoginPage";
 import Logout from "./LogoutPage";
 import Privacy from "./PrivacyPolicyPage";
 import Profile from "./ProfilePage";
-import Redirect from "./RedirectPage";
 import Rules from "./RulesPage";
 import SharedLayout from "./SharedLayout";
 import SignUp from "./SignUpPage";
-import Success from "./SuccessPage";
 import Trending from "./TrendingPage";
-import ProductList from "./ProductListPage";
-import Faq from "./FaqPage";
+import ComingSoon from "./ComingSoonPage";
+import ContactUs from "./ContactUsPage";
+import Products from "./ProductsPage";
+import ProtectedRoute from "./ProtectedRoute";
+import UserDoc from "./UserDocPage";
 
 export {
     About,
     Categories,
+    ContactUs,
     DiscountDeals,
     EmailPreference,    
     Error,
     Trending,
     Profile,
+    Products,
+    ProtectedRoute,
     Login,
     Logout,
     Rules,
     SharedLayout,
+    SignUp,
     Home,
     ComparePrice,
     Privacy,
     CookiePolicy,
-    SignUp,
-    Success,
-    Redirect,
-    ProductList,
-    Faq,
+    ComingSoon,
+    UserDoc
 }
