@@ -117,7 +117,6 @@ WSGI_APPLICATION = "price_compare.wsgi.application"
 
 DATABASES = {
     
-
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DB_NAME'),
@@ -246,7 +245,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 
-
+# email backend used with gmailapi package
 EMAIL_BACKEND = 'gmailapi_backend.mail.GmailBackend'
 GMAIL_API_CLIENT_ID = config("GMAIL_API_CLIENT_ID")
 GMAIL_API_CLIENT_SECRET = config("GMAIL_API_CLIENT_SECRET")

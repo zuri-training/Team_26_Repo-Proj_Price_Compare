@@ -36,26 +36,32 @@ class RegisterView(APIView):
     permission_classes=[AllowAny]
 
     def post(self, request):
+        """
+        this method creates a user then sends verification link as email to the user's email.
+
+        """
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         user_data = serializer.data
         user = User.objects.get(email=user_data["email"])
 
+
         token = RefreshToken.for_user(user).access_token
-        current_site = get_current_site(request).domain
+        current_site = get_current_site(request).domain 
+    
         relative_url = reverse("accounts:email-activate")
         absolute_url = (
-            "http://" + current_site + relative_url + "?token=" + smart_str(token)
-        )
+            current_site + relative_url + "?token=" + smart_str(token)
+            ) # verification link sent to user's mail
         email_body = (
             "hi "
             + user.first_name
             + " verify your email with this link \n"
             + absolute_url
         )
-
         data={'email_body':email_body, 'email_subject': 'Verify your email','from_email': 'info.scoutvendor@yahoo.com', 'to_email':user.email}
+        # head and body of mail sent for verification
         Util.send_mail(data)
 
         return Response({'data':user_data, 'message':'activation link has been sent the email you provided'}, status=status.HTTP_201_CREATED)
@@ -68,25 +74,24 @@ class EmailVerifyView(APIView):
         token = request.GET.get("token")
 
         try:
+
+            redirect_url = "https://scout-vendor.netlify.app/products" # to redirect to homepage of the app upon verification
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
             user = User.objects.get(id=payload["user_id"])
-            if not user.is_verified:
+            if not user.is_verified: # to verify user when they click on the verification link
                 user.is_verified = True
                 user.save()
-            return Response(
-                {"email": "Successfully Activated your account"},
-                status=status.HTTP_200_OK,
-            )
+            return redirect(redirect_url)
 
         except jwt.ExpiredSignatureError as identifier:
             return Response(
                 {"error": "Token has expired"}, status=status.HTTP_408_REQUEST_TIMEOUT
-            )
+            ) # return error if token has expire
 
         except jwt.exceptions.DecodeError as identifier:
             return Response(
                 {"error": "invalid Token"}, status=status.HTTP_400_BAD_REQUEST
-            )
+            ) # return error if token has been tampered with or when token is invalid
 
 
 class LoginView(APIView):
@@ -111,14 +116,13 @@ class LoginView(APIView):
             "iat": datetime.datetime.utcnow(),
         }
 
-        token = jwt.encode(payload, "secret", algorithm="HS256")
-        serializer = UserSerializer(user)
+        token = jwt.encode(payload, "secret", algorithm="HS256") # generates access token for login
         serializer = UserSerializer(user)
 
         response = Response()
 
-        response.set_cookie(key="jwt", value=token, httponly=True)
-        response.data = {"tokens": user.tokens(), "data":serializer.data, "data":serializer.data}
+        response.set_cookie(key="jwt", value=token, httponly=True) # creates cookies for user session
+        response.data = {"tokens": user.tokens(), "data":serializer.data}
         return response
 
 
@@ -156,7 +160,7 @@ class RequestPasswordResetEmail(APIView):
         data =serializer.data
 
         email = data["email"]
-        if not User.objects.filter(email=email).exists():
+        if not User.objects.filter(email=email).exists(): # checks if user data exist
             raise AuthenticationFailed("User not found!")
 
         user = User.objects.get(email=email)
@@ -167,20 +171,24 @@ class RequestPasswordResetEmail(APIView):
         relative_url = reverse(
             "accounts:reset-password", kwargs={"uidb64": uidb64, "token": token}
         )
-        absolute_url = "http://" + current_site + relative_url
+        absolute_url = current_site + relative_url # link  used to reset password that contains password reset token and the user's id 
         email_body = (
             "Hi "
             + user.first_name
             + " reset your password with this link \n"
             + absolute_url
-        )
+        )# mail body
 
         data={'email_body':email_body, 'email_subject': 'Password Reset', 'to_email':user.email, 'from_email':'info.scoutvendor@yahoo.com'}
+        # mail sent for reset
         Util.send_mail(data)
 
         return Response(
-            {"success": "A link have been sent to your mail to reset your password"},
-            status=status.HTTP_200_OK,
+            {
+                "success": True,
+                 "message": "A link has been sent to you mail",
+                },
+                status=status.HTTP_202_ACCEPTED,
         )
 
 
@@ -226,7 +234,7 @@ class SetNewPasswordView(generics.UpdateAPIView):
         user = User.objects.get(id=id)
         if not PasswordResetTokenGenerator().check_token(user, data["token"]):
             raise AuthenticationFailed("Invalid token", 401)
-        user.set_password(data["password"])
+        user.set_password(data["password"]) # set new password for user
         user.save()
         return Response(
             {"message": "Password Reset Successful"}, status=status.HTTP_200_OK

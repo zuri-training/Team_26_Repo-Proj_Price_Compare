@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.tokens import RefreshToken
 from django.db import models
 
 # Create your models here.
@@ -19,11 +18,9 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
 
-    REQUIRED_FIELDS = ['username']
-
     REQUIRED_FIELDS = ["username"]
 
     def tokens(self):
         refresh = RefreshToken.for_user(self)
-
+        # return both refresh token and access token
         return {"refresh": str(refresh), "access": str(refresh.access_token)}
